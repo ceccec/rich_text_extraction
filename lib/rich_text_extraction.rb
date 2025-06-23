@@ -1,11 +1,36 @@
 # frozen_string_literal: true
 
+require 'redcarpet'
 require_relative "rich_text_extraction/version"
 require "erb"
+require 'uri'
 
 module RichTextExtraction
   class Error < StandardError; end
   # Your code goes here...
+
+  class Extractor
+    attr_reader :text
+
+    def initialize(text)
+      @text = text
+    end
+
+    def links
+      # Extract URLs from the text and strip trailing punctuation
+      URI.extract(text, ["http", "https"]).map { |url| url.sub(/[\.,!?:;]+$/, '') }
+    end
+
+    def mentions
+      # Extract @mentions from the text
+      text.scan(/@([\w]+)/).flatten
+    end
+
+    def tags
+      # Extract #tags from the text
+      text.scan(/#([\w]+)/).flatten
+    end
+  end
 end
 
 class CustomMarkdownRenderer < Redcarpet::Render::HTML
@@ -111,6 +136,12 @@ module RichTextExtraction
       tags: %w[a img p h1 h2 h3 h4 h5 h6 ul ol li em strong code pre blockquote table thead tbody tr th td sup sub del span],
       attributes: %w[href src alt title class target rel]
     )
+  end
+
+  def self.render_markdown(text)
+    renderer = CustomMarkdownRenderer.new(filter_html: true, hard_wrap: true)
+    markdown = Redcarpet::Markdown.new(renderer, extensions = {fenced_code_blocks: true, autolink: true, tables: true})
+    markdown.render(text)
   end
 end
 

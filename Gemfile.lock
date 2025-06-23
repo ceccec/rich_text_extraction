@@ -1,0 +1,92 @@
+PATH
+  remote: .
+  specs:
+    rich_text_extraction (0.1.0)
+      commonmarker (>= 0.23)
+      kramdown (>= 2.4)
+      redcarpet (>= 3.6)
+      sanitize (>= 6.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    commonmarker (2.3.0-aarch64-linux)
+    commonmarker (2.3.0-aarch64-linux-musl)
+    commonmarker (2.3.0-arm64-darwin)
+    commonmarker (2.3.0-x86_64-darwin)
+    commonmarker (2.3.0-x86_64-linux)
+    commonmarker (2.3.0-x86_64-linux-musl)
+    crass (1.0.6)
+    date (3.4.1)
+    diff-lcs (1.6.2)
+    erb (5.0.1)
+    io-console (0.8.0)
+    irb (1.15.2)
+      pp (>= 0.6.0)
+      rdoc (>= 4.0.0)
+      reline (>= 0.4.2)
+    kramdown (2.5.1)
+      rexml (>= 3.3.9)
+    nokogiri (1.18.8-aarch64-linux-gnu)
+      racc (~> 1.4)
+    nokogiri (1.18.8-aarch64-linux-musl)
+      racc (~> 1.4)
+    nokogiri (1.18.8-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.18.8-x86_64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.18.8-x86_64-linux-gnu)
+      racc (~> 1.4)
+    nokogiri (1.18.8-x86_64-linux-musl)
+      racc (~> 1.4)
+    pp (0.6.2)
+      prettyprint
+    prettyprint (0.2.0)
+    psych (5.2.6)
+      date
+      stringio
+    racc (1.8.1)
+    rake (13.3.0)
+    rdoc (6.14.1)
+      erb
+      psych (>= 4.0.0)
+    redcarpet (3.6.1)
+    reline (0.6.1)
+      io-console (~> 0.5)
+    rexml (3.4.1)
+    rspec (3.13.1)
+      rspec-core (~> 3.13.0)
+      rspec-expectations (~> 3.13.0)
+      rspec-mocks (~> 3.13.0)
+    rspec-core (3.13.4)
+      rspec-support (~> 3.13.0)
+    rspec-expectations (3.13.5)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-mocks (3.13.5)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-support (3.13.4)
+    sanitize (7.0.0)
+      crass (~> 1.0.2)
+      nokogiri (>= 1.16.8)
+    stringio (3.1.7)
+
+PLATFORMS
+  aarch64-linux
+  aarch64-linux-gnu
+  aarch64-linux-musl
+  arm64-darwin
+  x86_64-darwin
+  x86_64-linux
+  x86_64-linux-gnu
+  x86_64-linux-musl
+
+DEPENDENCIES
+  irb
+  rake (~> 13.0)
+  rich_text_extraction!
+  rspec (~> 3.0)
+
+BUNDLED WITH
+   2.6.6

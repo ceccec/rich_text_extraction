@@ -7,10 +7,6 @@ RSpec.describe RichTextExtraction do
   it "has a version number" do
     expect(RichTextExtraction::VERSION).not_to be nil
   end
-
-  it "does something useful" do
-    expect(false).to eq(true)
-  end
 end
 
 RSpec.describe RichTextExtraction::Extractor do
