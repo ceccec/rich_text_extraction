@@ -13,6 +13,7 @@ module RichTextExtraction
   #   service = MarkdownService.new
   #   html = service.render('**Bold text** [link](https://example.com)')
   #
+  # See spec/services/markdown_service_spec.rb for tests of this class
   class MarkdownService
     REDCARPET_DEFAULT_EXTENSIONS = {
       autolink: true,

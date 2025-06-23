@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# See spec/extractors/social_extractor_spec.rb for tests of this module
+
 module RichTextExtraction
   ##
   # SocialExtractor provides methods for extracting social media content from text.

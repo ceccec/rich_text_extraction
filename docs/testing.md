@@ -415,6 +415,34 @@ end
 - **YARD:** 85.86% documented, a few dynamic mixin warnings (expected for Rails mixins)
 - **Gem build:** No gemspec self-inclusion error (fixed June 2025)
 
+## Implementation ↔ Test File Mapping
+
+For every main implementation file in `lib/rich_text_extraction/`, there is a corresponding spec file in `spec/`:
+
+- `extractor.rb` ↔ `extractor_spec.rb`
+- `extraction_helpers.rb` ↔ `extraction_helpers_spec.rb`
+- `extracts_rich_text.rb` ↔ `extracts_rich_text_spec.rb`
+- `helpers.rb` ↔ `helpers_spec.rb`
+- `instance_helpers.rb` ↔ `instance_helpers_spec.rb`
+- `markdown_helpers.rb` ↔ `markdown_helpers_spec.rb`
+- `opengraph_helpers.rb` ↔ `opengraph_helpers_spec.rb`
+- `railtie.rb` ↔ `railtie_spec.rb`
+- `error.rb` ↔ `error_spec.rb`
+- `version.rb` ↔ `version_spec.rb`
+
+For submodules:
+- `extractors/link_extractor.rb` ↔ `extractors/link_extractor_spec.rb`
+- `extractors/social_extractor.rb` ↔ `extractors/social_extractor_spec.rb`
+- `services/markdown_service.rb` ↔ `services/markdown_service_spec.rb`
+- `services/opengraph_service.rb` ↔ `services/opengraph_service_spec.rb`
+
+### Best Practices
+- Always create a matching spec file for every new implementation file.
+- Mirror the directory structure of `lib/` in `spec/` for easy navigation.
+- Add comments in both implementation and spec files referencing each other.
+- Use shared contexts/helpers for DRY test logic.
+- Document this mapping in PRs and code reviews.
+
 ---
 
 **RichTextExtraction** – Professional rich text extraction for Ruby and Rails applications. 🚀 

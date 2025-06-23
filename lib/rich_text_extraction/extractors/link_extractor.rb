@@ -11,6 +11,7 @@ module RichTextExtraction
   #   include LinkExtractor
   #   links = extract_links("Visit https://example.com and http://test.com")
   #
+  # See spec/extractors/link_extractor_spec.rb for tests of this module
   module LinkExtractor
     ##
     # Extracts URLs from text and strips trailing punctuation.

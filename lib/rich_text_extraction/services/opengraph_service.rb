@@ -12,6 +12,7 @@ module RichTextExtraction
   #   service = OpenGraphService.new
   #   og_data = service.extract('https://example.com', cache: :rails)
   #
+  # See spec/services/opengraph_service_spec.rb for tests of this class
   class OpenGraphService
     ##
     # Fetches and parses OpenGraph metadata from a URL, with optional caching.
