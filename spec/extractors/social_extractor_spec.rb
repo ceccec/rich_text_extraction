@@ -4,7 +4,7 @@
 require 'spec_helper'
 require 'rich_text_extraction/extractors/social_extractor'
 
-describe RichTextExtraction::SocialExtractor do
+RSpec.describe RichTextExtraction::SocialExtractor do
   let(:dummy) { Class.new { extend RichTextExtraction::SocialExtractor } }
 
   it 'extracts hashtags from text' do

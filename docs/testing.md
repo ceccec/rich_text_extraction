@@ -443,6 +443,56 @@ For submodules:
 - Use shared contexts/helpers for DRY test logic.
 - Document this mapping in PRs and code reviews.
 
+## Shared Contexts and Examples
+
+The test suite uses shared contexts and examples to avoid duplication and improve maintainability. All shared test logic is centralized in `spec/support/shared_contexts.rb`.
+
+### Available Shared Contexts
+
+**Common Test Objects:**
+- `with test helper` - Provides a helper instance with RichTextExtraction::Helpers
+- `with test OpenGraph data` - Provides sample OpenGraph data for testing
+- `with test extractor` - Provides an extractor instance with a test URL
+- `with test cache` - Provides an empty cache hash for testing
+- `with error extractor` - Provides an extractor with a bad URL for error testing
+
+**Rails and HTTP Stubs:**
+- `with Rails stubs` - Provides Rails cache and application stubs
+- `with HTTParty stubs` - Provides HTTP response stubs for network testing
+
+**Dummy Classes:**
+- `when using a dummy body class` - Provides a test body class with RichTextExtraction included
+- `when using a dummy class` - Provides a test class with ExtractsRichText concern
+
+### Available Shared Examples
+
+**Common Test Patterns:**
+- `extracts links from text` - Tests link extraction functionality
+- `extracts tags from text` - Tests hashtag extraction functionality  
+- `extracts mentions from text` - Tests mention extraction functionality
+- `renders OpenGraph preview` - Tests OpenGraph preview rendering
+- `handles OpenGraph errors` - Tests error handling in OpenGraph extraction
+- `sanitizes HTML` - Tests HTML sanitization functionality
+
+### Usage Example
+
+```ruby
+RSpec.describe MyClass do
+  include_context 'with test helper'
+  include_context 'with test OpenGraph data'
+  
+  it_behaves_like 'renders OpenGraph preview' do
+    let(:result) { helper.opengraph_preview_for(og) }
+  end
+end
+```
+
+### Benefits
+- **DRY**: No duplication of test setup code
+- **Easy to find**: All shared logic is in one place
+- **Consistent**: Same test objects and patterns across all specs
+- **Maintainable**: Changes to shared logic update all tests automatically
+
 ---
 
 **RichTextExtraction** – Professional rich text extraction for Ruby and Rails applications. 🚀 

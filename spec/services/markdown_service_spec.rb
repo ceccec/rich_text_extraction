@@ -4,7 +4,7 @@
 require 'spec_helper'
 require 'rich_text_extraction/services/markdown_service'
 
-describe RichTextExtraction::MarkdownService do
+RSpec.describe RichTextExtraction::MarkdownService do
   let(:service) { described_class.new }
 
   it 'renders markdown to HTML' do

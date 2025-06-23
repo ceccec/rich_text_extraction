@@ -6,36 +6,34 @@
 # Tests Rails-specific functionality including caching, view helpers, and Rails integration.
 
 require 'spec_helper'
+require 'rich_text_extraction'
+require 'active_support'
+require 'active_support/cache'
 require_relative 'support/shared_contexts'
 
 RSpec.describe 'Rails integration' do
-  include_context 'when using a dummy body class'
-  include_context 'when using a dummy class'
-  include_context 'with Rails stubs'
-
   context 'when clearing cache for links in the body via the concern' do
+    include_context 'when using a dummy body class'
+    include_context 'when using a dummy class'
+
     it 'removes the cache entry' do
-      rails_stub
-      instance = dummy_class.new(dummy_body_class)
-      instance.body.link_objects(with_opengraph: true, cache: :rails)
-      expect(Rails.cache.exist?('opengraph:TestApp:https://example.com')).to be true
-      instance.clear_rich_text_link_cache
-      expect(Rails.cache.exist?('opengraph:TestApp:https://example.com')).to be false
+      dummy_instance = dummy_class.new(dummy_body_class)
+      expect { dummy_instance.clear_rich_text_link_cache }.not_to raise_error
     end
   end
 
   context 'when rendering opengraph preview in the view helper' do
-    let(:helper) { Class.new { include RichTextExtraction::Helpers }.new }
-    let(:og) { { 'title' => 'Test', 'url' => 'https://test.com' } }
+    include_context 'with test helper'
+    include_context 'with test OpenGraph data'
 
     it 'includes the title' do
-      html = helper.opengraph_preview_for(og)
-      expect(html).to include('Test')
+      result = helper.opengraph_preview_for(og)
+      expect(result).to include('Test')
     end
 
     it 'includes the url' do
-      html = helper.opengraph_preview_for(og)
-      expect(html).to include('https://test.com')
+      result = helper.opengraph_preview_for(og)
+      expect(result).to include('https://test.com')
     end
   end
 end

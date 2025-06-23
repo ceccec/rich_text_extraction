@@ -82,3 +82,65 @@ RSpec.shared_context 'with HTTParty stubs' do
     instance_double('Response', success?: false, body: '')
   end
 end
+
+# Commonly used test objects
+RSpec.shared_context 'with test helper' do
+  let(:helper) { Class.new { include RichTextExtraction::Helpers }.new }
+end
+
+RSpec.shared_context 'with test OpenGraph data' do
+  let(:og) { { 'title' => 'Test', 'url' => 'https://test.com' } }
+end
+
+RSpec.shared_context 'with test extractor' do
+  let(:extractor) { RichTextExtraction::Extractor.new('https://example.com') }
+end
+
+RSpec.shared_context 'with test cache' do
+  let(:cache) { {} }
+end
+
+RSpec.shared_context 'with error extractor' do
+  let(:extractor) { RichTextExtraction::Extractor.new('https://badurl.com') }
+end
+
+# Shared examples for common test patterns
+RSpec.shared_examples 'extracts links from text' do
+  it 'extracts all links' do
+    expect(subject.links).to include('https://example.com', 'http://test.com')
+  end
+end
+
+RSpec.shared_examples 'extracts tags from text' do
+  it 'extracts tags' do
+    expect(subject.tags).to include('welcome')
+  end
+end
+
+RSpec.shared_examples 'extracts mentions from text' do
+  it 'extracts mentions' do
+    expect(subject.mentions).to include('alice')
+  end
+end
+
+RSpec.shared_examples 'renders OpenGraph preview' do
+  it 'includes the title' do
+    expect(result).to include('Test')
+  end
+
+  it 'includes the url' do
+    expect(result).to include('https://test.com')
+  end
+end
+
+RSpec.shared_examples 'handles OpenGraph errors' do
+  it 'returns an error in the opengraph hash' do
+    expect(result).to have_key(:error)
+  end
+end
+
+RSpec.shared_examples 'sanitizes HTML' do
+  it 'removes script tags' do
+    expect(result).not_to include('<script>')
+  end
+end

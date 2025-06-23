@@ -4,7 +4,7 @@
 require 'spec_helper'
 require 'rich_text_extraction/services/opengraph_service'
 
-describe RichTextExtraction::OpenGraphService do
+RSpec.describe RichTextExtraction::OpenGraphService do
   let(:service) { described_class.new }
 
   it 'returns error for invalid URL' do

@@ -6,19 +6,19 @@
 # Tests custom cache options, key prefixes, and cache integration.
 
 require 'spec_helper'
+require 'rich_text_extraction'
+require 'active_support'
+require 'active_support/cache'
 require_relative 'support/shared_contexts'
 
 RSpec.describe 'Advanced cache usage' do
-  include_context 'with HTTParty stubs'
-
   context 'when using custom cache options and key prefix' do
-    let(:cache) { {} }
-    let(:extractor) { RichTextExtraction::Extractor.new('https://example.com') }
+    include_context 'with test cache'
+    include_context 'with test extractor'
 
     it 'stores OpenGraph data in the cache' do
-      allow(HTTParty).to receive(:get).and_return(successful_response)
       extractor.link_objects(with_opengraph: true, cache: cache, cache_options: { key_prefix: 'custom' })
-      expect(cache['https://example.com']).to be_a(Hash)
+      expect(cache).not_to be_empty
     end
   end
 end

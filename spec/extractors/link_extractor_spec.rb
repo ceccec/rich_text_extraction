@@ -4,7 +4,7 @@
 require 'spec_helper'
 require 'rich_text_extraction/extractors/link_extractor'
 
-describe RichTextExtraction::LinkExtractor do
+RSpec.describe RichTextExtraction::LinkExtractor do
   let(:dummy) { Class.new { extend RichTextExtraction::LinkExtractor } }
 
   it 'extracts links from text' do

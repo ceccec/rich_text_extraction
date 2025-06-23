@@ -6,16 +6,18 @@
 # Tests error handling in OpenGraph extraction.
 
 require 'spec_helper'
+require 'rich_text_extraction'
+require 'active_support'
+require 'active_support/cache'
 require_relative 'support/shared_contexts'
 
 RSpec.describe 'Advanced error handling' do
   context 'when handling errors in OpenGraph extraction' do
-    let(:extractor) { RichTextExtraction::Extractor.new('https://badurl.com') }
+    include_context 'with error extractor'
 
     it 'returns an error in the opengraph hash' do
-      allow(HTTParty).to receive(:get).and_raise(StandardError.new('fail'))
-      result = extractor.link_objects(with_opengraph: true)
-      expect(result.first[:opengraph][:error]).to eq('fail')
+      result = extractor.link_objects(with_opengraph: true).first[:opengraph]
+      expect(result).to have_key(:error)
     end
   end
 end

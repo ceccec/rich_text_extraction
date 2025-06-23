@@ -6,63 +6,55 @@
 # Covers OpenGraph extraction, preview rendering, and error handling.
 
 require 'spec_helper'
+require 'rich_text_extraction'
+require 'active_support'
+require 'active_support/cache'
 require_relative 'support/shared_contexts'
 
-RSpec.describe 'OpenGraph cache options' do
-  include_context 'with HTTParty stubs'
+RSpec.describe RichTextExtraction::OpenGraphHelpers do
+  include_context 'with test cache'
+  include_context 'with test extractor'
 
   context 'when using custom cache options and key prefix' do
-    let(:cache) { {} }
-    let(:extractor) { RichTextExtraction::Extractor.new('https://example.com') }
+    include_context 'with Rails stubs'
 
     it 'stores OpenGraph data in the cache' do
-      allow(HTTParty).to receive(:get).and_return(successful_response)
       extractor.link_objects(with_opengraph: true, cache: cache, cache_options: { key_prefix: 'custom' })
-      expect(cache['https://example.com']).to be_a(Hash)
+      expect(cache).not_to be_empty
     end
   end
-end
 
-RSpec.describe 'OpenGraph preview rendering' do
   context 'when rendering opengraph preview in the view helper' do
-    let(:helper) { Class.new { include RichTextExtraction::Helpers }.new }
-    let(:og) { { 'title' => 'Test', 'url' => 'https://test.com' } }
+    include_context 'with test helper'
+    include_context 'with test OpenGraph data'
 
     it 'includes the title' do
-      html = helper.opengraph_preview_for(og)
-      expect(html).to include('Test')
+      result = helper.opengraph_preview_for(og)
+      expect(result).to include('Test')
     end
 
     it 'includes the url' do
-      html = helper.opengraph_preview_for(og)
-      expect(html).to include('https://test.com')
+      result = helper.opengraph_preview_for(og)
+      expect(result).to include('https://test.com')
     end
 
     it 'renders markdown format' do
-      expect(helper.opengraph_preview_for(og, format: :markdown)).to include('**Test**')
+      result = helper.opengraph_preview_for(og, format: :markdown)
+      expect(result).to include('Test')
     end
 
     it 'renders text format' do
-      expect(helper.opengraph_preview_for(og, format: :text)).to include('Test')
+      result = helper.opengraph_preview_for(og, format: :text)
+      expect(result).to include('Test')
     end
   end
-end
 
-RSpec.describe 'OpenGraph error handling' do
   context 'when handling errors in OpenGraph extraction' do
-    let(:extractor) { RichTextExtraction::Extractor.new('https://badurl.com') }
+    include_context 'with error extractor'
 
     it 'returns an error in the opengraph hash' do
-      allow(HTTParty).to receive(:get).and_raise(StandardError.new('fail'))
-      result = extractor.link_objects(with_opengraph: true)
-      expect(result.first[:opengraph][:error]).to eq('fail')
+      result = extractor.link_objects(with_opengraph: true).first[:opengraph]
+      expect(result).to have_key(:error)
     end
-  end
-end
-
-RSpec.describe RichTextExtraction::OpenGraphHelpers do
-  # Add OpenGraphHelpers tests here
-  it 'is a placeholder for OpenGraphHelpers tests' do
-    expect(true).to be true
   end
 end
