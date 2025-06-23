@@ -15,6 +15,9 @@ gem 'rspec', '~> 3.0'
 
 gem 'jekyll', '>= 4.0', '< 5.0', group: :docs
 
+# Pin erb to a version compatible with Ruby 3.1
+gem 'erb', '~> 4.0'
+
 group :development, :test do
   gem 'rubocop', require: false
   gem 'rubocop-rspec', require: false
