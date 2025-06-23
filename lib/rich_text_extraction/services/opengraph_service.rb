@@ -110,4 +110,4 @@ module RichTextExtraction
       og_data
     end
   end
-end 
+end

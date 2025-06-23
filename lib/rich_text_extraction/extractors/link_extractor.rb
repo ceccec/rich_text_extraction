@@ -83,4 +83,4 @@ module RichTextExtraction
       url
     end
   end
-end 
+end

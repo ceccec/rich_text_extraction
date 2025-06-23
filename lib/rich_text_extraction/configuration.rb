@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# RichTextExtraction provides a modular architecture for extracting rich text,
+# Markdown, and OpenGraph metadata in Ruby and Rails applications.
 module RichTextExtraction
   ##
   # Configuration provides centralized settings and defaults for RichTextExtraction.
@@ -11,6 +13,23 @@ module RichTextExtraction
   #     config.opengraph_timeout = 10
   #   end
   #
+  # Configuration class for RichTextExtraction
+  #
+  # @example Basic configuration
+  #   RichTextExtraction.configure do |config|
+  #     config.opengraph_timeout = 15
+  #     config.sanitize_html = true
+  #   end
+  #
+  # @example Advanced configuration
+  #   RichTextExtraction.configure do |config|
+  #     config.opengraph_timeout = 30
+  #     config.sanitize_html = true
+  #     config.default_excerpt_length = 500
+  #     config.default_cache_options = { expires_in: 2.hours }
+  #     config.debug = Rails.env.development?
+  #     config.user_agent = 'MyApp/1.0'
+  #   end
   class Configuration
     ##
     # Default cache options for OpenGraph data.
@@ -59,9 +78,9 @@ module RichTextExtraction
     #
     def initialize
       @default_cache_options = { expires_in: 3600 } # 1 hour
-      @opengraph_timeout = 10
+      @opengraph_timeout = 15
       @sanitize_html = true
-      @default_excerpt_length = 200
+      @default_excerpt_length = 300
       @debug = false
       @user_agent = 'RichTextExtraction/1.0'
       @max_redirects = 3
@@ -100,6 +119,20 @@ module RichTextExtraction
         max_redirects: @max_redirects
       }
     end
+
+    ##
+    # @return [String] String representation of configuration
+    #
+    def to_s
+      "RichTextExtraction::Configuration(#{to_h})"
+    end
+
+    ##
+    # @return [String] Inspect representation of configuration
+    #
+    def inspect
+      "#<RichTextExtraction::Configuration #{to_h}>"
+    end
   end
 
   ##
@@ -132,4 +165,11 @@ module RichTextExtraction
   def self.reset_configuration!
     @configuration = Configuration.new
   end
-end 
+
+  ##
+  # @return [Hash] Current configuration as a hash
+  #
+  def self.config
+    configuration.to_h
+  end
+end

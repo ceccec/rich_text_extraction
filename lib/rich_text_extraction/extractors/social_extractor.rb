@@ -18,7 +18,9 @@ module RichTextExtraction
     # @return [Array<String>] Array of tags (without #)
     #
     def extract_tags(text)
-      text.scan(/#(\w+)/).flatten
+      return [] unless text.is_a?(String)
+
+      text.scan(/#(\w+)/).flatten.uniq
     end
 
     ##
@@ -28,7 +30,9 @@ module RichTextExtraction
     # @return [Array<String>] Array of mentions (without @)
     #
     def extract_mentions(text)
-      text.scan(/@(\w+)/).flatten
+      return [] unless text.is_a?(String)
+
+      text.scan(/@(\w+)/).flatten.uniq
     end
 
     ##
@@ -38,8 +42,9 @@ module RichTextExtraction
     # @return [Array<String>] Array of Twitter handles (without @)
     #
     def extract_twitter_handles(text)
-      twitter_regex = /@([A-Za-z0-9_]{1,15})/
-      text.scan(twitter_regex).flatten.uniq
+      return [] unless text.is_a?(String)
+
+      text.scan(/@(\w+)/).flatten.uniq
     end
 
     ##
@@ -49,8 +54,9 @@ module RichTextExtraction
     # @return [Array<String>] Array of Instagram handles (without @)
     #
     def extract_instagram_handles(text)
-      instagram_regex = /@([A-Za-z0-9._]{1,30})/
-      text.scan(instagram_regex).flatten.uniq
+      return [] unless text.is_a?(String)
+
+      text.scan(/@(\w+)/).flatten.uniq
     end
 
     ##
@@ -61,17 +67,12 @@ module RichTextExtraction
     # @return [Array<Hash>] Array of hashes with :tag and :context keys
     #
     def extract_tags_with_context(text, context_length = 50)
-      text.scan(/#(\w+)/).map do |match|
-        tag = match[0]
-        start_pos = text.index("##{tag}")
-        end_pos = start_pos + tag.length + 1
-        
-        context_start = [0, start_pos - context_length].max
-        context_end = [text.length, end_pos + context_length].min
-        
+      return [] unless text.is_a?(String)
+
+      text.scan(/#(\w+)/).flatten.uniq.map do |tag|
         {
           tag: tag,
-          context: text[context_start...context_end].strip
+          context: extract_context_for_tag(text, tag, context_length)
         }
       end
     end
@@ -84,17 +85,12 @@ module RichTextExtraction
     # @return [Array<Hash>] Array of hashes with :mention and :context keys
     #
     def extract_mentions_with_context(text, context_length = 50)
-      text.scan(/@(\w+)/).map do |match|
-        mention = match[0]
-        start_pos = text.index("@#{mention}")
-        end_pos = start_pos + mention.length + 1
-        
-        context_start = [0, start_pos - context_length].max
-        context_end = [text.length, end_pos + context_length].min
-        
+      return [] unless text.is_a?(String)
+
+      text.scan(/@(\w+)/).flatten.uniq.map do |mention|
         {
           mention: mention,
-          context: text[context_start...context_end].strip
+          context: extract_context_for_mention(text, mention, context_length)
         }
       end
     end
@@ -106,8 +102,9 @@ module RichTextExtraction
     # @return [Boolean] True if valid hashtag, false otherwise
     #
     def valid_hashtag?(tag)
-      tag = tag.sub(/^#/, '') if tag.start_with?('#')
-      tag.match?(/^[A-Za-z0-9_]+$/) && tag.length.between?(1, 50)
+      return false unless tag.is_a?(String)
+
+      !tag.empty? && tag.match?(/^\w+$/)
     end
 
     ##
@@ -117,8 +114,41 @@ module RichTextExtraction
     # @return [Boolean] True if valid mention, false otherwise
     #
     def valid_mention?(mention)
-      mention = mention.sub(/^@/, '') if mention.start_with?('@')
-      mention.match?(/^[A-Za-z0-9_]+$/) && mention.length.between?(1, 30)
+      return false unless mention.is_a?(String)
+
+      !mention.empty? && mention.match?(/^\w+$/)
+    end
+
+    private
+
+    # Extract context around a hashtag
+    #
+    # @param text [String] The full text
+    # @param tag [String] The hashtag to find context for
+    # @param context_length [Integer] Number of characters around the tag
+    # @return [String] The context string
+    def extract_context_for_tag(text, tag, context_length)
+      match = text.match(/#{tag}/)
+      return text unless match
+
+      start_pos = [match.begin(0) - context_length / 2, 0].max
+      end_pos = [match.end(0) + context_length / 2, text.length].min
+      text[start_pos...end_pos].strip
+    end
+
+    # Extract context around a mention
+    #
+    # @param text [String] The full text
+    # @param mention [String] The mention to find context for
+    # @param context_length [Integer] Number of characters around the mention
+    # @return [String] The context string
+    def extract_context_for_mention(text, mention, context_length)
+      match = text.match(/@#{mention}/)
+      return text unless match
+
+      start_pos = [match.begin(0) - context_length / 2, 0].max
+      end_pos = [match.end(0) + context_length / 2, text.length].min
+      text[start_pos...end_pos].strip
     end
   end
-end 
+end

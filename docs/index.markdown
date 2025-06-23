@@ -2,92 +2,64 @@
 # Feel free to add content and custom Front Matter to this file.
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
-layout: home
-title: RichTextExtraction: Ruby & Rails Rich Text, Markdown, and OpenGraph Extraction
-description: Ruby and Rails gem for extracting links, tags, mentions, emails, phone numbers, and OpenGraph metadata from rich text, Markdown, or ActionText. Safe Markdown rendering, link previews, and ActionText integration.
+layout: page
+title: RichTextExtraction
+permalink: /
 ---
 
 # RichTextExtraction
 
-**The all-in-one Ruby & Rails gem for rich text extraction, Markdown rendering, and OpenGraph link previews.**
+[![Ruby](https://img.shields.io/badge/Ruby-3.1+-red.svg)](https://www.ruby-lang.org/)
+[![Rails](https://img.shields.io/badge/Rails-6.1+-blue.svg)](https://rubyonrails.org/)
+[![Gem](https://img.shields.io/gem/v/rich_text_extraction.svg)](https://rubygems.org/gems/rich_text_extraction)
+[![Tests](https://github.com/ceccec/rich_text_extraction/workflows/Tests/badge.svg)](https://github.com/ceccec/rich_text_extraction/actions)
+[![Docs](https://github.com/ceccec/rich_text_extraction/workflows/Docs/badge.svg)](https://ceccec.github.io/rich_text_extraction/)
 
----
+A professional Ruby gem for extracting rich text, Markdown, and OpenGraph metadata in Ruby and Rails applications. Features a modern modular architecture with service classes, focused extractors, and comprehensive configuration options.
 
-## What is RichTextExtraction?
-RichTextExtraction is a Ruby and Rails gem for extracting links, tags, mentions, emails, phone numbers, and OpenGraph metadata from rich text, Markdown, or ActionText. It is ideal for blogs, forums, chat apps, and any app that needs robust text extraction and preview features.
+## 🚀 What is RichTextExtraction?
 
----
+RichTextExtraction is an all-in-one solution for extracting structured data (links, tags, mentions, emails, phone numbers, dates, Twitter handles, and OpenGraph metadata) from any text, Markdown, or ActionText content. It is designed for Ruby and Rails developers who want to:
 
-## 🚀 Quick Start
+- **🔗 Extract Links**: URLs, markdown links, images, attachments
+- **🏷️ Process Social Content**: Tags (#), mentions (@), Twitter/Instagram handles
+- **📝 Render Markdown**: Safe HTML output with sanitization
+- **🌐 Fetch OpenGraph**: Automatic metadata fetching and caching
+- **📱 Integrate with Rails**: ActionText support with background jobs
+- **⚙️ Use Modular Architecture**: Service classes and focused extractors
+
+## 🎯 Quick Start
+
+### Installation
 
 ```ruby
-gem 'rich_text_extraction', github: 'ceccec/rich_text_extraction'
+# Gemfile
+gem 'rich_text_extraction'
 ```
 
 ```bash
 bundle install
 ```
 
+### Basic Usage
+
 ```ruby
 require 'rich_text_extraction'
-body = "Hello @alice! Check out https://example.com #welcome"
-extractor = RichTextExtraction::Extractor.new(body)
-extractor.link_objects(with_opengraph: true)
-# => [{ url: "https://example.com", opengraph: { "title" => "Example Domain", ... } }]
+
+# Extract links from text
+text = "Visit https://example.com and check out #ruby"
+extractor = RichTextExtraction::Extractor.new(text)
+
+extractor.links      # => ["https://example.com"]
+extractor.tags       # => ["ruby"]
+extractor.mentions   # => []
+
+# Render markdown
+html = RichTextExtraction.render_markdown("**Bold** [link](https://example.com)")
+# => "<p><strong>Bold</strong> <a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">link</a></p>"
 ```
 
----
-
-## How it Works
-1. **Extract**: Use the Extractor or ActionText extension to extract links, tags, mentions, and more from any text.
-2. **Preview**: Fetch OpenGraph metadata for links and generate HTML, Markdown, or text previews.
-3. **Integrate**: Use in Rails models, views, background jobs, or plain Ruby scripts.
-
----
-
-## Features
-- Extract links, tags, mentions, emails, phone numbers, dates, Twitter handles, and OpenGraph metadata
-- Safe Markdown rendering (Redcarpet, Kramdown, CommonMarker)
-- ActionText & Rails integration for link preview and structured data
-- Background job support for prefetching/caching link metadata
-- Highly customizable and extendable
-
----
-
-## Security & Performance
-- All rendered HTML is sanitized for XSS protection
-- OpenGraph metadata is cached for performance
-- Thread-safe and production-ready
-
----
-
-## FAQ
-**Q: Does it work with Rails 7?**
-A: Yes, fully tested with Rails 7.0 and 7.1.
-
-**Q: How do I customize extraction?**
-A: Extend the ExtractionHelpers module or monkey-patch the Extractor class.
-
-**Q: Is it safe for user input?**
-A: Yes, all Markdown rendering is sanitized. You can also add your own sanitization logic.
-
-**Q: Can I use it outside Rails?**
-A: Yes, all core features work in plain Ruby.
-
-**Q: How do I generate API docs?**
-A: Run `yard doc` and open `doc/index.html` in your browser.
-
----
-
-## Why use RichTextExtraction?
-- **All-in-one**: Extract everything you need from rich text, Markdown, or ActionText.
-- **Rails & ActionText ready**: Seamless integration for link previews and metadata.
-- **Safe Markdown**: Secure, flexible rendering for user content.
-- **Customizable**: Extend extraction logic, configure caching, and use in any Ruby or Rails project.
-
----
-
-## Rails & ActionText Integration
+### Rails & ActionText Integration
 
 ```ruby
 class Post < ApplicationRecord
@@ -95,26 +67,177 @@ class Post < ApplicationRecord
   include RichTextExtraction::ExtractsRichText
 end
 
-# In a controller or background job:
+# Extract links with OpenGraph data
 @post.body.link_objects(with_opengraph: true, cache: :rails)
 
-# In a view:
-<% @post.body.link_objects(with_opengraph: true, cache: :rails).each do |link| %>
+# In a view
+<% @post.body.link_objects(with_opengraph: true).each do |link| %>
   <%= opengraph_preview_for(link[:opengraph]) %>
 <% end %>
 ```
 
-- Automatic cache invalidation for OpenGraph data
-- Configurable cache options and key prefix
-- Background job support for prefetching/caching link metadata
+## 🏗️ Modular Architecture
+
+RichTextExtraction features a modern modular architecture designed for maintainability, testability, and extensibility:
+
+### Service Classes
+
+```ruby
+# OpenGraph Service
+og_service = RichTextExtraction::OpenGraphService.new
+og_data = og_service.extract('https://example.com', cache: :rails)
+
+# Markdown Service
+md_service = RichTextExtraction::MarkdownService.new
+html = md_service.render('**Bold text**', sanitize: true)
+```
+
+### Focused Extractors
+
+```ruby
+include RichTextExtraction::LinkExtractor
+include RichTextExtraction::SocialExtractor
+
+# Link extraction
+extract_links(text)           # URLs
+extract_markdown_links(text)  # Markdown links
+extract_image_urls(text)      # Image URLs
+extract_attachment_urls(text) # Attachment URLs
+
+# Social extraction
+extract_tags(text)            # Hashtags
+extract_mentions(text)        # Mentions
+extract_twitter_handles(text) # Twitter handles
+extract_instagram_handles(text) # Instagram handles
+```
+
+### Configuration System
+
+```ruby
+# Global configuration
+RichTextExtraction.configure do |config|
+  config.opengraph_timeout = 15
+  config.sanitize_html = true
+  config.default_excerpt_length = 300
+  config.default_cache_options = { expires_in: 1.hour }
+end
+```
+
+## 📚 Documentation
+
+### Guides
+
+- **[Getting Started]({{ site.baseurl }}/_posts/2024-06-24-getting-started.html)** - Quick setup and basic usage
+- **[ActionText Integration]({{ site.baseurl }}/_posts/2024-06-24-actiontext-integration.html)** - Rails and ActionText integration
+- **[Markdown Rendering]({{ site.baseurl }}/_posts/2024-06-24-markdown-rendering.html)** - Safe markdown rendering
+- **[Advanced Usage]({{ site.baseurl }}/_posts/2024-06-24-advanced-usage.html)** - Customization and extension
+- **[Troubleshooting]({{ site.baseurl }}/_posts/2024-06-24-troubleshooting.html)** - Common issues and solutions
+
+### Reference
+
+- **[Features]({{ site.baseurl }}/features/)** - Complete feature overview
+- **[API Reference]({{ site.baseurl }}/api-reference/)** - Full API documentation
+- **[Test Suite Guide]({{ site.baseurl }}/testing.html)** - Testing best practices
+
+## 🔧 Advanced Features
+
+### Custom Cache Options
+
+```ruby
+extractor = RichTextExtraction::Extractor.new("https://example.com")
+extractor.link_objects(
+  with_opengraph: true, 
+  cache: :rails, 
+  cache_options: { expires_in: 10.minutes, key_prefix: 'custom' }
+)
+```
+
+### Direct Service Usage
+
+```ruby
+# OpenGraph with custom options
+og_service = RichTextExtraction::OpenGraphService.new
+og_data = og_service.extract('https://example.com', 
+  cache: custom_cache, 
+  cache_options: { key_prefix: 'myapp' }
+)
+
+# Markdown with custom renderer
+md_service = RichTextExtraction::MarkdownService.new
+html = md_service.render('**Bold**', 
+  sanitize: true, 
+  renderer_options: { custom_option: true }
+)
+```
+
+### Error Handling
+
+```ruby
+# OpenGraph errors are captured
+result = extractor.link_objects(with_opengraph: true)
+if result.first[:opengraph][:error]
+  Rails.logger.warn "OpenGraph error: #{result.first[:opengraph][:error]}"
+end
+```
+
+## 🧪 Testing
+
+```bash
+# Run all tests
+bundle exec rspec
+
+# Run specific test files
+bundle exec rspec spec/extractor_spec.rb
+bundle exec rspec spec/opengraph_helpers_spec.rb
+```
+
+The test suite is organized by feature for maximum clarity and maintainability, with shared contexts and comprehensive coverage.
+
+## 🏗️ Architecture Overview
+
+```
+lib/rich_text_extraction/
+├── services/                    # Service classes
+│   ├── opengraph_service.rb    # OpenGraph operations
+│   └── markdown_service.rb     # Markdown rendering
+├── extractors/                  # Focused extractors
+│   ├── link_extractor.rb       # Link extraction
+│   └── social_extractor.rb     # Social content
+├── configuration.rb            # Configuration system
+├── error.rb                    # Error handling
+├── extractor.rb                # Main Extractor class
+├── extracts_rich_text.rb       # Rails concern
+├── helpers.rb                  # View helpers
+├── instance_helpers.rb         # Instance helpers
+├── markdown_helpers.rb         # Markdown helpers
+├── opengraph_helpers.rb        # OpenGraph helpers
+├── railtie.rb                  # Rails integration
+└── version.rb                  # Version info
+```
+
+## 🔒 Security & Performance
+
+### Security Features
+- **Safe Markdown**: All rendered HTML is sanitized for XSS protection
+- **Input Validation**: URL and content validation
+- **Error Handling**: Graceful fallbacks for failed requests
+
+### Performance Optimizations
+- **Caching**: OpenGraph metadata is cached (Rails.cache or custom cache)
+- **Lazy Loading**: OpenGraph fetches only when requested
+- **Thread-safe**: Designed for concurrent use in Rails apps
+
+## 🚀 Getting Help
+
+- **Documentation**: [Full docs site]({{ site.baseurl }}/)
+- **API Reference**: [API docs]({{ site.baseurl }}/api-reference/)
+- **Issues**: [GitHub Issues](https://github.com/ceccec/rich_text_extraction/issues)
+- **Contributing**: [CONTRIBUTING.md](https://github.com/ceccec/rich_text_extraction/blob/main/CONTRIBUTING.md)
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE.txt](https://github.com/ceccec/rich_text_extraction/blob/main/LICENSE.txt) file for details.
 
 ---
 
-## More Examples & Documentation
-- [Full Documentation & Guides](https://ceccec.github.io/rich_text_extraction/)
-- [API Reference]({{ site.baseurl }}/api/)
-- [Features]({{ site.baseurl }}/features/)
-
----
-
-*Want to contribute a guide or showcase your use case? [Open an issue or PR!](https://github.com/ceccec/rich_text_extraction/issues)*
+**RichTextExtraction** - Professional rich text extraction for Ruby and Rails applications. 🚀
