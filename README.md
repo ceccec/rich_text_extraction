@@ -1,12 +1,46 @@
-# RichTextExtraction
+# RichTextExtraction: Ruby & Rails Gem for Rich Text, Markdown, and OpenGraph Extraction
 
-RichTextExtraction is a Ruby gem for extracting structured data (links, tags, mentions, emails, phone numbers, etc.) and rendering Markdown safely from rich text or Markdown content. It is designed for use with Rails apps using ActionText, but can be used standalone.
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE.txt)
+[![Build Status](https://github.com/ceccec/rich_text_extraction/actions/workflows/main.yml/badge.svg)](https://github.com/ceccec/rich_text_extraction/actions)
+
+> **RichTextExtraction** is a powerful Ruby gem for extracting links, tags, mentions, emails, phone numbers, and OpenGraph metadata from rich text, Markdown, or ActionText content in Rails. It also provides safe Markdown rendering and seamless integration with Rails and ActionText for link previews and structured data extraction.
+
+---
+
+## Table of Contents
+- [Why Use This Gem?](#why-use-this-gem)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [Rails Integration](#rails-integration)
+- [Advanced Usage](#advanced-usage)
+- [ActionText & Background Job Integration](#actiontext--background-job-integration)
+- [Example Output](#example-output)
+- [Related Projects & Docs](#related-projects--docs)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
+
+## Why Use This Gem?
+- **All-in-one**: Extract links, tags, mentions, emails, phone numbers, dates, Twitter handles, and OpenGraph metadata from any text, Markdown, or ActionText::RichText.
+- **Rails & ActionText ready**: Seamless integration with Rails, ActionText, and background jobs for link preview and metadata caching.
+- **Safe Markdown rendering**: Supports Redcarpet, Kramdown, and CommonMarker with HTML sanitization.
+- **Link preview**: Generate OpenGraph-based link previews for any URL in your content.
+- **Highly customizable**: Extend extraction logic, configure caching, and use in both Rails and plain Ruby projects.
+
+---
 
 ## Features
 - Extract links, tags, mentions, emails, phone numbers, dates, Twitter handles, and more from text or ActionText::RichText
+- Extract OpenGraph metadata for link previews
 - Render Markdown to HTML using Redcarpet, Kramdown, or CommonMarker
 - Sanitize rendered HTML for safe display
 - Extend ActionText::RichText with extraction methods (e.g., `post.body.links`)
+- Integrate with Rails background jobs for prefetching/caching link metadata
+
+---
 
 ## Installation
 Add this line to your application's Gemfile:
@@ -26,6 +60,8 @@ Or install it yourself as:
 ```bash
 gem install rich_text_extraction
 ```
+
+---
 
 ## Usage
 
@@ -48,14 +84,12 @@ post.body.tags       # => ["welcome"]
 html = RichTextExtraction.render_markdown("**Bold** [link](https://example.com)")
 ```
 
+---
+
 ## Configuration
 You can configure the default Markdown renderer and sanitization options. See the gem's source for details.
 
-## Contributing
-Bug reports and pull requests are welcome on GitHub at https://github.com/YOUR_GITHUB_USERNAME/rich_text_extraction.
-
-## License
-The gem is available as open source under the terms of the MIT License.
+---
 
 ## Rails Integration
 
@@ -91,6 +125,8 @@ You can also pass OpenGraph data directly:
 ```erb
 <%= opengraph_preview_for({ "title" => "Example", "url" => "https://example.com" }) %>
 ```
+
+---
 
 ## Advanced Usage
 
@@ -154,6 +190,8 @@ end
 - `cache:` (nil, :rails, or a Hash)
 - `cache_options:` (hash, e.g., { key_prefix: 'myapp' })
 
+---
+
 ## ActionText & Background Job Integration
 
 ### Using with ActionText
@@ -212,3 +250,39 @@ class Post < ApplicationRecord
   end
 end
 ```
+
+---
+
+## Example Output
+
+**Extracted Data:**
+```ruby
+body = "Hello @alice! Check out https://example.com #welcome"
+extractor = RichTextExtraction::Extractor.new(body)
+extractor.link_objects(with_opengraph: true)
+# => [{ url: "https://example.com", opengraph: { "title" => "Example Domain", ... } }]
+```
+
+**Rendered Link Preview (HTML):**
+```html
+<a href='https://example.com' target='_blank' rel='noopener'><img src='https://example.com/image.png' alt='Example Domain' style='max-width:200px;'><br><strong>Example Domain</strong></a><p>This domain is for use in illustrative examples in documents.</p>
+```
+
+---
+
+## Related Projects & Docs
+- [ActionText (Rails)](https://edgeguides.rubyonrails.org/action_text_overview.html)
+- [Redcarpet](https://github.com/vmg/redcarpet)
+- [Kramdown](https://kramdown.gettalong.org/)
+- [CommonMarker](https://github.com/gjtorikian/commonmarker)
+- [OpenGraph Protocol](https://ogp.me/)
+
+---
+
+## Contributing
+Bug reports and pull requests are welcome on GitHub at https://github.com/ceccec/rich_text_extraction.
+
+---
+
+## License
+The gem is available as open source under the terms of the MIT License.
