@@ -5,6 +5,20 @@
 
 > **RichTextExtraction** is a powerful Ruby gem for extracting links, tags, mentions, emails, phone numbers, and OpenGraph metadata from rich text, Markdown, or ActionText content in Rails. It also provides safe Markdown rendering and seamless integration with Rails and ActionText for link previews and structured data extraction.
 
+## 📚 Documentation
+
+- [Getting Started Guide](docs/_posts/2024-06-24-getting-started.html)
+- [ActionText Integration](docs/_posts/2024-06-24-actiontext-integration.html)
+- [Safe Markdown Rendering](docs/_posts/2024-06-24-markdown-rendering.html)
+- [Advanced Usage & Customization](docs/_posts/2024-06-24-advanced-usage.html)
+- [Troubleshooting](docs/_posts/2024-06-24-troubleshooting.html)
+- [Features Overview](docs/features.markdown)
+- [API Reference](docs/api.markdown)
+- [Architecture Diagram](docs/assets/diagram-rich-text-extraction.mmd)
+- [Example Screenshot](docs/assets/example-screenshot.png)
+
+> For the latest guides and full documentation, visit the [project website](https://ceccec.github.io/rich_text_extraction/).
+
 ---
 
 ## Table of Contents
