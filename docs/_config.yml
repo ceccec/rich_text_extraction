@@ -33,6 +33,9 @@ plugins:
   - jekyll-feed
   - jekyll-sitemap
 
+# Enable Jekyll processing for GitHub Pages
+enable_jekyll: true
+
 # Include API documentation
 include:
   - api
