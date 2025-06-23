@@ -6,6 +6,8 @@ require 'erb'
 require 'uri'
 require 'nokogiri'
 require 'httparty'
+require_relative 'rich_text_extraction/markdown_helpers'
+require_relative 'rich_text_extraction/opengraph_helpers'
 
 if defined?(Rails)
   require_relative 'rich_text_extraction/railtie'
@@ -14,9 +16,15 @@ if defined?(Rails)
 end
 
 ##
-# RichTextExtraction provides methods for extracting links, tags, mentions, and more from rich text or Markdown.
-# It also offers safe Markdown rendering and OpenGraph metadata extraction.
+# RichTextExtraction provides methods for extracting links, tags, mentions, emails, phone numbers, and more
+# from rich text, Markdown, or ActionText content. It also offers safe Markdown rendering and OpenGraph
+# metadata extraction, with seamless Rails and ActionText integration.
+#
+# @see https://github.com/ceccec/rich_text_extraction#readme Full documentation and usage
 module RichTextExtraction
+  extend OpenGraphHelpers
+  extend MarkdownHelpers
+
   class Error < StandardError; end
   # Your code goes here...
 
@@ -188,92 +196,45 @@ module RichTextExtraction
     end
   end
 
-  # CustomMarkdownRenderer customizes Redcarpet HTML rendering for links, images, and code blocks.
-  # @api private
-  class CustomMarkdownRenderer < Redcarpet::Render::HTML
-    def link(link, _title, content)
-      "<a href='#{link}' target='_blank' rel='noopener'>#{content}</a>"
-    end
-
-    def image(link, _title, alt_text)
-      "<img src='#{link}' alt='#{alt_text}' class='markdown-image' />"
-    end
-
-    def block_code(code, language)
-      lang_class = language ? "language-#{language}" : ''
-      "<pre><code class='#{lang_class}'>#{ERB::Util.html_escape(code)}</code></pre>"
-    end
-  end
-
-  # Renders Markdown to HTML using Redcarpet and a custom renderer.
-  # @param text [String]
-  # @return [String] HTML output
+  # Public API
   def self.render_markdown(text)
-    renderer = CustomMarkdownRenderer.new(filter_html: true, hard_wrap: true)
-    markdown = Redcarpet::Markdown.new(renderer, { fenced_code_blocks: true, autolink: true, tables: true })
-    markdown.render(text)
+    render_markdown_html(text)
   end
 
-  # Renders a preview snippet from OpenGraph data in the specified format.
-  # @param og_data [Hash]
-  # @param format [Symbol] :html, :markdown, or :text
-  # @return [String]
   def self.opengraph_preview(og_data, format: :html)
-    title, description, image, url = opengraph_preview_extract_fields(og_data)
-    case format
-    when :html
-      opengraph_html_preview(title, description, image, url)
-    when :markdown
-      opengraph_markdown_preview(title, description, image, url)
-    when :text
-      opengraph_text_preview(title, description, url)
+    super
+  end
+
+  private
+
+  def render_markdown_html(text)
+    if defined?(Redcarpet)
+      renderer = CustomMarkdownRenderer.new(filter_html: true, hard_wrap: true)
+      markdown = Redcarpet::Markdown.new(renderer, { fenced_code_blocks: true, autolink: true, tables: true })
+      markdown.render(text)
+    elsif defined?(Kramdown)
+      Kramdown::Document.new(text || '', input: 'GFM').to_html
+    elsif defined?(CommonMarker)
+      CommonMarker.render_html(text || '', :DEFAULT, %i[table strikethrough autolink])
     else
-      ''
+      ActionController::Base.helpers.simple_format(text)
     end
   end
 
-  # @api private
-  def self.opengraph_preview_extract_fields(og_data)
-    [
-      og_data['title'] || og_data[:title] || '',
-      og_data['description'] || og_data[:description] || '',
-      og_data['image'] || og_data[:image],
-      og_data['url'] || og_data[:url]
-    ]
-  end
-
-  # @api private
-  def self.opengraph_html_preview(title, description, image, url)
-    html = String.new
-    html << "<a href='#{url}' target='_blank' rel='noopener'>" if url
-    html << "<img src='#{image}' alt='#{title}' style='max-width:200px;'><br>" if image
-    html << "<strong>#{title}</strong>" unless title.empty?
-    html << '</a>' if url
-    html << "<p>#{description}</p>" unless description.empty?
-    html
-  end
-
-  # @api private
-  def self.opengraph_markdown_preview(title, description, image, url)
-    md = String.new
-    if image && url
-      md << "[![](#{image})](#{url})\n"
-    elsif image
-      md << "![](#{image})\n"
+  # @!method clear_link_cache(cache: nil, cache_options: {})
+  # Clears OpenGraph cache entries for all links in the plain text.
+  # @param cache [Hash, Symbol, nil] Optional cache object or :rails
+  # @param cache_options [Hash] Options for cache (e.g., :expires_in, :key_prefix)
+  def clear_link_cache(cache: nil, cache_options: {})
+    key_prefix = opengraph_key_prefix(cache_options)
+    extract_links(plain_text).each do |url|
+      if cache == :rails && defined?(Rails) && Rails.respond_to?(:cache)
+        cache_key = key_prefix ? "opengraph:#{key_prefix}:#{url}" : url
+        Rails.cache.delete(cache_key, **cache_options.except(:key_prefix))
+      elsif cache && cache != :rails
+        cache.delete(url)
+      end
     end
-    md << "**#{title}**\n" unless title.empty?
-    md << "#{description}\n" unless description.empty?
-    md << "[#{url}](#{url})" if url
-    md
-  end
-
-  # @api private
-  def self.opengraph_text_preview(title, description, url)
-    txt = String.new
-    txt << "#{title}\n" unless title.empty?
-    txt << "#{description}\n" unless description.empty?
-    txt << "#{url}\n" if url
-    txt
   end
 end
 
@@ -348,37 +309,6 @@ module RichTextExtraction
   def twitter_handles
     twitter_regex = /@([A-Za-z0-9_]{1,15})/
     plain_text.scan(twitter_regex).flatten.uniq
-  end
-
-  def markdown
-    html = if defined?(Redcarpet)
-             renderer = CustomMarkdownRenderer.new(filter_html: true, hard_wrap: true)
-             markdown = Redcarpet::Markdown.new(
-               renderer,
-               fenced_code_blocks: true,
-               autolink: true,
-               tables: true,
-               strikethrough: true,
-               superscript: true,
-               underline: true,
-               highlight: true,
-               quote: true,
-               footnotes: true
-             )
-             markdown.render(to_plain_text || '')
-           elsif defined?(Kramdown)
-             Kramdown::Document.new(to_plain_text || '', input: 'GFM').to_html
-           elsif defined?(CommonMarker)
-             CommonMarker.render_html(to_plain_text || '', :DEFAULT, %i[table strikethrough autolink])
-           else
-             ActionController::Base.helpers.simple_format(to_plain_text)
-           end
-    ActionController::Base.helpers.sanitize(
-      html,
-      tags: %w[a img p h1 h2 h3 h4 h5 h6 ul ol li em strong code pre blockquote table thead tbody tr th td sup sub del
-               span],
-      attributes: %w[href src alt title class target rel]
-    )
   end
 
   def link_objects(with_opengraph: false, cache: nil, cache_options: {})
