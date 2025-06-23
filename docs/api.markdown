@@ -1,75 +1,105 @@
 ---
-layout: api
-title: API Reference
-permalink: /api-reference/
+layout: page
+title: "API Reference"
+permalink: /api.html
 ---
 
 # API Reference
 
-Welcome to the RichTextExtraction API documentation. This documentation is automatically generated from the source code using YARD.
+This page provides a comprehensive reference for all RichTextExtraction classes, methods, and configuration options.
 
-## Quick Navigation
+## 📚 Quick Navigation
 
-- **[RichTextExtraction]({{ site.baseurl }}/api/classes/RichTextExtraction.html)** - Main module with version and configuration
-- **[Extractor]({{ site.baseurl }}/api/classes/RichTextExtraction/Extractor.html)** - Core extraction functionality for links, tags, and mentions
-- **[Helpers]({{ site.baseurl }}/api/classes/RichTextExtraction/Helpers.html)** - View helpers for rendering OpenGraph previews
-- **[ExtractsRichText]({{ site.baseurl }}/api/classes/RichTextExtraction/ExtractsRichText.html)** - Rails concern for ActionText integration
-- **[Error]({{ site.baseurl }}/api/classes/RichTextExtraction/Error.html)** - Error handling classes
-- **[Railtie]({{ site.baseurl }}/api/classes/RichTextExtraction/Railtie.html)** - Rails integration and configuration
+- **[Class List]({{ site.baseurl }}/api/class_list.html)** - All classes and modules
+- **[Method List]({{ site.baseurl }}/api/method_list.html)** - All public methods
+- **[File List]({{ site.baseurl }}/api/file_list.html)** - All source files
 
-## Getting Started
+## 🏗️ Core Classes
 
-The main entry point is the `RichTextExtraction` module. For basic usage, see the [Extractor]({{ site.baseurl }}/api/classes/RichTextExtraction/Extractor.html) class.
+### RichTextExtraction::Extractor
 
-For Rails integration, check out the [ExtractsRichText]({{ site.baseurl }}/api/classes/RichTextExtraction/ExtractsRichText.html) concern and [Helpers]({{ site.baseurl }}/api/classes/RichTextExtraction/Helpers.html) module.
-
-## Documentation Coverage
-
-This documentation is automatically generated and updated on every push to the main branch. The current coverage is **75.93%** documented.
-
-For more information about contributing and improving documentation, see our [Contributing Guide]({{ site.baseurl }}/contributing/).
-
-## Main Classes & Modules
-
-### `RichTextExtraction::Extractor`
-
-- `initialize(text : String)` — Create an extractor for a string
-- `links() : Array<String>` — Extract all URLs
-- `tags() : Array<String>` — Extract all tags (without #)
-- `mentions() : Array<String>` — Extract all mentions (without @)
-- `emails() : Array<String>` — Extract all emails
-- `phone_numbers() : Array<String>` — Extract all phone numbers
-- `dates() : Array<String>` — Extract all dates
-- `link_objects(with_opengraph: false, cache: nil, cache_options: {}) : Array<Hash>` — Array of hashes for each link, with optional OpenGraph data
-- `clear_link_cache(cache: nil, cache_options: {})` — Clear OpenGraph cache for all links
-
-### `RichTextExtraction.render_markdown(text : String) : String`
-- Render Markdown to HTML (safe, sanitized)
-
-### `RichTextExtraction.opengraph_preview(og_data : Hash, format: :html|:markdown|:text) : String`
-- Render OpenGraph data as HTML, Markdown, or text preview
-
-## Rails/ActionText Integration
-- `ActionText::RichText#links`, `#tags`, `#mentions`, etc. — Extraction methods available on rich text
-- `opengraph_preview_for(url_or_og_data, format: :html|:markdown|:text)` — Rails view helper for OpenGraph previews
-- Model concern: `RichTextExtraction::ExtractsRichText` — Automatic cache management
-
-## Background Jobs
-- Prefetch OpenGraph data for all posts:
+The main class for extracting content from text.
 
 ```ruby
-class PrefetchOpenGraphJob < ApplicationJob
-  queue_as :default
-  def perform(post_id)
-    post = Post.find(post_id)
-    post.body.link_objects(with_opengraph: true, cache: :rails)
-  end
+extractor = RichTextExtraction::Extractor.new("Visit https://example.com and check out #ruby")
+```
+
+**Key Methods:**
+- `#links` - Extract URLs
+- `#tags` - Extract hashtags
+- `#mentions` - Extract mentions
+- `#link_objects` - Get rich link objects with OpenGraph data
+
+### RichTextExtraction::OpenGraphService
+
+Service for fetching and caching OpenGraph metadata.
+
+```ruby
+og_service = RichTextExtraction::OpenGraphService.new
+metadata = og_service.extract('https://example.com')
+```
+
+**Key Methods:**
+- `#extract(url, options = {})` - Extract OpenGraph data
+- `#clear_cache(url, options = {})` - Clear cached data
+
+### RichTextExtraction::MarkdownService
+
+Service for rendering Markdown to HTML.
+
+```ruby
+md_service = RichTextExtraction::MarkdownService.new
+html = md_service.render('**Bold text**')
+```
+
+**Key Methods:**
+- `#render(text, options = {})` - Render Markdown to HTML
+
+## 🔧 Configuration
+
+### Global Configuration
+
+```ruby
+RichTextExtraction.configure do |config|
+  # Caching
+  config.cache_enabled = true
+  config.cache_prefix = 'rte'
+  config.cache_ttl = 1.hour
+  
+  # OpenGraph
+  config.opengraph_timeout = 5.seconds
+  config.opengraph_user_agent = 'RichTextExtraction/1.0'
+  
+  # Markdown
+  config.markdown_renderer = :redcarpet
+  config.markdown_options = { hard_wrap: true }
 end
 ```
 
-## See Also
-- [Full README & Guides](https://github.com/ceccec/rich_text_extraction#readme)
-- [Getting Started Guide]({{ site.baseurl }}/blog/2024-06-24-getting-started.html)
-- [How to Add Link Previews]({{ site.baseurl }}/blog/2024-06-24-link-previews.html)
-- [Advanced Usage]({{ site.baseurl }}/blog/2024-06-24-advanced-usage.html)
-- [Features]({{ site.baseurl }}/features/) 
+### Configuration Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `cache_enabled` | Boolean | `true` | Enable/disable caching |
+| `cache_prefix` | String | `'rte'` | Cache key prefix |
+| `cache_ttl` | Duration | `1.hour` | Cache time-to-live |
+| `opengraph_timeout` | Duration | `5.seconds` | OpenGraph request timeout |
+| `opengraph_user_agent` | String | `'RichTextExtraction/1.0'` | User agent for requests |
+| `markdown_renderer` | Symbol | `:redcarpet` | Markdown renderer to use |
+| `markdown_options` | Hash | `{}` | Markdown renderer options |
+
+## 📖 Guides and Tutorials
+
+- [Getting Started Guide]({{ site.baseurl }}/blog/2025-06-24-getting-started.html)
+- [How to Add Link Previews]({{ site.baseurl }}/blog/2025-06-24-link-previews.html)
+- [Advanced Usage]({{ site.baseurl }}/blog/2025-06-24-advanced-usage.html)
+
+## 🔗 External Links
+
+- **[GitHub Repository](https://github.com/ceccec/rich_text_extraction)** - Source code and issues
+- **[RubyGems](https://rubygems.org/gems/rich_text_extraction)** - Gem installation
+- **[Documentation Site](https://ceccec.github.io/rich_text_extraction/)** - Full documentation
+
+---
+
+**RichTextExtraction** - Professional rich text extraction for Ruby and Rails applications. 🚀 

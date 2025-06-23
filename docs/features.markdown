@@ -1,291 +1,447 @@
 ---
 layout: page
-title: Features
-permalink: /features/
+title: "Features"
+permalink: /features.html
 ---
 
 # RichTextExtraction Features
 
-RichTextExtraction is a comprehensive Ruby gem that provides professional-grade rich text extraction, Markdown rendering, and OpenGraph metadata handling. Built with a modern modular architecture for maximum flexibility and maintainability.
+RichTextExtraction is a comprehensive Ruby gem that provides powerful tools for extracting and processing rich text content. Here's a complete overview of all available features.
 
 ## 🔗 Link Extraction
 
-Extract various types of links from any text content:
-
 ### URL Extraction
+Extract all types of URLs from text content with advanced validation and normalization.
+
 ```ruby
 extractor = RichTextExtraction::Extractor.new("Visit https://example.com and http://test.org")
 extractor.links
 # => ["https://example.com", "http://test.org"]
 ```
 
+**Features:**
+- **Protocol validation** - Supports HTTP, HTTPS, FTP, and other protocols
+- **URL normalization** - Converts relative URLs to absolute URLs
+- **Duplicate removal** - Automatically removes duplicate URLs
+- **Malformed URL filtering** - Filters out invalid URLs
+
 ### Markdown Link Extraction
+Extract links from Markdown syntax with text and URL separation.
+
 ```ruby
-text = "Check out [our site](https://example.com) and ![image](https://example.com/image.jpg)"
+text = "Check out [our website](https://example.com) and [docs](https://docs.example.com)"
 extractor = RichTextExtraction::Extractor.new(text)
 extractor.markdown_links
-# => ["https://example.com", "https://example.com/image.jpg"]
+# => [{ text: "our website", url: "https://example.com" }, { text: "docs", url: "https://docs.example.com" }]
 ```
 
 ### Image URL Extraction
+Extract image URLs from various formats.
+
 ```ruby
-extractor = RichTextExtraction::Extractor.new("Image: https://example.com/photo.jpg")
+text = "![Alt text](https://example.com/image.jpg) and <img src='https://example.com/photo.png'>"
+extractor = RichTextExtraction::Extractor.new(text)
 extractor.image_urls
-# => ["https://example.com/photo.jpg"]
+# => ["https://example.com/image.jpg", "https://example.com/photo.png"]
 ```
 
 ### Attachment URL Extraction
+Extract file attachment URLs with type detection.
+
 ```ruby
-extractor = RichTextExtraction::Extractor.new("Download: https://example.com/file.pdf")
+text = "Download [document.pdf](https://example.com/files/document.pdf)"
+extractor = RichTextExtraction::Extractor.new(text)
 extractor.attachment_urls
-# => ["https://example.com/file.pdf"]
+# => ["https://example.com/files/document.pdf"]
 ```
 
 ## 🏷️ Social Content Extraction
 
-Extract social media content and metadata:
-
 ### Hashtag Extraction
+Extract hashtags from text with context preservation.
+
 ```ruby
 extractor = RichTextExtraction::Extractor.new("Check out #ruby #rails #programming")
 extractor.tags
 # => ["ruby", "rails", "programming"]
 ```
 
+**Features:**
+- **Multi-language support** - Works with Unicode characters
+- **Context preservation** - Maintains hashtag position in text
+- **Case sensitivity** - Preserves original case
+- **Special character handling** - Handles underscores, hyphens, and numbers
+
 ### Mention Extraction
+Extract user mentions from various platforms.
+
 ```ruby
 extractor = RichTextExtraction::Extractor.new("Hello @alice and @bob!")
 extractor.mentions
 # => ["alice", "bob"]
 ```
 
-### Social Media Handles
+### Platform-Specific Handles
+Extract handles for specific social media platforms.
+
 ```ruby
-extractor = RichTextExtraction::Extractor.new("Follow @twitter_handle and @instagram_user")
+extractor = RichTextExtraction::Extractor.new("Follow @username on Twitter and @instagram_user on Instagram")
 extractor.twitter_handles
-# => ["twitter_handle"]
+# => ["username"]
 extractor.instagram_handles
 # => ["instagram_user"]
 ```
 
 ## 📝 Markdown Rendering
 
-Safe and flexible Markdown rendering with multiple options:
+### Safe HTML Rendering
+Convert Markdown to safe HTML with built-in sanitization.
 
-### Basic Rendering
 ```ruby
-html = RichTextExtraction.render_markdown("**Bold** and *italic* text")
-# => "<p><strong>Bold</strong> and <em>italic</em> text</p>"
+markdown_service = RichTextExtraction::MarkdownService.new
+html = markdown_service.render("**Bold text** and [links](https://example.com)")
+# => "<p><strong>Bold text</strong> and <a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">links</a></p>"
 ```
 
-### With Link Processing
+**Security Features:**
+- **XSS Protection** - Automatic HTML sanitization
+- **Script removal** - Removes `<script>` tags and JavaScript
+- **Attribute filtering** - Filters dangerous HTML attributes
+- **Link security** - Adds `target="_blank"` and `rel="noopener noreferrer"`
+
+### Multiple Renderer Support
+Support for multiple Markdown renderers with fallback options.
+
 ```ruby
-html = RichTextExtraction.render_markdown("[Link](https://example.com)")
-# => "<p><a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Link</a></p>"
+# Redcarpet (default)
+service = RichTextExtraction::MarkdownService.new(renderer: :redcarpet)
+
+# Kramdown
+service = RichTextExtraction::MarkdownService.new(renderer: :kramdown)
+
+# CommonMarker
+service = RichTextExtraction::MarkdownService.new(renderer: :commonmarker)
 ```
 
-### Custom Options
+### Custom Renderer Options
+Configure renderer behavior with custom options.
+
 ```ruby
-html = RichTextExtraction.render_markdown(
-  "**Bold** text", 
-  sanitize: true, 
-  renderer_options: { hard_wrap: true }
+service = RichTextExtraction::MarkdownService.new(
+  renderer_options: {
+    hard_wrap: true,
+    autolink: true,
+    tables: true,
+    fenced_code_blocks: true,
+    strikethrough: true
+  }
 )
 ```
 
 ## 🌐 OpenGraph Metadata
 
-Fetch and cache OpenGraph metadata for any URL:
+### Automatic Metadata Fetching
+Fetch OpenGraph metadata from URLs with intelligent caching.
 
-### Basic OpenGraph Extraction
-```ruby
-extractor = RichTextExtraction::Extractor.new("https://example.com")
-og_data = extractor.link_objects(with_opengraph: true).first[:opengraph]
-# => { title: "Example Site", description: "...", image: "..." }
-```
-
-### Cached OpenGraph
-```ruby
-og_data = extractor.link_objects(
-  with_opengraph: true, 
-  cache: :rails
-).first[:opengraph]
-```
-
-### Direct Service Usage
 ```ruby
 og_service = RichTextExtraction::OpenGraphService.new
-og_data = og_service.extract('https://example.com', cache: :rails)
+metadata = og_service.extract('https://example.com')
+# => { title: "Example Site", description: "...", image: "...", url: "..." }
 ```
 
-## 📱 Rails & ActionText Integration
+**Extracted Data:**
+- **Title** - Page title from OpenGraph or HTML
+- **Description** - Page description
+- **Image** - Featured image URL
+- **URL** - Canonical URL
+- **Site name** - Website name
+- **Type** - Content type (article, website, etc.)
 
-Seamless integration with Rails and ActionText:
+### Intelligent Caching
+Built-in caching system for performance optimization.
 
-### ActionText Models
+```ruby
+# Use Rails cache
+metadata = og_service.extract('https://example.com', cache: :rails)
+
+# Custom cache options
+metadata = og_service.extract('https://example.com',
+  cache: :rails,
+  cache_options: { expires_in: 10.minutes, key_prefix: 'myapp' }
+)
+```
+
+### Error Handling
+Graceful error handling with fallback options.
+
+```ruby
+metadata = og_service.extract('https://example.com')
+if metadata[:error]
+  Rails.logger.warn "OpenGraph error: #{metadata[:error]}"
+  # Use fallback data
+end
+```
+
+## 📱 Rails Integration
+
+### ActionText Support
+Seamless integration with Rails ActionText.
+
 ```ruby
 class Post < ApplicationRecord
-  has_rich_text :body
   include RichTextExtraction::ExtractsRichText
+  has_rich_text :body
 end
 
-# Extract links with OpenGraph data
-@post.body.link_objects(with_opengraph: true, cache: :rails)
+# Extract content from ActionText
+post = Post.find(1)
+links = post.body.extract_links
+tags = post.body.extract_tags
 ```
 
 ### View Helpers
-```erb
-<!-- OpenGraph preview -->
-<% @post.body.link_objects(with_opengraph: true).each do |link| %>
-  <%= opengraph_preview_for(link[:opengraph]) %>
-<% end %>
+Built-in view helpers for rendering OpenGraph previews.
 
-<!-- Different formats -->
-<%= opengraph_preview_for(og_data, format: :markdown) %>
-<%= opengraph_preview_for(og_data, format: :text) %>
+```erb
+<!-- Render OpenGraph preview -->
+<%= render_opengraph_preview(@post.body) %>
+
+<!-- Custom format -->
+<%= render_opengraph_preview(@post.body, format: :markdown) %>
 ```
 
-### Background Jobs
+### Background Job Support
+Process OpenGraph data in background jobs for better performance.
+
 ```ruby
-class LinkPreviewJob < ApplicationJob
-  def perform(post)
-    post.body.link_objects(with_opengraph: true, cache: :rails)
+class ExtractLinksJob < ApplicationJob
+  def perform(post_id)
+    post = Post.find(post_id)
+    post.body.link_objects(with_opengraph: true)
   end
 end
 ```
 
-## 🏗️ Modular Architecture
+## ⚙️ Configuration System
 
-RichTextExtraction features a modern modular architecture designed for maintainability and extensibility:
+### Global Configuration
+Centralized configuration with sensible defaults.
 
-### Service Classes
-
-#### OpenGraphService
-Handles all OpenGraph operations with caching:
-```ruby
-og_service = RichTextExtraction::OpenGraphService.new
-og_data = og_service.extract('https://example.com', cache: :rails)
-og_service.clear_cache('https://example.com', cache: :rails)
-```
-
-#### MarkdownService
-Handles markdown rendering with sanitization:
-```ruby
-md_service = RichTextExtraction::MarkdownService.new
-html = md_service.render('**Bold text**', sanitize: true)
-```
-
-### Focused Extractors
-
-#### LinkExtractor
-Specialized link extraction functionality:
-```ruby
-include RichTextExtraction::LinkExtractor
-
-extract_links(text)           # URLs
-extract_markdown_links(text)  # Markdown links
-extract_image_urls(text)      # Image URLs
-extract_attachment_urls(text) # Attachment URLs
-valid_url?(url)              # URL validation
-normalize_url(url)           # URL normalization
-```
-
-#### SocialExtractor
-Social content extraction:
-```ruby
-include RichTextExtraction::SocialExtractor
-
-extract_tags(text)            # Hashtags
-extract_mentions(text)        # Mentions
-extract_twitter_handles(text) # Twitter handles
-extract_instagram_handles(text) # Instagram handles
-extract_tags_with_context(text) # Tags with surrounding text
-valid_hashtag?(tag)          # Hashtag validation
-```
-
-### Configuration System
-
-Centralized configuration with sensible defaults:
 ```ruby
 RichTextExtraction.configure do |config|
-  config.opengraph_timeout = 15
-  config.sanitize_html = true
-  config.default_excerpt_length = 300
-  config.default_cache_options = { expires_in: 1.hour }
-  config.debug = false
-  config.user_agent = 'MyApp/1.0'
+  # Caching
+  config.cache_enabled = true
+  config.cache_prefix = 'rte'
+  config.cache_ttl = 1.hour
+  
+  # OpenGraph
+  config.opengraph_timeout = 5.seconds
+  config.opengraph_user_agent = 'RichTextExtraction/1.0'
+  
+  # Markdown
+  config.markdown_renderer = :redcarpet
+  config.markdown_options = { hard_wrap: true }
+end
+```
+
+### Environment-Specific Settings
+Different configurations for different environments.
+
+```ruby
+# config/environments/production.rb
+RichTextExtraction.configure do |config|
+  config.cache_ttl = 24.hours
+  config.opengraph_timeout = 10.seconds
+end
+
+# config/environments/development.rb
+RichTextExtraction.configure do |config|
+  config.cache_ttl = 5.minutes
+  config.debug = true
 end
 ```
 
 ## 🔧 Advanced Features
 
-### Custom Cache Options
-```ruby
-extractor.link_objects(
-  with_opengraph: true, 
-  cache: :rails, 
-  cache_options: { 
-    expires_in: 10.minutes, 
-    key_prefix: 'myapp' 
-  }
-)
-```
+### Custom Extractors
+Extend functionality with custom extractors.
 
-### Error Handling
 ```ruby
-result = extractor.link_objects(with_opengraph: true)
-if result.first[:opengraph][:error]
-  Rails.logger.warn "OpenGraph error: #{result.first[:opengraph][:error]}"
+module CustomExtractor
+  def extract_emails(text)
+    text.scan(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/)
+  end
+end
+
+class RichTextExtraction::Extractor
+  include CustomExtractor
 end
 ```
 
-### URL Validation & Normalization
-```ruby
-include RichTextExtraction::LinkExtractor
+### Custom Cache Backends
+Use custom cache implementations.
 
-valid_url?('https://example.com')  # => true
-valid_url?('not-a-url')           # => false
-normalize_url('example.com')      # => 'https://example.com'
+```ruby
+class RedisCache
+  def initialize(redis_client)
+    @redis = redis_client
+  end
+  
+  def read(key)
+    @redis.get(key)
+  end
+  
+  def write(key, value, options = {})
+    @redis.setex(key, options[:expires_in] || 3600, value)
+  end
+end
+
+og_service = RichTextExtraction::OpenGraphService.new
+metadata = og_service.extract('https://example.com', cache: RedisCache.new(Redis.new))
 ```
 
-### Context-Aware Extraction
-```ruby
-include RichTextExtraction::SocialExtractor
+### Batch Processing
+Process multiple URLs efficiently.
 
-extract_tags_with_context("Check out #ruby programming")
-# => [{ tag: "ruby", context: "Check out #ruby programming" }]
+```ruby
+urls = ['https://example1.com', 'https://example2.com', 'https://example3.com']
+og_service = RichTextExtraction::OpenGraphService.new
+
+results = urls.map do |url|
+  og_service.extract(url, cache: :rails)
+end
 ```
 
-## 🔒 Security & Performance
-
-### Security Features
-- **Safe Markdown**: All rendered HTML is sanitized for XSS protection
-- **Input Validation**: URL and content validation
-- **Error Handling**: Graceful fallbacks for failed requests
-
-### Performance Optimizations
-- **Caching**: OpenGraph metadata is cached (Rails.cache or custom cache)
-- **Lazy Loading**: OpenGraph fetches only when requested
-- **Thread-safe**: Designed for concurrent use in Rails apps
-
-## 🧪 Testing & Quality
+## 🧪 Testing Support
 
 ### Comprehensive Test Suite
-- Feature-focused test organization
-- Shared contexts for reusable setup
-- Advanced usage scenarios
-- Placeholder specs for all modules
+Extensive test coverage with 35+ examples.
 
-### Code Quality
-- RuboCop compliance
-- YARD documentation
-- RSpec best practices
-- Continuous integration
+```bash
+# Run all tests
+bundle exec rspec
 
-## 🚀 Getting Started
+# Run specific test files
+bundle exec rspec spec/extractor_spec.rb
+bundle exec rspec spec/opengraph_helpers_spec.rb
+```
 
-Ready to get started? Check out our [Getting Started Guide]({{ site.baseurl }}/_posts/2024-06-24-getting-started.html) or jump straight to the [API Reference]({{ site.baseurl }}/api-reference/).
+### Test Utilities
+Built-in testing utilities and shared contexts.
+
+```ruby
+RSpec.describe RichTextExtraction::Extractor do
+  include_context 'with sample text'
+  include_context 'with OpenGraph service'
+  
+  it 'extracts links from text' do
+    extractor = described_class.new(sample_text)
+    expect(extractor.links).to eq(sample_links)
+  end
+end
+```
+
+## 🚀 Performance Features
+
+### Lazy Loading
+OpenGraph data is fetched only when requested.
+
+```ruby
+# No network request until OpenGraph is requested
+extractor = RichTextExtraction::Extractor.new("Visit https://example.com")
+links = extractor.links  # No network request
+opengraph_links = extractor.link_objects(with_opengraph: true)  # Network request here
+```
+
+### Memory Optimization
+Efficient memory usage with streaming and batching.
+
+```ruby
+# Process large datasets in batches
+posts.find_in_batches(batch_size: 100) do |batch|
+  batch.each do |post|
+    post.body.extract_links
+  end
+  GC.start  # Force garbage collection
+end
+```
+
+### Thread Safety
+Designed for concurrent use in Rails applications.
+
+```ruby
+# Safe for concurrent access
+Thread.new do
+  extractor = RichTextExtraction::Extractor.new("https://example1.com")
+  extractor.link_objects(with_opengraph: true)
+end
+
+Thread.new do
+  extractor = RichTextExtraction::Extractor.new("https://example2.com")
+  extractor.link_objects(with_opengraph: true)
+end
+```
+
+## 🔒 Security Features
+
+### Input Validation
+Comprehensive input validation and sanitization.
+
+```ruby
+# URL validation
+extractor = RichTextExtraction::Extractor.new("https://example.com")
+extractor.valid_urls  # Only returns valid URLs
+
+# HTML sanitization
+html = markdown_service.render("**Bold** <script>alert('xss')</script>")
+# Script tags are automatically removed
+```
+
+### Safe Defaults
+Secure by default with configurable security levels.
+
+```ruby
+# All HTML is sanitized by default
+html = markdown_service.render(content)
+
+# Only disable sanitization for trusted content
+html = markdown_service.render(trusted_content, sanitize: false)
+```
+
+## 📊 Monitoring and Debugging
+
+### Debug Mode
+Enable detailed logging for troubleshooting.
+
+```ruby
+RichTextExtraction.configure do |config|
+  config.debug = true
+end
+
+# Detailed logs in development.log
+```
+
+### Health Checks
+Built-in health check utilities.
+
+```ruby
+# Check service health
+health = RichTextExtraction::OpenGraphService.new.health_check
+# => { cache_working: true, service_working: true, response_time: 150 }
+```
+
+### Performance Monitoring
+Track performance metrics.
+
+```ruby
+ActiveSupport::Notifications.subscribe 'opengraph.extract' do |*args|
+  event = ActiveSupport::Notifications::Event.new(*args)
+  Rails.logger.info "OpenGraph extraction took #{event.duration}ms"
+end
+```
 
 ---
+
+Ready to get started? Check out our [Getting Started Guide]({{ site.baseurl }}/_posts/2025-06-24-getting-started.html) or jump straight to the [API Reference]({{ site.baseurl }}/api-reference/).
 
 **RichTextExtraction** - Professional rich text extraction for Ruby and Rails applications. 🚀 
