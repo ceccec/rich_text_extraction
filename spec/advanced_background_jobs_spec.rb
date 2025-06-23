@@ -18,4 +18,4 @@ RSpec.describe 'Advanced background job usage' do
       expect(result.first[:opengraph]['title']).to eq('Title')
     end
   end
-end 
+end

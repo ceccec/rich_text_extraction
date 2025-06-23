@@ -21,4 +21,4 @@ RSpec.describe 'Advanced cache usage' do
       expect(cache['https://example.com']).to be_a(Hash)
     end
   end
-end 
+end

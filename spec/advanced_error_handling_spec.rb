@@ -18,4 +18,4 @@ RSpec.describe 'Advanced error handling' do
       expect(result.first[:opengraph][:error]).to eq('fail')
     end
   end
-end 
+end

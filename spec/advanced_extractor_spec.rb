@@ -26,4 +26,4 @@ RSpec.describe 'Advanced extractor usage' do
       expect(result.first[:opengraph]['title']).to eq('Title')
     end
   end
-end 
+end

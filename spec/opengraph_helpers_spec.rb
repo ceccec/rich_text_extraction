@@ -8,9 +8,8 @@
 require 'spec_helper'
 require_relative 'support/shared_contexts'
 
-RSpec.describe 'OpenGraph helpers' do
+RSpec.describe 'OpenGraph cache options' do
   include_context 'with HTTParty stubs'
-  include_context 'with Rails stubs'
 
   context 'when using custom cache options and key prefix' do
     let(:cache) { {} }
@@ -22,7 +21,9 @@ RSpec.describe 'OpenGraph helpers' do
       expect(cache['https://example.com']).to be_a(Hash)
     end
   end
+end
 
+RSpec.describe 'OpenGraph preview rendering' do
   context 'when rendering opengraph preview in the view helper' do
     let(:helper) { Class.new { include RichTextExtraction::Helpers }.new }
     let(:og) { { 'title' => 'Test', 'url' => 'https://test.com' } }
@@ -45,7 +46,9 @@ RSpec.describe 'OpenGraph helpers' do
       expect(helper.opengraph_preview_for(og, format: :text)).to include('Test')
     end
   end
+end
 
+RSpec.describe 'OpenGraph error handling' do
   context 'when handling errors in OpenGraph extraction' do
     let(:extractor) { RichTextExtraction::Extractor.new('https://badurl.com') }
 

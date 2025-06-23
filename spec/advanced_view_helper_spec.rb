@@ -21,4 +21,4 @@ RSpec.describe 'Advanced view helper usage' do
       expect(helper.opengraph_preview_for(og, format: :text)).to include('Test')
     end
   end
-end 
+end
