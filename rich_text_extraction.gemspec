@@ -8,8 +8,10 @@ Gem::Specification.new do |spec|
   spec.authors = ['Tsvetan Rouschev']
   spec.email = ['675674+ceccec@users.noreply.github.com']
 
-  spec.summary = 'Extract links, tags, mentions, and more from rich text or Markdown. Safe Markdown rendering for Rails.'
-  spec.description = 'RichTextExtraction provides extraction of links, tags, mentions, emails, phone numbers, and more from rich text or Markdown. It also offers safe Markdown rendering using Redcarpet, Kramdown, or CommonMarker, and integrates with ActionText in Rails.'
+  spec.summary = 'Extract links, tags, mentions, and more from rich text or Markdown. Safe Markdown for Rails.'
+  spec.description = <<~DESC
+    RichTextExtraction provides extraction of links, tags, mentions, emails, phone numbers, and more from rich text or Markdown. It also offers safe Markdown rendering using Redcarpet, Kramdown, or CommonMarker, and integrates with ActionText in Rails.
+  DESC
   spec.homepage = 'https://github.com/YOUR_GITHUB_USERNAME/rich_text_extraction'
   spec.license = 'MIT'
   spec.required_ruby_version = '>= 3.1.0', '< 4.0'
@@ -34,6 +36,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   # Dependencies (alphabetical order)
+  spec.add_dependency 'activesupport', '< 8.0'
   spec.add_dependency 'commonmarker', '>= 0.23', '< 1.0'
   spec.add_dependency 'kramdown', '>= 2.4', '< 3.0'
   spec.add_dependency 'redcarpet', '>= 3.6', '< 4.0'

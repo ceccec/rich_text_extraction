@@ -1,7 +1,14 @@
 # frozen_string_literal: true
 
 module RichTextExtraction
+  ##
+  # OpenGraphHelpers provides OpenGraph preview rendering logic for RichTextExtraction.
+  # Includes helpers for HTML, Markdown, and text previews.
+  #
+  # @see RichTextExtraction
+  #
   module OpenGraphHelpers
+    # rubocop:disable Metrics/MethodLength
     def opengraph_preview(og_data, format: :html)
       title, description, image, url = opengraph_preview_extract_fields(og_data)
       case format
@@ -15,6 +22,7 @@ module RichTextExtraction
         ''
       end
     end
+    # rubocop:enable Metrics/MethodLength
 
     private
 
@@ -58,4 +66,4 @@ module RichTextExtraction
       txt
     end
   end
-end 
+end

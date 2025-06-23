@@ -1,0 +1,91 @@
+---
+layout: default
+---
+
+<div class="api-documentation">
+  <div class="api-sidebar">
+    <nav class="api-nav">
+      <h3>API Reference</h3>
+      <ul>
+        <li><a href="{{ site.baseurl }}/api/">Overview</a></li>
+        <li><a href="{{ site.baseurl }}/api/classes/RichTextExtraction.html">RichTextExtraction</a></li>
+        <li><a href="{{ site.baseurl }}/api/classes/RichTextExtraction/Extractor.html">Extractor</a></li>
+        <li><a href="{{ site.baseurl }}/api/classes/RichTextExtraction/Helpers.html">Helpers</a></li>
+        <li><a href="{{ site.baseurl }}/api/classes/RichTextExtraction/ExtractsRichText.html">ExtractsRichText</a></li>
+        <li><a href="{{ site.baseurl }}/api/classes/RichTextExtraction/Error.html">Error</a></li>
+        <li><a href="{{ site.baseurl }}/api/classes/RichTextExtraction/Railtie.html">Railtie</a></li>
+      </ul>
+    </nav>
+  </div>
+  
+  <div class="api-content">
+    {{ content }}
+  </div>
+</div>
+
+<style>
+.api-documentation {
+  display: flex;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.api-sidebar {
+  flex: 0 0 250px;
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  height: fit-content;
+  position: sticky;
+  top: 2rem;
+}
+
+.api-nav h3 {
+  margin-top: 0;
+  color: #333;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 0.5rem;
+}
+
+.api-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.api-nav li {
+  margin: 0.5rem 0;
+}
+
+.api-nav a {
+  color: #555;
+  text-decoration: none;
+  padding: 0.25rem 0;
+  display: block;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.api-nav a:hover {
+  background-color: #e9ecef;
+  color: #007bff;
+}
+
+.api-content {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .api-documentation {
+    flex-direction: column;
+  }
+  
+  .api-sidebar {
+    position: static;
+    flex: none;
+  }
+}
+</style> 

@@ -26,4 +26,8 @@ Thank you for your interest in contributing! Your help is welcome.
 - Be responsive to feedback and requested changes.
 
 ## Code of Conduct
-Please read and follow our [Code of Conduct](CODE_OF_CONDUCT.md). 
+Please read and follow our [Code of Conduct](CODE_OF_CONDUCT.md).
+
+## Test Suite
+
+See [docs/testing.md](docs/testing.md) for full details on test suite organization, running tests, and adding new tests. 

@@ -1,10 +1,33 @@
 ---
-layout: page
+layout: api
 title: API Reference
-permalink: /api/
+permalink: /api-reference/
 ---
 
 # API Reference
+
+Welcome to the RichTextExtraction API documentation. This documentation is automatically generated from the source code using YARD.
+
+## Quick Navigation
+
+- **[RichTextExtraction]({{ site.baseurl }}/api/classes/RichTextExtraction.html)** - Main module with version and configuration
+- **[Extractor]({{ site.baseurl }}/api/classes/RichTextExtraction/Extractor.html)** - Core extraction functionality for links, tags, and mentions
+- **[Helpers]({{ site.baseurl }}/api/classes/RichTextExtraction/Helpers.html)** - View helpers for rendering OpenGraph previews
+- **[ExtractsRichText]({{ site.baseurl }}/api/classes/RichTextExtraction/ExtractsRichText.html)** - Rails concern for ActionText integration
+- **[Error]({{ site.baseurl }}/api/classes/RichTextExtraction/Error.html)** - Error handling classes
+- **[Railtie]({{ site.baseurl }}/api/classes/RichTextExtraction/Railtie.html)** - Rails integration and configuration
+
+## Getting Started
+
+The main entry point is the `RichTextExtraction` module. For basic usage, see the [Extractor]({{ site.baseurl }}/api/classes/RichTextExtraction/Extractor.html) class.
+
+For Rails integration, check out the [ExtractsRichText]({{ site.baseurl }}/api/classes/RichTextExtraction/ExtractsRichText.html) concern and [Helpers]({{ site.baseurl }}/api/classes/RichTextExtraction/Helpers.html) module.
+
+## Documentation Coverage
+
+This documentation is automatically generated and updated on every push to the main branch. The current coverage is **75.93%** documented.
+
+For more information about contributing and improving documentation, see our [Contributing Guide]({{ site.baseurl }}/contributing/).
 
 ## Main Classes & Modules
 

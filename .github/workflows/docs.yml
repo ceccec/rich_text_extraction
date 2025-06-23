@@ -1,0 +1,102 @@
+name: Generate and Deploy Documentation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'lib/**'
+      - 'docs/**'
+      - 'README.md'
+      - 'CONTRIBUTING.md'
+      - 'Rakefile'
+      - '.github/workflows/docs.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'lib/**'
+      - 'docs/**'
+      - 'README.md'
+      - 'CONTRIBUTING.md'
+      - 'Rakefile'
+      - '.github/workflows/docs.yml'
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: |
+          bundle install
+          gem install yard
+
+      - name: Generate YARD documentation
+        run: bundle exec rake yard
+
+      - name: Build Jekyll site
+        run: |
+          cd docs
+          bundle install
+          bundle exec jekyll build
+
+      - name: Upload docs as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation
+          path: |
+            docs/api
+            docs/_site
+
+  deploy:
+    needs: generate-docs
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: |
+          bundle install
+          gem install yard
+
+      - name: Generate YARD documentation
+        run: bundle exec rake yard
+
+      - name: Build Jekyll site
+        run: |
+          cd docs
+          bundle install
+          bundle exec jekyll build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload site artifacts
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/_site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4 

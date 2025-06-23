@@ -8,11 +8,17 @@ gemspec
 gem 'irb'
 gem 'rake', '~> 13.0'
 
-gem 'activesupport'
+gem 'activesupport', '< 8.0'
 gem 'httparty'
 gem 'nokogiri'
 gem 'rspec', '~> 3.0'
 
 gem 'jekyll', '>= 4.0', '< 5.0', group: :docs
 
-gem 'rubocop', '~> 1.77', group: :development
+group :development, :test do
+  gem 'rubocop', require: false
+  gem 'rubocop-rspec', require: false
+  gem 'yard', require: false
+end
+
+ruby '>= 3.1.0', '< 4.0'

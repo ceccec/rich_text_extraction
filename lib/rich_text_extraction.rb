@@ -8,6 +8,10 @@ require 'nokogiri'
 require 'httparty'
 require_relative 'rich_text_extraction/markdown_helpers'
 require_relative 'rich_text_extraction/opengraph_helpers'
+require_relative 'rich_text_extraction/instance_helpers'
+require_relative 'rich_text_extraction/error'
+require_relative 'rich_text_extraction/extractor'
+require_relative 'rich_text_extraction/extraction_helpers'
 
 if defined?(Rails)
   require_relative 'rich_text_extraction/railtie'
@@ -16,245 +20,47 @@ if defined?(Rails)
 end
 
 ##
-# RichTextExtraction provides methods for extracting links, tags, mentions, emails, phone numbers, and more
-# from rich text, Markdown, or ActionText content. It also offers safe Markdown rendering and OpenGraph
-# metadata extraction, with seamless Rails and ActionText integration.
+# RichTextExtraction provides a suite of helpers and extensions for extracting and processing rich text content,
+# such as links, tags, mentions, emails, attachments, phone numbers, dates, and more. It also integrates with Rails
+# and ActionText for seamless rich text handling and caching.
 #
-# @see https://github.com/ceccec/rich_text_extraction#readme Full documentation and usage
+# @see https://github.com/ceccec/rich_text_extraction Documentation and usage examples
+# @note This module is automatically included in ActionText::RichText if ActionText is loaded.
+#
 module RichTextExtraction
   extend OpenGraphHelpers
   extend MarkdownHelpers
+  include InstanceHelpers
+  public(*InstanceHelpers.instance_methods(false))
 
-  class Error < StandardError; end
   # Your code goes here...
-
-  # ExtractionHelpers provides reusable extraction methods for links, tags, and mentions.
-  module ExtractionHelpers
-    ##
-    # Extracts URLs from text and strips trailing punctuation.
-    # @param text [String]
-    # @return [Array<String>] Array of URLs
-    def extract_links(text)
-      URI.extract(text, %w[http https]).map { |url| url.sub(/[.,!?:;]+$/, '') }
-    end
-
-    ##
-    # Extracts @mentions from text.
-    # @param text [String]
-    # @return [Array<String>] Array of mentions (without @)
-    def extract_mentions(text)
-      text.scan(/@(\w+)/).flatten
-    end
-
-    ##
-    # Extracts #tags from text.
-    # @param text [String]
-    # @return [Array<String>] Array of tags (without #)
-    def extract_tags(text)
-      text.scan(/#(\w+)/).flatten
-    end
-
-    ##
-    # Fetches and parses OpenGraph metadata from a URL, with optional caching.
-    # @param url [String]
-    # @param cache [Hash, Symbol, nil] Optional cache object or :rails
-    # @param cache_options [Hash] Options for cache (e.g., :expires_in, :key_prefix)
-    # @return [Hash] OpenGraph metadata or error
-    def extract_opengraph(url, cache: nil, cache_options: {})
-      key_prefix = opengraph_key_prefix(cache_options)
-      cached = opengraph_read_cache(url, cache, cache_options, key_prefix)
-      return cached if cached
-
-      og_data = fetch_opengraph_data(url)
-      opengraph_write_cache(url, og_data, cache, cache_options, key_prefix)
-      og_data
-    rescue StandardError => e
-      { error: e.message }
-    end
-
-    private
-
-    def opengraph_key_prefix(cache_options)
-      key_prefix = cache_options[:key_prefix]
-      if key_prefix.nil? && defined?(Rails) && Rails.respond_to?(:application)
-        key_prefix = begin
-          Rails.application.class.module_parent_name
-        rescue StandardError
-          nil
-        end
-      end
-      key_prefix
-    end
-
-    def opengraph_read_cache(url, cache, cache_options, key_prefix)
-      if cache == :rails && defined?(Rails) && Rails.respond_to?(:cache)
-        cache_key = key_prefix ? "opengraph:#{key_prefix}:#{url}" : url
-        Rails.cache.read(cache_key, **cache_options.except(:key_prefix))
-      elsif cache && cache != :rails && cache[url]
-        cache[url]
-      end
-    end
-
-    def opengraph_write_cache(url, og_data, cache, cache_options, key_prefix)
-      if cache == :rails && defined?(Rails) && Rails.respond_to?(:cache)
-        cache_key = key_prefix ? "opengraph:#{key_prefix}:#{url}" : url
-        Rails.cache.write(cache_key, og_data, **cache_options.except(:key_prefix))
-      elsif cache && cache != :rails
-        cache[url] = og_data
-      end
-    end
-
-    def fetch_opengraph_data(url)
-      response = HTTParty.get(url)
-      return {} unless response.success?
-
-      doc = Nokogiri::HTML(response.body)
-      og_data = {}
-      doc.css('meta[property^="og:"]').each do |meta|
-        property = meta.attr('property')
-        content = meta.attr('content')
-        og_data[property.sub('og:', '')] = content if property && content
-      end
-      og_data
-    end
-  end
-
-  # Extractor provides an object-oriented interface for extracting data from text.
-  class Extractor
-    include ExtractionHelpers
-    attr_reader :text
-
-    ##
-    # Initializes a new Extractor.
-    # @param text [String] The text to extract from
-    def initialize(text)
-      @text = text
-    end
-
-    ##
-    # Returns all links in the text.
-    # @return [Array<String>]
-    def links
-      extract_links(text)
-    end
-
-    ##
-    # Returns all @mentions in the text.
-    # @return [Array<String>]
-    def mentions
-      extract_mentions(text)
-    end
-
-    ##
-    # Returns all #tags in the text.
-    # @return [Array<String>]
-    def tags
-      extract_tags(text)
-    end
-
-    ##
-    # Returns an array of hashes for each link, optionally with OpenGraph data.
-    # @param with_opengraph [Boolean]
-    # @param cache [Hash, Symbol, nil]
-    # @param cache_options [Hash]
-    # @return [Array<Hash>]
-    def link_objects(with_opengraph: false, cache: nil, cache_options: {})
-      if with_opengraph
-        links.map { |url| { url: url, opengraph: extract_opengraph(url, cache: cache, cache_options: cache_options) } }
-      else
-        links.map { |url| { url: url } }
-      end
-    end
-
-    ##
-    # Returns OpenGraph data for all links in the text.
-    # @return [Array<Hash>]
-    def opengraph_data_for_links
-      links.map { |url| { url: url, opengraph: extract_opengraph(url) } }
-    end
-
-    ##
-    # Clears cache entries for all links in the text.
-    # @param cache [Hash, Symbol, nil]
-    # @param cache_options [Hash]
-    def clear_link_cache(cache: nil, cache_options: {})
-      key_prefix = opengraph_key_prefix(cache_options)
-      links.each { |url| clear_link_cache_for_url(url, cache, cache_options, key_prefix) }
-    end
-
-    private :opengraph_key_prefix
-
-    private
-
-    def clear_link_cache_for_url(url, cache, cache_options, key_prefix)
-      if cache == :rails && defined?(Rails) && Rails.respond_to?(:cache)
-        cache_key = key_prefix ? "opengraph:#{key_prefix}:#{url}" : url
-        Rails.cache.delete(cache_key, **cache_options.except(:key_prefix))
-      elsif cache && cache != :rails
-        cache.delete(url)
-      end
-    end
-  end
 
   # Public API
   def self.render_markdown(text)
-    render_markdown_html(text)
+    MarkdownHelpers.render_markdown_html(text)
   end
 
   def self.opengraph_preview(og_data, format: :html)
     super
   end
 
-  private
-
-  def render_markdown_html(text)
-    if defined?(Redcarpet)
-      renderer = CustomMarkdownRenderer.new(filter_html: true, hard_wrap: true)
-      markdown = Redcarpet::Markdown.new(renderer, { fenced_code_blocks: true, autolink: true, tables: true })
-      markdown.render(text)
-    elsif defined?(Kramdown)
-      Kramdown::Document.new(text || '', input: 'GFM').to_html
-    elsif defined?(CommonMarker)
-      CommonMarker.render_html(text || '', :DEFAULT, %i[table strikethrough autolink])
-    else
-      ActionController::Base.helpers.simple_format(text)
-    end
-  end
-
-  # @!method clear_link_cache(cache: nil, cache_options: {})
   # Clears OpenGraph cache entries for all links in the plain text.
   # @param cache [Hash, Symbol, nil] Optional cache object or :rails
   # @param cache_options [Hash] Options for cache (e.g., :expires_in, :key_prefix)
   def clear_link_cache(cache: nil, cache_options: {})
-    key_prefix = opengraph_key_prefix(cache_options)
-    extract_links(plain_text).each do |url|
-      if cache == :rails && defined?(Rails) && Rails.respond_to?(:cache)
-        cache_key = key_prefix ? "opengraph:#{key_prefix}:#{url}" : url
-        Rails.cache.delete(cache_key, **cache_options.except(:key_prefix))
-      elsif cache && cache != :rails
-        cache.delete(url)
-      end
+    key_prefix = resolve_opengraph_key_prefix(cache_options)
+    links = resolve_links
+    links.each do |url|
+      delete_opengraph_cache_entry(url, cache, cache_options, key_prefix)
     end
   end
-end
 
-class CustomMarkdownRenderer < Redcarpet::Render::HTML
-  def link(link, _title, content)
-    "<a href=\"#{link}\" target=\"_blank\" rel=\"noopener\">#{content}</a>"
-  end
+  public :links, :tags, :mentions, :emails, :excerpt, :attachments, :phone_numbers, :dates, :markdown_links,
+         :image_urls, :twitter_handles, :link_objects
 
-  def image(link, _title, alt_text)
-    "<img src=\"#{link}\" alt=\"#{alt_text}\" class=\"markdown-image\" />"
-  end
+  private
 
-  def block_code(code, language)
-    lang_class = language ? "language-#{language}" : ''
-    "<pre><code class=\"#{lang_class}\">#{ERB::Util.html_escape(code)}</code></pre>"
-  end
-end
-
-module RichTextExtraction
-  include ExtractionHelpers
+  # Instance methods for ActionText::RichText and other consumers
   def plain_text
     to_plain_text
   end
@@ -321,16 +127,50 @@ module RichTextExtraction
     end
   end
 
-  def clear_link_cache(cache: nil, cache_options: {})
-    key_prefix = opengraph_key_prefix(cache_options)
-    extract_links(plain_text).each do |url|
-      if cache == :rails && defined?(Rails) && Rails.respond_to?(:cache)
-        cache_key = key_prefix ? "opengraph:#{key_prefix}:#{url}" : url
-        Rails.cache.delete(cache_key, **cache_options.except(:key_prefix))
-      elsif cache && cache != :rails
-        cache.delete(url)
-      end
+  def build_opengraph_cache_key(url, key_prefix)
+    key_prefix ? "opengraph:#{key_prefix}:#{url}" : url
+  end
+
+  def delete_opengraph_cache_entry(url, cache, cache_options, key_prefix)
+    if cache == :rails && defined?(Rails) && Rails.respond_to?(:cache)
+      cache_key = build_opengraph_cache_key(url, key_prefix)
+      Rails.cache.delete(cache_key, **cache_options.except(:key_prefix))
+    elsif cache && cache != :rails
+      cache.delete(url)
     end
+  end
+
+  def resolve_opengraph_key_prefix(cache_options)
+    if respond_to?(:opengraph_key_prefix)
+      opengraph_key_prefix(cache_options)
+    else
+      RichTextExtraction.send(:opengraph_key_prefix, cache_options)
+    end
+  end
+
+  def resolve_links
+    if respond_to?(:extract_links)
+      extract_links(plain_text)
+    else
+      RichTextExtraction.send(:extract_links, plain_text)
+    end
+  end
+end
+
+##
+# CustomMarkdownRenderer customizes Redcarpet's HTML rendering for links, images, and code blocks.
+class CustomMarkdownRenderer < Redcarpet::Render::HTML
+  def link(link, _title, content)
+    "<a href=\"#{link}\" target=\"_blank\" rel=\"noopener\">#{content}</a>"
+  end
+
+  def image(link, _title, alt_text)
+    "<img src=\"#{link}\" alt=\"#{alt_text}\" class=\"markdown-image\" />"
+  end
+
+  def block_code(code, language)
+    lang_class = language ? "language-#{language}" : ''
+    "<pre><code class=\"#{lang_class}\">#{ERB::Util.html_escape(code)}</code></pre>"
   end
 end
 

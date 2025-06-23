@@ -3,37 +3,22 @@
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
 layout: home
-title: RichTextExtraction: Ruby & Rails Gem for Rich Text, Markdown, and OpenGraph Extraction
-description: Extract links, tags, mentions, emails, phone numbers, and OpenGraph metadata from rich text, Markdown, or ActionText in Ruby and Rails. Safe Markdown rendering, link previews, and structured data extraction.
+title: RichTextExtraction: Ruby & Rails Rich Text, Markdown, and OpenGraph Extraction
+description: Ruby and Rails gem for extracting links, tags, mentions, emails, phone numbers, and OpenGraph metadata from rich text, Markdown, or ActionText. Safe Markdown rendering, link previews, and ActionText integration.
 ---
 
 # RichTextExtraction
 
-> The all-in-one Ruby & Rails gem for rich text extraction, Markdown rendering, and OpenGraph link previews.
+**The all-in-one Ruby & Rails gem for rich text extraction, Markdown rendering, and OpenGraph link previews.**
 
-![Screenshot or GIF coming soon](assets/screenshot-placeholder.png)
+---
 
-## Features
-- Extract links, tags, mentions, emails, phone numbers, dates, Twitter handles, and OpenGraph metadata
-- Safe Markdown rendering (Redcarpet, Kramdown, CommonMarker)
-- ActionText & Rails integration for link preview and structured data
-- Background job support for prefetching/caching link metadata
-- Highly customizable and extendable
-- DRY, professional codebase with robust documentation and tests
+## What is RichTextExtraction?
+RichTextExtraction is a Ruby and Rails gem for extracting links, tags, mentions, emails, phone numbers, and OpenGraph metadata from rich text, Markdown, or ActionText. It is ideal for blogs, forums, chat apps, and any app that needs robust text extraction and preview features.
 
-## Features & API
-- [Features]({{ site.baseurl }}/features/)
-- [API Reference]({{ site.baseurl }}/api/)
+---
 
-## Architecture Diagram
-
-![RichTextExtraction Flow](assets/diagram-rich-text-extraction.mmd)
-
-## Example Screenshot
-
-![Example Screenshot](assets/example-screenshot.png)
-
-## Quick Start
+## 🚀 Quick Start
 
 ```ruby
 gem 'rich_text_extraction', github: 'ceccec/rich_text_extraction'
@@ -43,16 +28,64 @@ gem 'rich_text_extraction', github: 'ceccec/rich_text_extraction'
 bundle install
 ```
 
-## Usage Example
-
 ```ruby
 require 'rich_text_extraction'
-
 body = "Hello @alice! Check out https://example.com #welcome"
 extractor = RichTextExtraction::Extractor.new(body)
 extractor.link_objects(with_opengraph: true)
 # => [{ url: "https://example.com", opengraph: { "title" => "Example Domain", ... } }]
 ```
+
+---
+
+## How it Works
+1. **Extract**: Use the Extractor or ActionText extension to extract links, tags, mentions, and more from any text.
+2. **Preview**: Fetch OpenGraph metadata for links and generate HTML, Markdown, or text previews.
+3. **Integrate**: Use in Rails models, views, background jobs, or plain Ruby scripts.
+
+---
+
+## Features
+- Extract links, tags, mentions, emails, phone numbers, dates, Twitter handles, and OpenGraph metadata
+- Safe Markdown rendering (Redcarpet, Kramdown, CommonMarker)
+- ActionText & Rails integration for link preview and structured data
+- Background job support for prefetching/caching link metadata
+- Highly customizable and extendable
+
+---
+
+## Security & Performance
+- All rendered HTML is sanitized for XSS protection
+- OpenGraph metadata is cached for performance
+- Thread-safe and production-ready
+
+---
+
+## FAQ
+**Q: Does it work with Rails 7?**
+A: Yes, fully tested with Rails 7.0 and 7.1.
+
+**Q: How do I customize extraction?**
+A: Extend the ExtractionHelpers module or monkey-patch the Extractor class.
+
+**Q: Is it safe for user input?**
+A: Yes, all Markdown rendering is sanitized. You can also add your own sanitization logic.
+
+**Q: Can I use it outside Rails?**
+A: Yes, all core features work in plain Ruby.
+
+**Q: How do I generate API docs?**
+A: Run `yard doc` and open `doc/index.html` in your browser.
+
+---
+
+## Why use RichTextExtraction?
+- **All-in-one**: Extract everything you need from rich text, Markdown, or ActionText.
+- **Rails & ActionText ready**: Seamless integration for link previews and metadata.
+- **Safe Markdown**: Secure, flexible rendering for user content.
+- **Customizable**: Extend extraction logic, configure caching, and use in any Ruby or Rails project.
+
+---
 
 ## Rails & ActionText Integration
 
@@ -75,12 +108,12 @@ end
 - Configurable cache options and key prefix
 - Background job support for prefetching/caching link metadata
 
-## More Examples & Documentation
-See the [README](https://github.com/ceccec/rich_text_extraction#readme) for full documentation, advanced usage, and Rails/ActionText integration.
+---
 
-## Blog & Guides
-- [Getting Started with RichTextExtraction](./blog/2024-06-24-getting-started.html) (coming soon)
-- [How to Add Link Previews to Rails with ActionText](./blog/2024-06-24-link-previews.html) (coming soon)
+## More Examples & Documentation
+- [Full Documentation & Guides](https://ceccec.github.io/rich_text_extraction/)
+- [API Reference]({{ site.baseurl }}/api/)
+- [Features]({{ site.baseurl }}/features/)
 
 ---
 
