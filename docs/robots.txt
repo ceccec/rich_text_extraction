@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ceccec.github.io/rich_text_extraction/sitemap.xml 

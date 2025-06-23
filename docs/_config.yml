@@ -20,8 +20,8 @@
 
 title: "RichTextExtraction: Ruby & Rails Gem for Rich Text, Markdown, and OpenGraph Extraction"
 email: your-email@example.com
-description: >-
-  RichTextExtraction is a Ruby gem for extracting links, tags, mentions, emails, phone numbers, and OpenGraph metadata from rich text, Markdown, or ActionText content in Rails. Safe Markdown rendering, link previews, and structured data extraction for Ruby and Rails projects.
+description: "Extract links, tags, mentions, emails, phone numbers, and OpenGraph metadata from rich text, Markdown, or ActionText in Ruby and Rails. Safe Markdown rendering, link previews, and structured data extraction."
+keywords: "ruby, rails, gem, markdown, opengraph, actiontext, extraction, links, tags, mentions, emails, phone numbers, rich text, preview"
 baseurl: "/rich_text_extraction" # for GitHub Pages
 url: "https://ceccec.github.io" # update if you use a custom domain
 twitter_username: ceccec
@@ -31,6 +31,7 @@ github_username: ceccec
 theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-sitemap
 
 # Exclude from processing.
 # The following items will not be processed, by default.

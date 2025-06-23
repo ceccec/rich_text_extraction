@@ -1,0 +1,24 @@
+  <meta name="description" content="{{ site.description }}">
+  <meta name="keywords" content="{{ site.keywords }}">
+  <meta property="og:title" content="{{ page.title | default: site.title }}">
+  <meta property="og:description" content="{{ page.description | default: site.description }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:image" content="{{ site.url }}/assets/example-screenshot.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ page.title | default: site.title }}">
+  <meta name="twitter:description" content="{{ page.description | default: site.description }}">
+  <meta name="twitter:image" content="{{ site.url }}/assets/example-screenshot.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "RichTextExtraction",
+    "operatingSystem": "Linux, macOS, Windows",
+    "applicationCategory": "DeveloperTool",
+    "url": "https://ceccec.github.io/rich_text_extraction/",
+    "description": "{{ site.description }}",
+    "softwareVersion": "1.0.0",
+    "programmingLanguage": "Ruby"
+  }
+  </script> 
