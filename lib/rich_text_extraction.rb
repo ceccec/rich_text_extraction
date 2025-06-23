@@ -2,6 +2,11 @@
 
 require 'redcarpet'
 require_relative 'rich_text_extraction/version'
+require_relative 'rich_text_extraction/configuration'
+require_relative 'rich_text_extraction/services/opengraph_service'
+require_relative 'rich_text_extraction/services/markdown_service'
+require_relative 'rich_text_extraction/extractors/link_extractor'
+require_relative 'rich_text_extraction/extractors/social_extractor'
 require 'erb'
 require 'uri'
 require 'nokogiri'
@@ -31,13 +36,14 @@ module RichTextExtraction
   extend OpenGraphHelpers
   extend MarkdownHelpers
   include InstanceHelpers
+  include LinkExtractor
+  include SocialExtractor
   public(*InstanceHelpers.instance_methods(false))
 
-  # Your code goes here...
-
   # Public API
-  def self.render_markdown(text)
-    MarkdownHelpers.render_markdown_html(text)
+  def self.render_markdown(text, options = {})
+    options = configuration.merge(options)
+    MarkdownService.new.render(text, options)
   end
 
   def self.opengraph_preview(og_data, format: :html)
@@ -82,14 +88,14 @@ module RichTextExtraction
     plain_text.scan(email_regex)
   end
 
-  def excerpt(length = 200)
+  def excerpt(length = nil)
+    length ||= RichTextExtraction.configuration.default_excerpt_length
     text = plain_text
     text.length > length ? "#{text[0...length].rstrip}…" : text
   end
 
   def attachments
-    attachment_regex = %r{https?://[\w\-.?,'/\\+&%$#_=:()~]+\.(pdf|docx?|xlsx?|pptx?|jpg|jpeg|png|gif|svg)}i
-    plain_text.scan(attachment_regex).map { |match| match.is_a?(Array) ? match[0] : match }
+    extract_attachment_urls(plain_text)
   end
 
   def phone_numbers
@@ -103,18 +109,15 @@ module RichTextExtraction
   end
 
   def markdown_links
-    md_link_regex = %r{\[([^\]]+)\]\((https?://[^)]+)\)}
-    plain_text.scan(md_link_regex).map { |text, url| { text: text, url: url } }
+    extract_markdown_links(plain_text)
   end
 
   def image_urls
-    image_regex = %r{https?://[^\s]+?\.(jpg|jpeg|png|gif|svg)}
-    plain_text.scan(image_regex).map { |match| match.is_a?(Array) ? match[0] : match }
+    extract_image_urls(plain_text)
   end
 
   def twitter_handles
-    twitter_regex = /@([A-Za-z0-9_]{1,15})/
-    plain_text.scan(twitter_regex).flatten.uniq
+    extract_twitter_handles(plain_text)
   end
 
   def link_objects(with_opengraph: false, cache: nil, cache_options: {})
