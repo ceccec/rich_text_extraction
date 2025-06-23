@@ -321,6 +321,13 @@ By contributing to RichTextExtraction, you agree that your contributions will be
 - **Documentation**: [Docs Site](https://ceccec.github.io/rich_text_extraction/)
 - **Discussions**: [GitHub Discussions](https://github.com/ceccec/rich_text_extraction/discussions)
 
+## Test & Quality Status (June 2025)
+
+- **RSpec:** 35 examples, 0 failures
+- **RuboCop:** No offenses detected
+- **YARD:** 85.86% documented, a few dynamic mixin warnings (expected for Rails mixins)
+- **Gem build:** No gemspec self-inclusion error (fixed June 2025)
+
 ---
 
 Thank you for contributing to RichTextExtraction! 🚀 

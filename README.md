@@ -149,6 +149,13 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 
 Current version: **0.1.0**
 
+## Test & Quality Status (June 2025)
+
+- **RSpec:** 35 examples, 0 failures
+- **RuboCop:** No offenses detected
+- **YARD:** 85.86% documented, a few dynamic mixin warnings (expected for Rails mixins)
+- **Gem build:** No gemspec self-inclusion error (fixed June 2025)
+
 ---
 
 **RichTextExtraction** – Professional rich text extraction for Ruby and Rails applications. 🚀
