@@ -12,3 +12,5 @@ gem "rspec", "~> 3.0"
 gem "nokogiri"
 gem "httparty"
 gem "activesupport"
+
+gem "jekyll", "~> 4.4", group: :docs
