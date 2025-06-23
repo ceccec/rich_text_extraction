@@ -1,0 +1,16 @@
+graph TD
+  A["User Text"] --> B["Extractor"]
+  B --> C1["Links"]
+  B --> C2["Tags"]
+  B --> C3["Mentions"]
+  B --> C4["Emails"]
+  B --> C5["Phone Numbers"]
+  B --> C6["Dates"]
+  C1 --> D["OpenGraph Fetch (optional)"]
+  D --> E["Preview/Output"]
+  C1 --> E
+  C2 --> E
+  C3 --> E
+  C4 --> E
+  C5 --> E
+  C6 --> E 

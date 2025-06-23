@@ -19,6 +19,19 @@ description: Extract links, tags, mentions, emails, phone numbers, and OpenGraph
 - ActionText & Rails integration for link preview and structured data
 - Background job support for prefetching/caching link metadata
 - Highly customizable and extendable
+- DRY, professional codebase with robust documentation and tests
+
+## Features & API
+- [Features]({{ site.baseurl }}/features/)
+- [API Reference]({{ site.baseurl }}/api/)
+
+## Architecture Diagram
+
+![RichTextExtraction Flow](assets/diagram-rich-text-extraction.mmd)
+
+## Example Screenshot
+
+![Example Screenshot](assets/example-screenshot.png)
 
 ## Quick Start
 
@@ -40,6 +53,27 @@ extractor = RichTextExtraction::Extractor.new(body)
 extractor.link_objects(with_opengraph: true)
 # => [{ url: "https://example.com", opengraph: { "title" => "Example Domain", ... } }]
 ```
+
+## Rails & ActionText Integration
+
+```ruby
+class Post < ApplicationRecord
+  has_rich_text :body
+  include RichTextExtraction::ExtractsRichText
+end
+
+# In a controller or background job:
+@post.body.link_objects(with_opengraph: true, cache: :rails)
+
+# In a view:
+<% @post.body.link_objects(with_opengraph: true, cache: :rails).each do |link| %>
+  <%= opengraph_preview_for(link[:opengraph]) %>
+<% end %>
+```
+
+- Automatic cache invalidation for OpenGraph data
+- Configurable cache options and key prefix
+- Background job support for prefetching/caching link metadata
 
 ## More Examples & Documentation
 See the [README](https://github.com/ceccec/rich_text_extraction#readme) for full documentation, advanced usage, and Rails/ActionText integration.
