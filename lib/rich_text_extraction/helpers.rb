@@ -22,4 +22,5 @@ module RichTextExtraction
   end
 end
 
-ActionView::Base.include RichTextExtraction::Helpers if defined?(Rails)
+# Auto-include helpers in ActionView::Base if Rails is loaded
+ActionView::Base.include RichTextExtraction::Helpers if defined?(Rails) && defined?(ActionView::Base)

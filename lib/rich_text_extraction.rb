@@ -38,6 +38,9 @@ module RichTextExtraction
   include InstanceHelpers
   include LinkExtractor
   include SocialExtractor
+
+  # Make all instance methods from InstanceHelpers publicly accessible
+  # @!visibility public
   public(*InstanceHelpers.instance_methods(false))
 
   # Public API
@@ -177,4 +180,5 @@ class CustomMarkdownRenderer < Redcarpet::Render::HTML
   end
 end
 
+# Auto-include in ActionText::RichText if Rails and ActionText are loaded
 ActionText::RichText.include(RichTextExtraction) if defined?(ActionText::RichText)

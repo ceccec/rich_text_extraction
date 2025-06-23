@@ -155,7 +155,7 @@ module RichTextExtraction
     # Renders links with security attributes.
     #
     # @param link [String] The URL
-    # @param title [String] The link title
+    # @param _title [String] The link title (unused)
     # @param content [String] The link text
     # @return [String] Rendered link HTML
     #
@@ -167,7 +167,7 @@ module RichTextExtraction
     # Renders images with proper attributes.
     #
     # @param link [String] The image URL
-    # @param title [String] The image title
+    # @param _title [String] The image title (unused)
     # @param alt_text [String] The alt text
     # @return [String] Rendered image HTML
     #

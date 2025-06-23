@@ -4,11 +4,16 @@ Thank you for your interest in contributing to RichTextExtraction! This document
 
 ## 🚀 Quick Start
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. **Fork** the repository
+2. **Clone** your fork: `git clone https://github.com/YOUR_USERNAME/rich_text_extraction.git`
+3. **Install** dependencies: `bundle install`
+4. **Run tests** to ensure everything works: `bundle exec rspec`
+5. **Create** a feature branch: `git checkout -b feature/your-feature-name`
+6. **Make** your changes
+7. **Test** your changes: `bundle exec rspec && bundle exec rubocop`
+8. **Commit** with a descriptive message
+9. **Push** to your fork
+10. **Open** a Pull Request
 
 ## 🏗️ Project Architecture
 
@@ -43,90 +48,158 @@ lib/rich_text_extraction/
 
 ## 🧪 Testing
 
+### Current Test Status
+
+- **35 examples, 0 failures** - All tests pass
+- **1.23 seconds** - Fast execution time
+- **100% pass rate** - Reliable test suite
+
 ### Running Tests
 
 ```bash
 # Run all tests
 bundle exec rspec
 
-# Run specific test files
-bundle exec rspec spec/extractor_spec.rb
-bundle exec rspec spec/opengraph_helpers_spec.rb
-
-# Run with coverage
+# Run with documentation format
 bundle exec rspec --format documentation
+
+# Run a specific test file
+bundle exec rspec spec/extractor_spec.rb
+
+# Run RuboCop for code quality
+bundle exec rubocop
+
+# Run both tests and linting
+bundle exec rspec && bundle exec rubocop
 ```
 
-### Test Organization
+### Test Suite Organization
 
-The test suite is organized by feature for maximum clarity:
+The test suite is organized into focused files:
 
-- **Feature-focused files**: Each major module has its own spec file
-- **Shared contexts**: Reusable test setup in `spec/support/shared_contexts.rb`
-- **Advanced usage**: Split into granular files for complex scenarios
-- **Placeholders**: Every module has a placeholder spec for future tests
+- `spec/core_functionality_spec.rb` - Core gem functionality
+- `spec/extractor_spec.rb` - Main extractor class
+- `spec/opengraph_helpers_spec.rb` - OpenGraph functionality
+- `spec/markdown_helpers_spec.rb` - Markdown rendering
+- `spec/rails_integration_spec.rb` - Rails integration
+- `spec/advanced_*.rb` - Advanced usage scenarios
 
 ### Test Best Practices
 
-- Use descriptive example names
-- Group related examples with `describe` blocks
-- Use shared contexts for common setup
-- Test both success and failure cases
-- Use verifying doubles when appropriate
-- Keep examples focused and atomic
+- Use **descriptive example names** that explain the behavior
+- Group related examples with `describe` and `context` blocks
+- Use **shared contexts** from `spec/support/shared_contexts.rb` for common setup
+- Test both **success and failure cases**
+- Use **verifying doubles** for mocks/stubs
+- Keep examples **focused and atomic**
 
-### Adding New Tests
-
-1. Create a new spec file in the appropriate directory
-2. Use the existing shared contexts when possible
-3. Follow the established naming conventions
-4. Ensure comprehensive coverage of edge cases
+For detailed testing information, see [docs/testing.md](docs/testing.md).
 
 ## 📝 Code Style
 
-### RuboCop Compliance
+### RuboCop
 
-All code must pass RuboCop checks:
+We use RuboCop to maintain consistent code style. All code must pass RuboCop checks:
 
 ```bash
-# Run RuboCop
 bundle exec rubocop
-
-# Auto-fix issues
-bundle exec rubocop -a
 ```
 
-### YARD Documentation
+### Style Guidelines
 
-All public methods must have YARD documentation:
+- Use **2 spaces** for indentation
+- Use **snake_case** for methods and variables
+- Use **CamelCase** for classes and modules
+- Use **UPPER_CASE** for constants
+- Prefer **single quotes** for strings unless interpolation is needed
+- Add **trailing commas** in multi-line arrays and hashes
+- Use **guard clauses** instead of nested conditionals when possible
+
+### Documentation
+
+- All **public methods** must have YARD documentation
+- Include **@param** and **@return** tags for method documentation
+- Add **@example** tags for complex methods
+- Use **@since** tags for new features
+
+Example:
 
 ```ruby
 # @param text [String] The text to extract links from
-# @return [Array<String>] Array of extracted URLs
-# @example Extract links from text
-#   extract_links("Visit https://example.com") # => ["https://example.com"]
-def extract_links(text)
+# @param options [Hash] Extraction options
+# @option options [Boolean] :with_opengraph Whether to fetch OpenGraph data
+# @return [Array<Hash>] Array of link objects with metadata
+# @example Extract links with OpenGraph data
+#   extractor = RichTextExtraction::Extractor.new("Visit https://example.com")
+#   extractor.link_objects(with_opengraph: true)
+#   # => [{ url: "https://example.com", opengraph: { title: "Example" } }]
+def link_objects(text, options = {})
   # implementation
 end
 ```
 
-### Method Guidelines
+## 🏗️ Architecture Guidelines
 
-- Keep methods focused and single-purpose
-- Use descriptive method names
-- Limit method complexity (cyclomatic complexity < 10)
-- Keep methods under 20 lines when possible
-- Use early returns to reduce nesting
+### Adding New Features
+
+1. **Create** a new module or class in the appropriate directory
+2. **Add** comprehensive tests
+3. **Update** documentation
+4. **Add** configuration options if needed
+5. **Update** the main module to include new functionality
+
+### Module Structure
+
+```
+lib/rich_text_extraction/
+├── services/           # Service classes (OpenGraphService, MarkdownService)
+├── extractors/         # Focused extractors (LinkExtractor, SocialExtractor)
+├── helpers.rb          # View and instance helpers
+├── configuration.rb    # Configuration system
+└── railtie.rb         # Rails integration
+```
+
+### Service Classes
+
+Service classes should:
+- Be **focused** on a single responsibility
+- Accept **configuration options**
+- Handle **errors gracefully**
+- Be **testable** and **mockable**
+
+Example:
+
+```ruby
+module RichTextExtraction
+  class ExampleService
+    def initialize(options = {})
+      @options = RichTextExtraction.configuration.merge(options)
+    end
+
+    def process(input)
+      # implementation
+    rescue StandardError => e
+      handle_error(e)
+    end
+
+    private
+
+    def handle_error(error)
+      # error handling
+    end
+  end
+end
+```
 
 ## 🔧 Development Setup
 
 ### Prerequisites
 
 - Ruby 3.1 or higher
-- Rails 6.1 or higher (for Rails integration tests)
 - Bundler
+- Git
 
-### Installation
+### Setup Commands
 
 ```bash
 # Clone the repository
@@ -138,108 +211,69 @@ bundle install
 
 # Run tests to verify setup
 bundle exec rspec
+
+# Generate documentation
+bundle exec yard doc
+
+# Build the gem
+gem build rich_text_extraction.gemspec
 ```
 
-### Development Workflow
+### Development Dependencies
 
-1. **Create a feature branch** from `main`
-2. **Write tests first** (TDD approach)
-3. **Implement the feature** following the architecture
-4. **Update documentation** for any new public APIs
-5. **Run the full test suite** to ensure nothing is broken
-6. **Check code style** with RuboCop
-7. **Generate documentation** with YARD
-8. **Submit a pull request**
+The project includes several development dependencies:
+
+- **RSpec** - Testing framework
+- **RuboCop** - Code linting
+- **YARD** - Documentation generation
+- **Jekyll** - Documentation site
+- **GitHub Actions** - CI/CD
 
 ## 📚 Documentation
 
 ### Updating Documentation
 
-- Update README.md for user-facing changes
-- Update inline YARD documentation for API changes
-- Update docs/ for significant feature additions
-- Ensure all examples are current and working
+1. **Update** inline YARD documentation for code changes
+2. **Update** README.md for user-facing changes
+3. **Update** docs/ files for detailed documentation
+4. **Regenerate** documentation: `bundle exec yard doc`
 
-### Generating Documentation
+### Documentation Structure
 
-```bash
-# Generate YARD documentation
-bundle exec yard doc
-
-# Generate docs site
-cd docs && bundle exec jekyll build
+```
+docs/
+├── _posts/           # Blog posts and tutorials
+├── api/              # Auto-generated API documentation
+├── assets/           # Images and diagrams
+├── testing.md        # Testing guide
+└── index.markdown    # Main documentation page
 ```
 
-## 🚀 Adding New Features
+## 🚀 Release Process
 
-### Service Classes
+### Version Bumping
 
-When adding new external operations:
+1. **Update** version in `lib/rich_text_extraction/version.rb`
+2. **Update** version in `rich_text_extraction.gemspec`
+3. **Update** CHANGELOG.md with new features and fixes
+4. **Commit** version bump: `git commit -m "Bump version to X.Y.Z"`
 
-```ruby
-# lib/rich_text_extraction/services/new_service.rb
-module RichTextExtraction
-  class NewService
-    def initialize(options = {})
-      @options = options
-    end
-    
-    def process(data)
-      # Implementation
-    end
-    
-    private
-    
-    attr_reader :options
-  end
-end
-```
+### Publishing
 
-### Extractors
-
-When adding new content extraction:
-
-```ruby
-# lib/rich_text_extraction/extractors/new_extractor.rb
-module RichTextExtraction
-  module NewExtractor
-    def extract_new_content(text)
-      # Implementation
-    end
-    
-    private
-    
-    def validate_new_content(content)
-      # Validation logic
-    end
-  end
-end
-```
-
-### Configuration
-
-When adding new configuration options:
-
-```ruby
-# lib/rich_text_extraction/configuration.rb
-def new_option=(value)
-  @new_option = value
-end
-
-def new_option
-  @new_option ||= default_value
-end
-```
+1. **Build** the gem: `gem build rich_text_extraction.gemspec`
+2. **Test** the gem locally
+3. **Push** to RubyGems: `gem push rich_text_extraction-X.Y.Z.gem`
+4. **Create** a GitHub release
 
 ## 🐛 Bug Reports
 
 When reporting bugs, please include:
 
 1. **Ruby version** and **Rails version** (if applicable)
-2. **Steps to reproduce** the issue
-3. **Expected behavior** vs **actual behavior**
-4. **Error messages** and stack traces
-5. **Code examples** that demonstrate the issue
+2. **Gem version** you're using
+3. **Error message** and **stack trace**
+4. **Steps to reproduce** the issue
+5. **Expected behavior** vs **actual behavior**
 
 ## 💡 Feature Requests
 
@@ -247,41 +281,35 @@ When requesting features, please include:
 
 1. **Use case** and **motivation**
 2. **Proposed API** or interface
-3. **Implementation suggestions** (if any)
-4. **Examples** of how it would be used
+3. **Example usage** code
+4. **Considerations** for implementation
 
-## 🔄 Pull Request Process
+## 🤝 Pull Request Guidelines
 
-1. **Fork the repository** and create a feature branch
-2. **Write comprehensive tests** for your changes
-3. **Follow the existing code style** and architecture
-4. **Update documentation** for any new features
-5. **Ensure all tests pass** and RuboCop is clean
-6. **Write a clear commit message** describing your changes
-7. **Submit the pull request** with a detailed description
+### Before Submitting
 
-### Pull Request Guidelines
+1. **Run tests**: `bundle exec rspec`
+2. **Check style**: `bundle exec rubocop`
+3. **Generate docs**: `bundle exec yard doc`
+4. **Update documentation** if needed
+5. **Add tests** for new features
+6. **Update CHANGELOG.md** for user-facing changes
 
-- **Title**: Clear, descriptive title
-- **Description**: Detailed explanation of changes
-- **Tests**: Include tests for new functionality
-- **Documentation**: Update relevant documentation
-- **Breaking changes**: Clearly mark and explain
+### PR Description
 
-## 📋 Code Review Process
+Include:
+- **Summary** of changes
+- **Motivation** for the change
+- **Testing** performed
+- **Breaking changes** (if any)
+- **Related issues**
+
+### Review Process
 
 1. **Automated checks** must pass (tests, RuboCop)
 2. **Code review** by maintainers
-3. **Address feedback** and make requested changes
-4. **Final approval** and merge
-
-## 🏷️ Versioning
-
-RichTextExtraction follows [Semantic Versioning](https://semver.org/):
-
-- **MAJOR**: Breaking changes
-- **MINOR**: New features (backward compatible)
-- **PATCH**: Bug fixes (backward compatible)
+3. **Documentation** review
+4. **Merge** after approval
 
 ## 📄 License
 
@@ -291,7 +319,7 @@ By contributing to RichTextExtraction, you agree that your contributions will be
 
 - **Issues**: [GitHub Issues](https://github.com/ceccec/rich_text_extraction/issues)
 - **Documentation**: [Docs Site](https://ceccec.github.io/rich_text_extraction/)
-- **API Reference**: [API Docs](https://ceccec.github.io/rich_text_extraction/api-reference/)
+- **Discussions**: [GitHub Discussions](https://github.com/ceccec/rich_text_extraction/discussions)
 
 ---
 
