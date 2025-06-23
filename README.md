@@ -20,6 +20,7 @@
 - [Related Projects & Docs](#related-projects--docs)
 - [Contributing](#contributing)
 - [License](#license)
+- [Compatibility](#compatibility)
 
 ---
 
@@ -286,3 +287,12 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/ceccec
 
 ## License
 The gem is available as open source under the terms of the MIT License.
+
+## Compatibility
+
+- Ruby: >= 3.1.0, < 4.0
+- Redcarpet: >= 3.6, < 4.0
+- Kramdown: >= 2.4, < 3.0
+- CommonMarker: >= 0.23, < 1.0
+- Sanitize: >= 6.0, < 7.0
+- Jekyll (for docs): >= 4.0, < 5.0

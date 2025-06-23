@@ -1,16 +1,18 @@
 # frozen_string_literal: true
 
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 # Specify your gem's dependencies in rich_text_extraction.gemspec
 gemspec
 
-gem "irb"
-gem "rake", "~> 13.0"
+gem 'irb'
+gem 'rake', '~> 13.0'
 
-gem "rspec", "~> 3.0"
-gem "nokogiri"
-gem "httparty"
-gem "activesupport"
+gem 'activesupport'
+gem 'httparty'
+gem 'nokogiri'
+gem 'rspec', '~> 3.0'
 
-gem "jekyll", "~> 4.4", group: :docs
+gem 'jekyll', '>= 4.0', '< 5.0', group: :docs
+
+gem 'rubocop', '~> 1.77', group: :development

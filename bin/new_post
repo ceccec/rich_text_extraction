@@ -1,20 +1,22 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
+
 require 'date'
 
 # Prompt for title if not given as argument
 if ARGV.empty?
-  print "Post title: "
-  title = STDIN.gets.strip
+  print 'Post title: '
+  title = $stdin.gets.strip
 else
   title = ARGV.join(' ').strip
 end
-abort("A title is required.") if title.empty?
+abort('A title is required.') if title.empty?
 
-print "Description (optional): "
-description = STDIN.gets.strip
+print 'Description (optional): '
+description = $stdin.gets.strip
 
-print "Tags (comma separated, optional): "
-tags = STDIN.gets.strip.split(',').map(&:strip).reject(&:empty?)
+print 'Tags (comma separated, optional): '
+tags = $stdin.gets.strip.split(',').map(&:strip).reject(&:empty?)
 
 slug = title.downcase.strip.gsub(/[^a-z0-9]+/, '-').gsub(/^-|-$/, '')
 date = Date.today
@@ -27,7 +29,7 @@ front_matter = <<~POST
   title: "#{title}"
   date: #{datetime}
   description: "#{description}"
-  tags: [#{tags.map { |t| '"' + t + '"' }.join(', ')}]
+  tags: [#{tags.map { |t| "\"#{t}\"" }.join(', ')}]
   ---
 
   Write your post content here.
@@ -36,4 +38,4 @@ POST
 
 File.write(filename, front_matter)
 puts "Created #{filename}"
-system(ENV['EDITOR'] || 'vi', filename) 
+system(ENV['EDITOR'] || 'vi', filename)
