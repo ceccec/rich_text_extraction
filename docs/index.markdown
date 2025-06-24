@@ -77,44 +77,18 @@ post = Post.find(1)
 links = post.content.extract_links
 ```
 
+### 🧩 DRY Architecture
+
+- All extraction patterns and regexes are in `lib/rich_text_extraction/constants.rb` and `extraction_patterns.rb`.
+- All cache operations are in `lib/rich_text_extraction/cache_operations.rb`.
+- Instance helpers and extractors use these shared modules.
+- Rails integration is automatic.
+- Specs are DRY and use shared contexts.
+
+**Contribute new patterns or cache logic to these shared modules!**
+
 ## Installation
 
 Add to your Gemfile:
 
-```ruby
-gem 'rich_text_extraction'
 ```
-
-Then run:
-
-```bash
-bundle install
-```
-
-## Configuration
-
-```ruby
-# config/initializers/rich_text_extraction.rb
-RichTextExtraction.configure do |config|
-  config.opengraph_timeout = 15.seconds
-  config.sanitize_html = true
-  config.debug = Rails.env.development?
-end
-```
-
-## Test & Quality Status (June 2025)
-
-- **RSpec:** 42 examples, 0 failures
-- **RuboCop:** No offenses detected
-- **YARD:** 85.86% documented, a few dynamic mixin warnings (expected for Rails mixins)
-- **Gem build:** No gemspec self-inclusion error (fixed June 2025)
-
-## Support
-
-- **Documentation**: [Full docs site]({{ site.baseurl }}/)
-- **Issues**: [GitHub Issues](https://github.com/ceccec/rich_text_extraction/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/ceccec/rich_text_extraction/discussions)
-
----
-
-**RichTextExtraction** - Professional rich text extraction for Ruby and Rails applications. 🚀

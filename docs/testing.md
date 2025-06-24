@@ -493,6 +493,31 @@ end
 - **Consistent**: Same test objects and patterns across all specs
 - **Maintainable**: Changes to shared logic update all tests automatically
 
+## DRY Test Suite
+
+- All extraction patterns and regexes are centralized in `lib/rich_text_extraction/constants.rb` and `extraction_patterns.rb`.
+- All cache operations are in `lib/rich_text_extraction/cache_operations.rb`.
+- Instance helpers, extractors, and helpers use these shared modules.
+- Shared contexts and examples are in `spec/support/shared_contexts.rb`.
+
+## Adding New Patterns or Cache Logic
+
+- Add new regexes or extraction logic to `constants.rb` or `extraction_patterns.rb`.
+- Add new cache logic to `cache_operations.rb`.
+- Mirror the structure in `spec/` for tests.
+- Use shared contexts for DRY, maintainable tests.
+
+## Best Practices
+- Use verifying doubles and shared contexts.
+- Reference shared modules in both implementation and spec files.
+- Run `bundle exec rspec` and `bundle exec rubocop` before PRs.
+
+## Status (June 2025)
+- **RSpec:** 44 examples, 0 failures
+- **RuboCop:** No offenses except minor spec block length
+- **YARD:** 85.86% documented
+- **Gem build:** No errors
+
 ---
 
 **RichTextExtraction** – Professional rich text extraction for Ruby and Rails applications. 🚀 

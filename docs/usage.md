@@ -361,4 +361,13 @@ For detailed API documentation, see the [API Reference]({{ site.baseurl }}/api-r
 
 - **Documentation**: [Full docs site]({{ site.baseurl }}/)
 - **Issues**: [GitHub Issues](https://github.com/ceccec/rich_text_extraction/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/ceccec/rich_text_extraction/discussions) 
+- **Discussions**: [GitHub Discussions](https://github.com/ceccec/rich_text_extraction/discussions)
+
+# Usage
+
+> **Note:** All extraction patterns, regexes, and cache operations are centralized in shared modules:
+> - `lib/rich_text_extraction/constants.rb`
+> - `lib/rich_text_extraction/extraction_patterns.rb`
+> - `lib/rich_text_extraction/cache_operations.rb`
+>
+> For advanced usage or extension, contribute to these files. 

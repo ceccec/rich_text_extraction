@@ -4,7 +4,45 @@
 [![Gem Version](https://badge.fury.io/rb/rich_text_extraction.svg)](https://badge.fury.io/rb/rich_text_extraction)
 [![Documentation](https://img.shields.io/badge/docs-YARD-blue.svg)](https://ceccec.github.io/rich_text_extraction/)
 
-A professional Ruby gem for extracting rich text, Markdown, and OpenGraph metadata from content in Ruby and Rails applications. Built with modularity, performance, and developer experience in mind.
+Professional rich text, Markdown, and OpenGraph extraction for Ruby and Rails applications.
+
+## Features
+- Extract links, tags, mentions, emails, attachments, phone numbers, dates, and more
+- Safe Markdown rendering (Redcarpet, Kramdown, CommonMarker)
+- OpenGraph metadata extraction with intelligent caching
+- Rails and ActionText integration
+- Background jobs and cache invalidation
+- **DRY architecture:** Centralized extraction patterns, regexes, and cache operations
+- Security-focused: output sanitization, dependency pinning, and safe defaults
+
+## Architecture
+
+RichTextExtraction is designed for maintainability and extensibility:
+- **Centralized Patterns:** All regexes and extraction logic are in `lib/rich_text_extraction/constants.rb` and `extraction_patterns.rb`.
+- **Cache Operations:** All cache logic (Rails and custom) is in `lib/rich_text_extraction/cache_operations.rb`.
+- **Instance Helpers:** All instance-level methods use these shared modules.
+- **Rails Integration:** Auto-includes helpers and concerns for Rails apps.
+- **Specs:** DRY, shared contexts, and verifying doubles.
+
+## Usage
+
+See [`docs/usage.md`](docs/usage.md) and [`docs/quick-reference.md`](docs/quick-reference.md) for full usage examples.
+
+## Contributing
+
+- **Add new patterns or logic** to the shared modules in `lib/rich_text_extraction/constants.rb`, `extraction_patterns.rb`, or `cache_operations.rb`.
+- **Mirror the directory structure** in `spec/` for tests.
+- **Use shared contexts** for DRY tests (see `spec/support/shared_contexts.rb`).
+- **Run tests and RuboCop** before submitting PRs.
+
+## Test & Quality Status (June 2025)
+- **RSpec:** 44 examples, 0 failures
+- **RuboCop:** No offenses (except minor spec block length)
+- **YARD:** 85.86% documented
+- **Gem build:** No errors
+
+## License
+MIT
 
 ## ✨ Features
 
