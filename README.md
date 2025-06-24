@@ -917,3 +917,9 @@ end
    - Visit [http://localhost:3000/openapi.json](http://localhost:3000/openapi.json) for the latest API schema.
 6. **Error reporting:**
    - Set the `SENTRY_DSN` environment variable to enable Sentry error reporting.
+7. **Automate minimalism and deployment readiness:**
+   - Run the full swallow procedure with:
+     ```sh
+     bin/swallow
+     ```
+   - This script installs dependencies, generates docs/tests, runs tests, checks health and OpenAPI endpoints, and ensures the app is always minimal and self-sufficient.
