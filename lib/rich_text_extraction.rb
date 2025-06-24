@@ -2,8 +2,8 @@
 
 require 'redcarpet'
 require_relative 'rich_text_extraction/version'
-require_relative 'rich_text_extraction/configuration'
 require_relative 'rich_text_extraction/cache_configuration'
+require_relative 'rich_text_extraction/configuration'
 require_relative 'rich_text_extraction/services/opengraph_service'
 require_relative 'rich_text_extraction/services/markdown_service'
 require_relative 'rich_text_extraction/extractors/link_extractor'
@@ -19,11 +19,7 @@ require_relative 'rich_text_extraction/error'
 require_relative 'rich_text_extraction/extractor'
 require_relative 'rich_text_extraction/extraction_helpers'
 
-if defined?(Rails)
-  require_relative 'rich_text_extraction/railtie'
-  require_relative 'rich_text_extraction/helpers'
-  require_relative 'rich_text_extraction/extracts_rich_text'
-end
+require_relative 'rich_text_extraction/rails' if defined?(Rails)
 
 ##
 # RichTextExtraction provides a suite of helpers and extensions for extracting and processing rich text content,
