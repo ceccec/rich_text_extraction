@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'active_support/core_ext/string/inflections'
+
 module RichTextExtraction
   ##
   # ExtractionPatterns provides centralized extraction methods for various content types.
@@ -30,18 +32,6 @@ module RichTextExtraction
       return [] unless text.is_a?(String)
 
       text.scan(PHONE_REGEX)
-    end
-
-    ##
-    # Extracts dates from text using the centralized regex pattern.
-    #
-    # @param text [String] The text to extract dates from
-    # @return [Array<String>] Array of dates
-    #
-    def extract_dates(text)
-      return [] unless text.is_a?(String)
-
-      text.scan(DATE_REGEX)
     end
 
     ##
@@ -137,6 +127,74 @@ module RichTextExtraction
     #
     def process_scan_matches(matches)
       matches.map { |match| match.is_a?(Array) ? match[0] : match }
+    end
+
+    # === Identifier Patterns ===
+
+    # ISBN-10 or ISBN-13 (with or without hyphens or spaces)
+    ISBN_REGEX = /\A(?:97[89][-\s]?\d{1,5}[-\s]?\d{1,7}[-\s]?\d{1,7}[-\s]?\d|\d{9}[\dXx])\z/u
+
+    # EAN-13 barcode (13 digits)
+    EAN13_REGEX = /\A\d{13}\z/u
+
+    # UPC-A barcode (12 digits)
+    UPCA_REGEX = /\A\d{12}\z/u
+
+    # UUID/GUID (RFC 4122)
+    UUID_REGEX = /\A[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\z/u
+
+    # Credit card numbers (Luhn, 13-16 digits, with spaces or dashes)
+    CREDIT_CARD_REGEX = /\A(?:\d[ -]*?){13,16}\z/u
+
+    # Hex color (CSS)
+    HEX_COLOR_REGEX = /\A#(?:[0-9a-fA-F]{3}){1,2}\z/u
+
+    # IP address (IPv4)
+    IP_REGEX = /\A(?:\d{1,3}\.){3}\d{1,3}\z/u
+
+    # VIN (17 chars, ISO 3779)
+    VIN_REGEX = /\A[A-HJ-NPR-Z0-9]{17}\z/iu
+
+    # IMEI (15 digits)
+    IMEI_REGEX = /\A\d{15}\z/u
+
+    # ISSN (8 digits, with optional hyphen)
+    ISSN_REGEX = /\A\d{4}-?\d{3}[\dXx]\z/u
+
+    # MAC address (colon or dash separated, full string)
+    MAC_ADDRESS_REGEX = /\A(?:[0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}\z/u
+
+    # IBAN (ISO 13616, 15-34 chars, simplified)
+    IBAN_REGEX = /\A[A-Z]{2}\d{2}[A-Z0-9]{11,30}\z/u
+
+    # Hashtag (word characters)
+    HASHTAG_PATTERN = /\A\w+\z/u
+
+    # Mention (word characters)
+    MENTION_PATTERN = /\A\w+\z/u
+
+    # Twitter handle (1-15 word characters)
+    TWITTER_HANDLE_PATTERN = /\A\w{1,15}\z/u
+
+    # Instagram handle (1-30 word characters or periods)
+    INSTAGRAM_HANDLE_PATTERN = /\A[\w.]{1,30}\z/u
+
+    # URL (http/https)
+    URL_PATTERN = %r{\Ahttps?://[^\s]+\z}u
+
+    # === DRY Metaprogramming: Pattern-based Extractors ===
+    require_relative 'constants'
+    RichTextExtraction::Constants::VALIDATOR_EXAMPLES.each do |key, meta|
+      next unless meta[:regex] && !%i[isbn vin issn iban luhn url].include?(key)
+
+      method_name = "extract_#{key.to_s.pluralize}"
+      regex_const = meta[:regex]
+      define_method(method_name) do |text|
+        return [] unless text.is_a?(String)
+
+        regex = RichTextExtraction::ExtractionPatterns.const_get(regex_const)
+        text.scan(regex)
+      end
     end
   end
 end

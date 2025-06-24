@@ -7,6 +7,15 @@ title: RichTextExtraction Documentation
 nav_order: 1
 ---
 
+{% assign latest = site.categories.changelog | first %}
+{% if latest %}
+<div class="whats-new-banner">
+  🚀 <strong>What's New:</strong>
+  <a href="{{ latest.url }}">{{ latest.title }}</a>
+  <span style="color: #888;">({{ latest.date | date: "%Y-%m-%d" }})</span>
+</div>
+{% endif %}
+
 # RichTextExtraction Documentation
 
 Extract links, tags, mentions, emails, phone numbers, and OpenGraph metadata from rich text, Markdown, or ActionText in Ruby and Rails applications.

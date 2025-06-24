@@ -36,7 +36,7 @@ module RichTextExtraction
     end
 
     def opengraph_html_preview(title, description, image, url)
-      html = String.new
+      html = +''
       html << "<a href='#{url}' target='_blank' rel='noopener'>" if url
       html << "<img src='#{image}' alt='#{title}' style='max-width:200px;'><br>" if image
       html << "<strong>#{title}</strong>" unless title.empty?
@@ -46,7 +46,7 @@ module RichTextExtraction
     end
 
     def opengraph_markdown_preview(title, description, image, url)
-      md = String.new
+      md = +''
       if image && url
         md << "[![](#{image})](#{url})\n"
       elsif image
@@ -59,7 +59,7 @@ module RichTextExtraction
     end
 
     def opengraph_text_preview(title, description, url)
-      txt = String.new
+      txt = +''
       txt << "#{title}\n" unless title.empty?
       txt << "#{description}\n" unless description.empty?
       txt << "#{url}\n" if url

@@ -17,6 +17,7 @@ extractor.links                    # => ["https://example.com"]
 extractor.valid_urls              # => ["https://example.com"]
 extractor.link_objects            # => [{ url: "https://example.com" }]
 ```
+See also: [url validator](validator_reference.md#url)
 
 ### Extract Social Content
 ```ruby
@@ -26,6 +27,7 @@ extractor.tags                     # => ["ruby", "rails"]
 extractor.mentions_with_context   # => [{ mention: "alice", context: "Hello @alice!" }]
 extractor.tags_with_context       # => [{ tag: "ruby", context: "Check out #ruby #rails" }]
 ```
+See also: [mention validator](validator_reference.md#mention), [hashtag validator](validator_reference.md#hashtag)
 
 ### Extract Everything
 ```ruby

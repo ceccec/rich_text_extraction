@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'active_support/core_ext/module/delegation'
+
 # RichTextExtraction provides a modular architecture for extracting rich text,
 # Markdown, and OpenGraph metadata in Ruby and Rails applications.
 module RichTextExtraction
@@ -124,11 +126,41 @@ module RichTextExtraction
     attr_accessor :max_redirects
 
     ##
+    # Allowed CORS origins for the API (string or array, '*' for all)
+    attr_accessor :api_cors_origins
+
+    ##
+    # Rate limiting config: { limit: Integer, period: ActiveSupport::Duration }
+    attr_accessor :api_rate_limit
+
+    ##
+    # Custom CORS headers for the API
+    attr_accessor :api_cors_headers
+
+    ##
+    # Custom CORS methods for the API
+    attr_accessor :api_cors_methods
+
+    ##
+    # Per-user rate limiting config: { limit: Integer, period: ActiveSupport::Duration }
+    attr_accessor :api_rate_limit_per_user
+
+    ##
+    # Per-endpoint rate limiting config: { '/path' => { limit: Integer, period: ... } }
+    attr_accessor :api_rate_limit_per_endpoint
+
+    ##
     # Initialize configuration with defaults.
     #
     def initialize
       initialize_caching_config
       initialize_general_config
+      @api_cors_origins = '*'
+      @api_rate_limit = nil
+      @api_cors_headers = %w[Origin Content-Type Accept Authorization]
+      @api_cors_methods = %w[GET POST OPTIONS]
+      @api_rate_limit_per_user = nil
+      @api_rate_limit_per_endpoint = nil
     end
 
     ##
@@ -144,9 +176,7 @@ module RichTextExtraction
     # @param options [Hash] Options to merge
     # @return [Hash] Merged configuration
     #
-    def merge(options)
-      to_h.merge(options)
-    end
+    delegate :merge, to: :to_h
 
     ##
     # Convert configuration to hash.
@@ -229,7 +259,13 @@ module RichTextExtraction
         default_excerpt_length: @default_excerpt_length,
         debug: @debug,
         user_agent: @user_agent,
-        max_redirects: @max_redirects
+        max_redirects: @max_redirects,
+        api_cors_origins: @api_cors_origins,
+        api_rate_limit: @api_rate_limit,
+        api_cors_headers: @api_cors_headers,
+        api_cors_methods: @api_cors_methods,
+        api_rate_limit_per_user: @api_rate_limit_per_user,
+        api_rate_limit_per_endpoint: @api_rate_limit_per_endpoint
       }
     end
   end
@@ -266,9 +302,14 @@ module RichTextExtraction
   end
 
   ##
-  # @return [Hash] Current configuration as a hash
-  #
+  # Returns the configuration object (not a hash)
   def self.config
+    configuration
+  end
+
+  ##
+  # Returns the configuration as a hash
+  def self.config_hash
     configuration.to_h
   end
 end

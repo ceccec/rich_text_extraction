@@ -1,102 +1,51 @@
-name: Generate and Deploy Documentation
+name: Docs Automation
 
 on:
   push:
     branches: [main]
     paths:
       - 'lib/**'
-      - 'docs/**'
-      - 'README.md'
-      - 'CONTRIBUTING.md'
+      - 'bin/**'
+      - 'docs/_posts/**'
       - 'Rakefile'
-      - '.github/workflows/docs.yml'
-  pull_request:
-    branches: [main]
-    paths:
-      - 'lib/**'
-      - 'docs/**'
-      - 'README.md'
-      - 'CONTRIBUTING.md'
-      - 'Rakefile'
-      - '.github/workflows/docs.yml'
+      - 'bin/new_changelog_post.rb'
+      - 'bin/generate_tag_pages.rb'
+      - 'docs/changelog.md'
+      - 'docs/tag/**'
+  workflow_dispatch:
 
 jobs:
-  generate-docs:
+  docs:
     runs-on: ubuntu-latest
+    env:
+      GIT_AUTHOR_NAME: github-actions[bot]
+      GIT_AUTHOR_EMAIL: github-actions[bot]@users.noreply.github.com
+      GIT_COMMITTER_NAME: github-actions[bot]
+      GIT_COMMITTER_EMAIL: github-actions[bot]@users.noreply.github.com
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v3
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2
-          bundler-cache: true
-
+          ruby-version: '3.2'
       - name: Install dependencies
-        run: |
-          bundle install
-          gem install yard
-
-      - name: Generate YARD documentation
-        run: bundle exec rake yard
-
-      - name: Build Jekyll site
-        run: |
-          cd docs
-          bundle install
-          bundle exec jekyll build
-
-      - name: Upload docs as artifact
-        uses: actions/upload-artifact@v4
+        run: bundle install
+      - name: Run docs automation
+        run: bundle exec rake docs:all
+      - name: Check for broken links
+        uses: lycheeverse/lychee-action@v1.10.0
         with:
-          name: documentation
-          path: |
-            docs/api
-            docs/_site
-
-  deploy:
-    needs: generate-docs
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 3.2
-          bundler-cache: true
-
-      - name: Install dependencies
+          args: --verbose ./docs
+      - name: Commit and push docs changes
         run: |
-          bundle install
-          gem install yard
-
-      - name: Generate YARD documentation
-        run: bundle exec rake yard
-
-      - name: Build Jekyll site
-        run: |
-          cd docs
-          bundle install
-          bundle exec jekyll build
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload site artifacts
-        uses: actions/upload-pages-artifact@v3
+          git add docs/changelog.md docs/tag/
+          git diff --cached --quiet || git commit -m "Auto-update changelog and tag pages [ci skip]"
+          git push
+      - name: Notify Slack (if configured)
+        if: env.SLACK_WEBHOOK_URL != null
+        uses: 8398a7/action-slack@v3
         with:
-          path: docs/_site
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4 
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} 

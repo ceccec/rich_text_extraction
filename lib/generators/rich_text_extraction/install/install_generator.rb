@@ -3,8 +3,8 @@
 begin
   require 'rails/generators'
 rescue LoadError
-  puts 'Rails is required for the RichTextExtraction install generator'
-  puts "Please add 'rails' to your Gemfile and run 'bundle install'"
+  Rails.logger.debug 'Rails is required for the RichTextExtraction install generator'
+  Rails.logger.debug "Please add 'rails' to your Gemfile and run 'bundle install'"
   exit 1
 end
 

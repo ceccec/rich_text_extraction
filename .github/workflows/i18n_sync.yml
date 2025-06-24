@@ -1,0 +1,23 @@
+name: Sync i18n Translations
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  sync-i18n:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+      - name: Run translation sync script
+        run: |
+          ruby bin/sync_translations.rb
+      - name: Check for changes
+        run: |
+          git diff --exit-code || (echo 'Translations out of sync! Please run bin/sync_translations.rb and commit the changes.' && exit 1) 

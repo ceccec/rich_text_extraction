@@ -1,0 +1,11 @@
+<nav class="lang-switcher">
+  <a href="/en/" data-lang="en">English</a> |
+  <a href="/es/" data-lang="es">Español</a>
+</nav>
+<script>
+  document.querySelectorAll('.lang-switcher a').forEach(link => {
+    link.addEventListener('click', function() {
+      if (typeof trackLanguageSwitch === 'function') trackLanguageSwitch(this.dataset.lang)
+    })
+  })
+</script> 

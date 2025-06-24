@@ -20,18 +20,20 @@ gem 'erb', '~> 4.0'
 
 group :development, :test do
   gem 'appraisal', require: false
+  gem 'csv'
+  gem 'docx'
+  gem 'json'
   gem 'minitest'
+  gem 'pdf-reader'
   gem 'rails', '>= 6.0', '< 8.0'
+  gem 'redis'
+  gem 'roo'
+  gem 'rswag', '~> 2.16.0'
+  gem 'rtf'
   gem 'rubocop', require: false
   gem 'rubocop-rspec', require: false
+  gem 'sqlite3'
   gem 'yard', require: false
-  gem 'docx'
-  gem 'pdf-reader'
-  gem 'nokogiri'
-  gem 'csv'
-  gem 'json'
-  gem 'rtf'
-  gem 'roo'
 end
 
 ruby '>= 3.1.0', '< 4.0'

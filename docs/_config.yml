@@ -32,6 +32,10 @@ theme: minima
 plugins:
   - jekyll-feed
   - jekyll-sitemap
+  - jekyll-multiple-languages-plugin
+languages: ["en", "es"]
+default_lang: "en"
+exclude_from_localizations: ["assets", "images", "js", "css", "icon.png", "icon.svg", "manifest.json", "service-worker.js", "offline.html"]
 
 # Enable Jekyll processing for GitHub Pages
 enable_jekyll: true

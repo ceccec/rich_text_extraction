@@ -1,0 +1,42 @@
+# YAML Schema Reference for Doc-Driven Cypress E2E Tests
+# Each scenario is a key with a list of steps. Each step is an object with one of the following keys:
+
+_schema_reference:
+  steps:
+    - visit: "/some-url"
+    - fill_in: { selector: "#username", value: "alice", options: { delay: 100 } }
+    - clear: "#username"
+    - type: { selector: "#username", value: "alice", options: { delay: 100 } }
+    - click: { selector: "#submit" }
+    - dblclick: "#element"
+    - rightclick: "#element"
+    - check: "#terms"
+    - uncheck: "#newsletter"
+    - select: { selector: "#country", value: "USA" }
+    - scrollTo: "#footer"
+    - focus: "#input"
+    - blur: "#input"
+    - contains: "Some text"
+    - assertUrl: "/expected/path"
+    - screenshot: "my-screenshot"
+    - invoke: { selector: "#element", method: "show" }
+    - each: { selector: ".item", custom: "cy.wrap($el).should('be.visible')" }
+    - route: { method: "GET", url: "/api/data", alias: "getData" }
+    - waitFor: "@getData"
+    - assert: { selector: ".success", contains: "Thank you" }
+    - assert: { selector: ".success", visible: true }
+    - upload: { selector: "#file", file: "cypress/fixtures/sample.pdf" }
+    - wait: 500
+    - custom: "cy.log('Custom JS step!');"
+  expect: "Thank you"
+
+# Example scenario:
+login:
+  steps:
+    - visit: "/login"
+    - fill_in: { selector: "#username", value: "user@example.com" }
+    - fill_in: { selector: "#password", value: "password" }
+    - check: "#terms"
+    - click: { selector: "#submit" }
+    - assert: { selector: ".dashboard", contains: "Welcome" }
+  expect: "Welcome" 

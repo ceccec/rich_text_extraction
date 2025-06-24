@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: ActionText::RichText
+  
+    &mdash; Documentation by YARD 0.9.37
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "ActionText::RichText";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (R)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../ActionText.html" title="ActionText (module)">ActionText</a></span></span>
+     &raquo; 
+    <span class="title">RichText</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: ActionText::RichText
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">ActionText::RichText</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></dd>
+  </dl>
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/rich_text_extraction/extraction_helpers.rb</dd>
+  </dl>
+  
+</div>
+
+
+
+
+  <h2>Constant Summary</h2>
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../RichTextExtraction.html#VERSION-constant" title="RichTextExtraction::VERSION (constant)">RichTextExtraction::VERSION</a></span></p>
+
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="../RichTextExtraction/Constants.html" title="RichTextExtraction::Constants (module)">RichTextExtraction::Constants</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../RichTextExtraction/Constants.html#ATTACHMENT_EXTENSIONS-constant" title="RichTextExtraction::Constants::ATTACHMENT_EXTENSIONS (constant)">RichTextExtraction::Constants::ATTACHMENT_EXTENSIONS</a></span>, <span class='object_link'><a href="../RichTextExtraction/Constants.html#ATTACHMENT_REGEX-constant" title="RichTextExtraction::Constants::ATTACHMENT_REGEX (constant)">RichTextExtraction::Constants::ATTACHMENT_REGEX</a></span>, <span class='object_link'><a href="../RichTextExtraction/Constants.html#DATE_REGEX-constant" title="RichTextExtraction::Constants::DATE_REGEX (constant)">RichTextExtraction::Constants::DATE_REGEX</a></span>, <span class='object_link'><a href="../RichTextExtraction/Constants.html#DEFAULT_CACHE_PREFIX-constant" title="RichTextExtraction::Constants::DEFAULT_CACHE_PREFIX (constant)">RichTextExtraction::Constants::DEFAULT_CACHE_PREFIX</a></span>, <span class='object_link'><a href="../RichTextExtraction/Constants.html#DEFAULT_CACHE_STORE-constant" title="RichTextExtraction::Constants::DEFAULT_CACHE_STORE (constant)">RichTextExtraction::Constants::DEFAULT_CACHE_STORE</a></span>, <span class='object_link'><a href="../RichTextExtraction/Constants.html#DEFAULT_CACHE_TTL-constant" title="RichTextExtraction::Constants::DEFAULT_CACHE_TTL (constant)">RichTextExtraction::Constants::DEFAULT_CACHE_TTL</a></span>, <span class='object_link'><a href="../RichTextExtraction/Constants.html#DEFAULT_EXCERPT_LENGTH-constant" title="RichTextExtraction::Constants::DEFAULT_EXCERPT_LENGTH (constant)">RichTextExtraction::Constants::DEFAULT_EXCERPT_LENGTH</a></span>, <span class='object_link'><a href="../RichTextExtraction/Constants.html#DEFAULT_MAX_REDIRECTS-constant" title="RichTextExtraction::Constants::DEFAULT_MAX_REDIRECTS (constant)">RichTextExtraction::Constants::DEFAULT_MAX_REDIRECTS</a></span>, <span class='object_link'><a href="../RichTextExtraction/Constants.html#DEFAULT_OPENGRAPH_TIMEOUT-constant" title="RichTextExtraction::Constants::DEFAULT_OPENGRAPH_TIMEOUT (constant)">RichTextExtraction::Constants::DEFAULT_OPENGRAPH_TIMEOUT</a></span>, <span class='object_link'><a href="../RichTextExtraction/Constants.html#DEFAULT_USER_AGENT-constant" title="RichTextExtraction::Constants::DEFAULT_USER_AGENT (constant)">RichTextExtraction::Constants::DEFAULT_USER_AGENT</a></span>, <span class='object_link'><a href="../RichTextExtraction/Constants.html#EMAIL_REGEX-constant" title="RichTextExtraction::Constants::EMAIL_REGEX (constant)">RichTextExtraction::Constants::EMAIL_REGEX</a></span>, <span class='object_link'><a href="../RichTextExtraction/Constants.html#HASHTAG_REGEX-constant" title="RichTextExtraction::Constants::HASHTAG_REGEX (constant)">RichTextExtraction::Constants::HASHTAG_REGEX</a></span>, <span class='object_link'><a href="../RichTextExtraction/Constants.html#IMAGE_EXTENSIONS-constant" title="RichTextExtraction::Constants::IMAGE_EXTENSIONS (constant)">RichTextExtraction::Constants::IMAGE_EXTENSIONS</a></span>, <span class='object_link'><a href="../RichTextExtraction/Constants.html#IMAGE_REGEX-constant" title="RichTextExtraction::Constants::IMAGE_REGEX (constant)">RichTextExtraction::Constants::IMAGE_REGEX</a></span>, <span class='object_link'><a href="../RichTextExtraction/Constants.html#MARKDOWN_LINK_REGEX-constant" title="RichTextExtraction::Constants::MARKDOWN_LINK_REGEX (constant)">RichTextExtraction::Constants::MARKDOWN_LINK_REGEX</a></span>, <span class='object_link'><a href="../RichTextExtraction/Constants.html#MENTION_REGEX-constant" title="RichTextExtraction::Constants::MENTION_REGEX (constant)">RichTextExtraction::Constants::MENTION_REGEX</a></span>, <span class='object_link'><a href="../RichTextExtraction/Constants.html#PHONE_REGEX-constant" title="RichTextExtraction::Constants::PHONE_REGEX (constant)">RichTextExtraction::Constants::PHONE_REGEX</a></span>, <span class='object_link'><a href="../RichTextExtraction/Constants.html#TWITTER_REGEX-constant" title="RichTextExtraction::Constants::TWITTER_REGEX (constant)">RichTextExtraction::Constants::TWITTER_REGEX</a></span>, <span class='object_link'><a href="../RichTextExtraction/Constants.html#VALIDATOR_EXAMPLES-constant" title="RichTextExtraction::Constants::VALIDATOR_EXAMPLES (constant)">RichTextExtraction::Constants::VALIDATOR_EXAMPLES</a></span></p>
+
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html" title="RichTextExtraction::ExtractionPatterns (module)">RichTextExtraction::ExtractionPatterns</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#CREDIT_CARD_REGEX-constant" title="RichTextExtraction::ExtractionPatterns::CREDIT_CARD_REGEX (constant)">RichTextExtraction::ExtractionPatterns::CREDIT_CARD_REGEX</a></span>, <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#EAN13_REGEX-constant" title="RichTextExtraction::ExtractionPatterns::EAN13_REGEX (constant)">RichTextExtraction::ExtractionPatterns::EAN13_REGEX</a></span>, <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#HASHTAG_PATTERN-constant" title="RichTextExtraction::ExtractionPatterns::HASHTAG_PATTERN (constant)">RichTextExtraction::ExtractionPatterns::HASHTAG_PATTERN</a></span>, <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#HEX_COLOR_REGEX-constant" title="RichTextExtraction::ExtractionPatterns::HEX_COLOR_REGEX (constant)">RichTextExtraction::ExtractionPatterns::HEX_COLOR_REGEX</a></span>, <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#IBAN_REGEX-constant" title="RichTextExtraction::ExtractionPatterns::IBAN_REGEX (constant)">RichTextExtraction::ExtractionPatterns::IBAN_REGEX</a></span>, <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#IMEI_REGEX-constant" title="RichTextExtraction::ExtractionPatterns::IMEI_REGEX (constant)">RichTextExtraction::ExtractionPatterns::IMEI_REGEX</a></span>, <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#INSTAGRAM_HANDLE_PATTERN-constant" title="RichTextExtraction::ExtractionPatterns::INSTAGRAM_HANDLE_PATTERN (constant)">RichTextExtraction::ExtractionPatterns::INSTAGRAM_HANDLE_PATTERN</a></span>, <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#IP_REGEX-constant" title="RichTextExtraction::ExtractionPatterns::IP_REGEX (constant)">RichTextExtraction::ExtractionPatterns::IP_REGEX</a></span>, <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#ISBN_REGEX-constant" title="RichTextExtraction::ExtractionPatterns::ISBN_REGEX (constant)">RichTextExtraction::ExtractionPatterns::ISBN_REGEX</a></span>, <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#ISSN_REGEX-constant" title="RichTextExtraction::ExtractionPatterns::ISSN_REGEX (constant)">RichTextExtraction::ExtractionPatterns::ISSN_REGEX</a></span>, <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#MAC_ADDRESS_REGEX-constant" title="RichTextExtraction::ExtractionPatterns::MAC_ADDRESS_REGEX (constant)">RichTextExtraction::ExtractionPatterns::MAC_ADDRESS_REGEX</a></span>, <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#MENTION_PATTERN-constant" title="RichTextExtraction::ExtractionPatterns::MENTION_PATTERN (constant)">RichTextExtraction::ExtractionPatterns::MENTION_PATTERN</a></span>, <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#TWITTER_HANDLE_PATTERN-constant" title="RichTextExtraction::ExtractionPatterns::TWITTER_HANDLE_PATTERN (constant)">RichTextExtraction::ExtractionPatterns::TWITTER_HANDLE_PATTERN</a></span>, <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#UPCA_REGEX-constant" title="RichTextExtraction::ExtractionPatterns::UPCA_REGEX (constant)">RichTextExtraction::ExtractionPatterns::UPCA_REGEX</a></span>, <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#URL_PATTERN-constant" title="RichTextExtraction::ExtractionPatterns::URL_PATTERN (constant)">RichTextExtraction::ExtractionPatterns::URL_PATTERN</a></span>, <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#UUID_REGEX-constant" title="RichTextExtraction::ExtractionPatterns::UUID_REGEX (constant)">RichTextExtraction::ExtractionPatterns::UUID_REGEX</a></span>, <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#VIN_REGEX-constant" title="RichTextExtraction::ExtractionPatterns::VIN_REGEX (constant)">RichTextExtraction::ExtractionPatterns::VIN_REGEX</a></span></p>
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#extract-instance_method" title="#extract (instance method)">#<strong>extract</strong>(type = :all, **opts)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../RichTextExtraction.html#clear_link_cache-instance_method" title="RichTextExtraction#clear_link_cache (method)">#clear_link_cache</a></span>, <span class='object_link'><a href="../RichTextExtraction.html#config-class_method" title="RichTextExtraction.config (method)">config</a></span>, <span class='object_link'><a href="../RichTextExtraction.html#config_hash-class_method" title="RichTextExtraction.config_hash (method)">config_hash</a></span>, <span class='object_link'><a href="../RichTextExtraction.html#configuration-class_method" title="RichTextExtraction.configuration (method)">configuration</a></span>, <span class='object_link'><a href="../RichTextExtraction.html#configure-class_method" title="RichTextExtraction.configure (method)">configure</a></span>, <span class='object_link'><a href="../RichTextExtraction.html#extract-class_method" title="RichTextExtraction.extract (method)">extract</a></span>, <span class='object_link'><a href="../RichTextExtraction.html#extract_from_file-class_method" title="RichTextExtraction.extract_from_file (method)">extract_from_file</a></span>, <span class='object_link'><a href="../RichTextExtraction.html#extract_opengraph-class_method" title="RichTextExtraction.extract_opengraph (method)">extract_opengraph</a></span>, <span class='object_link'><a href="../RichTextExtraction.html#opengraph_preview-class_method" title="RichTextExtraction.opengraph_preview (method)">opengraph_preview</a></span>, <span class='object_link'><a href="../RichTextExtraction.html#register_extractor-class_method" title="RichTextExtraction.register_extractor (method)">register_extractor</a></span>, <span class='object_link'><a href="../RichTextExtraction.html#render_markdown-class_method" title="RichTextExtraction.render_markdown (method)">render_markdown</a></span>, <span class='object_link'><a href="../RichTextExtraction.html#reset_configuration!-class_method" title="RichTextExtraction.reset_configuration! (method)">reset_configuration!</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../RichTextExtraction/OpenGraphHelpers.html" title="RichTextExtraction::OpenGraphHelpers (module)">RichTextExtraction::OpenGraphHelpers</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../RichTextExtraction/OpenGraphHelpers.html#opengraph_preview-instance_method" title="RichTextExtraction::OpenGraphHelpers#opengraph_preview (method)">#opengraph_preview</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../RichTextExtraction/MarkdownHelpers.html" title="RichTextExtraction::MarkdownHelpers (module)">RichTextExtraction::MarkdownHelpers</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../RichTextExtraction/MarkdownHelpers.html#render_markdown_html-class_method" title="RichTextExtraction::MarkdownHelpers.render_markdown_html (method)">render_markdown_html</a></span>, <span class='object_link'><a href="../RichTextExtraction/MarkdownHelpers.html#render_with_action_controller-class_method" title="RichTextExtraction::MarkdownHelpers.render_with_action_controller (method)">render_with_action_controller</a></span>, <span class='object_link'><a href="../RichTextExtraction/MarkdownHelpers.html#render_with_commonmarker-class_method" title="RichTextExtraction::MarkdownHelpers.render_with_commonmarker (method)">render_with_commonmarker</a></span>, <span class='object_link'><a href="../RichTextExtraction/MarkdownHelpers.html#render_with_kramdown-class_method" title="RichTextExtraction::MarkdownHelpers.render_with_kramdown (method)">render_with_kramdown</a></span>, <span class='object_link'><a href="../RichTextExtraction/MarkdownHelpers.html#render_with_redcarpet-class_method" title="RichTextExtraction::MarkdownHelpers.render_with_redcarpet (method)">render_with_redcarpet</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../RichTextExtraction/CacheOperations.html" title="RichTextExtraction::CacheOperations (module)">RichTextExtraction::CacheOperations</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../RichTextExtraction/CacheOperations.html#build_cache_key-instance_method" title="RichTextExtraction::CacheOperations#build_cache_key (method)">#build_cache_key</a></span>, <span class='object_link'><a href="../RichTextExtraction/CacheOperations.html#clear_cache_for_urls-instance_method" title="RichTextExtraction::CacheOperations#clear_cache_for_urls (method)">#clear_cache_for_urls</a></span>, <span class='object_link'><a href="../RichTextExtraction/CacheOperations.html#delete_cache-instance_method" title="RichTextExtraction::CacheOperations#delete_cache (method)">#delete_cache</a></span>, <span class='object_link'><a href="../RichTextExtraction/CacheOperations.html#opengraph_cache_key-instance_method" title="RichTextExtraction::CacheOperations#opengraph_cache_key (method)">#opengraph_cache_key</a></span>, <span class='object_link'><a href="../RichTextExtraction/CacheOperations.html#opengraph_key_prefix-instance_method" title="RichTextExtraction::CacheOperations#opengraph_key_prefix (method)">#opengraph_key_prefix</a></span>, <span class='object_link'><a href="../RichTextExtraction/CacheOperations.html#rails_cache_delete-instance_method" title="RichTextExtraction::CacheOperations#rails_cache_delete (method)">#rails_cache_delete</a></span>, <span class='object_link'><a href="../RichTextExtraction/CacheOperations.html#rails_cache_read-instance_method" title="RichTextExtraction::CacheOperations#rails_cache_read (method)">#rails_cache_read</a></span>, <span class='object_link'><a href="../RichTextExtraction/CacheOperations.html#rails_cache_write-instance_method" title="RichTextExtraction::CacheOperations#rails_cache_write (method)">#rails_cache_write</a></span>, <span class='object_link'><a href="../RichTextExtraction/CacheOperations.html#read_cache-instance_method" title="RichTextExtraction::CacheOperations#read_cache (method)">#read_cache</a></span>, <span class='object_link'><a href="../RichTextExtraction/CacheOperations.html#resolve_key_prefix-instance_method" title="RichTextExtraction::CacheOperations#resolve_key_prefix (method)">#resolve_key_prefix</a></span>, <span class='object_link'><a href="../RichTextExtraction/CacheOperations.html#use_rails_cache%3F-instance_method" title="RichTextExtraction::CacheOperations#use_rails_cache? (method)">#use_rails_cache?</a></span>, <span class='object_link'><a href="../RichTextExtraction/CacheOperations.html#write_cache-instance_method" title="RichTextExtraction::CacheOperations#write_cache (method)">#write_cache</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../RichTextExtraction/Constants.html" title="RichTextExtraction::Constants (module)">RichTextExtraction::Constants</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../RichTextExtraction/Constants.html#resolve_validator_regex-class_method" title="RichTextExtraction::Constants.resolve_validator_regex (method)">resolve_validator_regex</a></span>, <span class='object_link'><a href="../RichTextExtraction/Constants.html#to_jsonld-class_method" title="RichTextExtraction::Constants.to_jsonld (method)">to_jsonld</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html" title="RichTextExtraction::ExtractionPatterns (module)">RichTextExtraction::ExtractionPatterns</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#create_excerpt-instance_method" title="RichTextExtraction::ExtractionPatterns#create_excerpt (method)">#create_excerpt</a></span>, <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#extract_attachment_urls-instance_method" title="RichTextExtraction::ExtractionPatterns#extract_attachment_urls (method)">#extract_attachment_urls</a></span>, <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#extract_emails-instance_method" title="RichTextExtraction::ExtractionPatterns#extract_emails (method)">#extract_emails</a></span>, <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#extract_hashtags-instance_method" title="RichTextExtraction::ExtractionPatterns#extract_hashtags (method)">#extract_hashtags</a></span>, <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#extract_image_urls-instance_method" title="RichTextExtraction::ExtractionPatterns#extract_image_urls (method)">#extract_image_urls</a></span>, <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#extract_markdown_links-instance_method" title="RichTextExtraction::ExtractionPatterns#extract_markdown_links (method)">#extract_markdown_links</a></span>, <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#extract_mentions-instance_method" title="RichTextExtraction::ExtractionPatterns#extract_mentions (method)">#extract_mentions</a></span>, <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#extract_phone_numbers-instance_method" title="RichTextExtraction::ExtractionPatterns#extract_phone_numbers (method)">#extract_phone_numbers</a></span>, <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#extract_twitter_handles-instance_method" title="RichTextExtraction::ExtractionPatterns#extract_twitter_handles (method)">#extract_twitter_handles</a></span>, <span class='object_link'><a href="../RichTextExtraction/ExtractionPatterns.html#process_scan_matches-instance_method" title="RichTextExtraction::ExtractionPatterns#process_scan_matches (method)">#process_scan_matches</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../RichTextExtraction/SocialExtractor.html" title="RichTextExtraction::SocialExtractor (module)">RichTextExtraction::SocialExtractor</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../RichTextExtraction/SocialExtractor.html#extract_instagram_handles-instance_method" title="RichTextExtraction::SocialExtractor#extract_instagram_handles (method)">#extract_instagram_handles</a></span>, <span class='object_link'><a href="../RichTextExtraction/SocialExtractor.html#extract_mentions-instance_method" title="RichTextExtraction::SocialExtractor#extract_mentions (method)">#extract_mentions</a></span>, <span class='object_link'><a href="../RichTextExtraction/SocialExtractor.html#extract_mentions_with_context-instance_method" title="RichTextExtraction::SocialExtractor#extract_mentions_with_context (method)">#extract_mentions_with_context</a></span>, <span class='object_link'><a href="../RichTextExtraction/SocialExtractor.html#extract_tags-instance_method" title="RichTextExtraction::SocialExtractor#extract_tags (method)">#extract_tags</a></span>, <span class='object_link'><a href="../RichTextExtraction/SocialExtractor.html#extract_tags_with_context-instance_method" title="RichTextExtraction::SocialExtractor#extract_tags_with_context (method)">#extract_tags_with_context</a></span>, <span class='object_link'><a href="../RichTextExtraction/SocialExtractor.html#extract_twitter_handles-instance_method" title="RichTextExtraction::SocialExtractor#extract_twitter_handles (method)">#extract_twitter_handles</a></span>, <span class='object_link'><a href="../RichTextExtraction/SocialExtractor.html#valid_hashtag%3F-instance_method" title="RichTextExtraction::SocialExtractor#valid_hashtag? (method)">#valid_hashtag?</a></span>, <span class='object_link'><a href="../RichTextExtraction/SocialExtractor.html#valid_mention%3F-instance_method" title="RichTextExtraction::SocialExtractor#valid_mention? (method)">#valid_mention?</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../RichTextExtraction/LinkExtractor.html" title="RichTextExtraction::LinkExtractor (module)">RichTextExtraction::LinkExtractor</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../RichTextExtraction/LinkExtractor.html#extract_attachment_urls-instance_method" title="RichTextExtraction::LinkExtractor#extract_attachment_urls (method)">#extract_attachment_urls</a></span>, <span class='object_link'><a href="../RichTextExtraction/LinkExtractor.html#extract_image_urls-instance_method" title="RichTextExtraction::LinkExtractor#extract_image_urls (method)">#extract_image_urls</a></span>, <span class='object_link'><a href="../RichTextExtraction/LinkExtractor.html#extract_links-instance_method" title="RichTextExtraction::LinkExtractor#extract_links (method)">#extract_links</a></span>, <span class='object_link'><a href="../RichTextExtraction/LinkExtractor.html#extract_markdown_links-instance_method" title="RichTextExtraction::LinkExtractor#extract_markdown_links (method)">#extract_markdown_links</a></span>, <span class='object_link'><a href="../RichTextExtraction/LinkExtractor.html#normalize_url-instance_method" title="RichTextExtraction::LinkExtractor#normalize_url (method)">#normalize_url</a></span>, <span class='object_link'><a href="../RichTextExtraction/LinkExtractor.html#valid_url%3F-instance_method" title="RichTextExtraction::LinkExtractor#valid_url? (method)">#valid_url?</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../RichTextExtraction/InstanceHelpers.html" title="RichTextExtraction::InstanceHelpers (module)">RichTextExtraction::InstanceHelpers</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../RichTextExtraction/InstanceHelpers.html#attachments-instance_method" title="RichTextExtraction::InstanceHelpers#attachments (method)">#attachments</a></span>, <span class='object_link'><a href="../RichTextExtraction/InstanceHelpers.html#emails-instance_method" title="RichTextExtraction::InstanceHelpers#emails (method)">#emails</a></span>, <span class='object_link'><a href="../RichTextExtraction/InstanceHelpers.html#excerpt-instance_method" title="RichTextExtraction::InstanceHelpers#excerpt (method)">#excerpt</a></span>, <span class='object_link'><a href="../RichTextExtraction/InstanceHelpers.html#image_urls-instance_method" title="RichTextExtraction::InstanceHelpers#image_urls (method)">#image_urls</a></span>, <span class='object_link'><a href="../RichTextExtraction/InstanceHelpers.html#link_objects-instance_method" title="RichTextExtraction::InstanceHelpers#link_objects (method)">#link_objects</a></span>, <span class='object_link'><a href="../RichTextExtraction/InstanceHelpers.html#links-instance_method" title="RichTextExtraction::InstanceHelpers#links (method)">#links</a></span>, <span class='object_link'><a href="../RichTextExtraction/InstanceHelpers.html#markdown_links-instance_method" title="RichTextExtraction::InstanceHelpers#markdown_links (method)">#markdown_links</a></span>, <span class='object_link'><a href="../RichTextExtraction/InstanceHelpers.html#mentions-instance_method" title="RichTextExtraction::InstanceHelpers#mentions (method)">#mentions</a></span>, <span class='object_link'><a href="../RichTextExtraction/InstanceHelpers.html#phone_numbers-instance_method" title="RichTextExtraction::InstanceHelpers#phone_numbers (method)">#phone_numbers</a></span>, <span class='object_link'><a href="../RichTextExtraction/InstanceHelpers.html#plain_text-instance_method" title="RichTextExtraction::InstanceHelpers#plain_text (method)">#plain_text</a></span>, <span class='object_link'><a href="../RichTextExtraction/InstanceHelpers.html#tags-instance_method" title="RichTextExtraction::InstanceHelpers#tags (method)">#tags</a></span>, <span class='object_link'><a href="../RichTextExtraction/InstanceHelpers.html#twitter_handles-instance_method" title="RichTextExtraction::InstanceHelpers#twitter_handles (method)">#twitter_handles</a></span></p>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="extract-instance_method">
+  
+    #<strong>extract</strong>(type = :all, **opts)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+213
+214
+215</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/extraction_helpers.rb', line 213</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_extract'>extract</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span> <span class='op'>=</span> <span class='symbol'>:all</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_extract'><span class='object_link'><a href="../RichTextExtraction.html#extract-class_method" title="RichTextExtraction.extract (method)">extract</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_to_plain_text'>to_plain_text</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Tue Jun 24 18:08:33 2025 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.37 (ruby-3.3.6).
+</div>
+
+    </div>
+  </body>
+</html>

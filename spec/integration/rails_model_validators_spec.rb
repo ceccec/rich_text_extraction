@@ -13,7 +13,7 @@ RSpec.describe 'Validators in a real Rails model' do
       t.string :website
     end
 
-    class Book < ActiveRecord::Base
+    class Book < ApplicationRecord
       validates :isbn, isbn: true
       validates :vin, vin: true
       validates :website, url: true
@@ -28,4 +28,4 @@ RSpec.describe 'Validators in a real Rails model' do
     expect(book).not_to be_valid
     expect(book.errors[:isbn]).to be_present
   end
-end 
+end

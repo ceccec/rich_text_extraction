@@ -57,120 +57,1190 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><div id='filecontents'><h1 id="richtextextraction-ruby-rails-rich-text-markdown-and-opengraph-extraction">RichTextExtraction: Ruby &amp; Rails Rich Text, Markdown, and OpenGraph Extraction</h1>
+      <div id="content"><div id='filecontents'><h1 id="richtextextraction">RichTextExtraction</h1>
 
-<p><a href="LICENSE.txt"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License: MIT"></a>
-<a href="https://github.com/ceccec/rich_text_extraction/actions"><img src="https://github.com/ceccec/rich_text_extraction/actions/workflows/main.yml/badge.svg" alt="Build Status"></a></p>
+<p><a href="https://github.com/ceccec/rich_text_extraction/actions/workflows/main.yml"><img src="https://github.com/ceccec/rich_text_extraction/actions/workflows/main.yml/badge.svg" alt="Tests"></a>
+<a href="https://badge.fury.io/rb/rich_text_extraction"><img src="https://badge.fury.io/rb/rich_text_extraction.svg" alt="Gem Version"></a>
+<a href="https://ceccec.github.io/rich_text_extraction/"><img src="https://img.shields.io/badge/docs-YARD-blue.svg" alt="Documentation"></a></p>
 
-<!--
-SEO: Ruby rich text extraction, Rails Markdown, OpenGraph link preview, ActionText integration, safe Markdown rendering, link metadata, Rails gem
--->
-
-<p><strong>RichTextExtraction</strong> is a Ruby and Rails gem for extracting links, tags, mentions, emails, phone numbers, and OpenGraph metadata from rich text, Markdown, or ActionText content. It provides safe Markdown rendering, link previews, and seamless integration with Rails and ActionText. Perfect for developers who need robust, secure, and flexible text extraction and preview features in Ruby and Rails apps.</p>
-
-<hr>
-
-<h2 id="what-is-richtextextraction">What is RichTextExtraction?</h2>
-
-<p>RichTextExtraction is an all-in-one solution for extracting structured data (links, tags, mentions, emails, phone numbers, dates, Twitter handles, and OpenGraph metadata) from any text, Markdown, or ActionText content. It is designed for Ruby and Rails developers who want to:</p>
-
-<ul>
-<li>Add link previews to blogs, forums, or chat apps</li>
-<li>Safely render user-generated Markdown</li>
-<li>Extract and analyze content for search, notifications, or analytics</li>
-<li>Integrate with ActionText and Rails background jobs</li>
-</ul>
-
-<hr>
-
-<h2 id="quick-links">🚀 Quick Links</h2>
-
-<ul>
-<li><a href="https://ceccec.github.io/rich_text_extraction/">Full Documentation &amp; Guides</a></li>
-<li><a href="docs/api.markdown">API Reference</a></li>
-<li><a href="docs/features.markdown">Features Overview</a></li>
-<li><a href="docs/_posts/2024-06-24-getting-started.html">Getting Started</a></li>
-<li><a href="docs/_posts/2024-06-24-actiontext-integration.html">ActionText Integration</a></li>
-<li><a href="docs/_posts/2024-06-24-markdown-rendering.html">Safe Markdown Rendering</a></li>
-</ul>
-
-<hr>
-
-<h2 id="how-it-works">How it Works</h2>
-
-<ol>
-<li><strong>Extract</strong>: Use the Extractor or ActionText extension to extract links, tags, mentions, and more from any text.</li>
-<li><strong>Preview</strong>: Fetch OpenGraph metadata for links and generate HTML, Markdown, or text previews.</li>
-<li><strong>Integrate</strong>: Use in Rails models, views, background jobs, or plain Ruby scripts.</li>
-</ol>
-
-<p><img src="docs/assets/diagram-rich-text-extraction.mmd" alt="Architecture Diagram"></p>
-
-<hr>
+<p>Professional rich text, Markdown, and OpenGraph extraction for Ruby and Rails applications.</p>
 
 <h2 id="features">Features</h2>
 
 <ul>
-<li>Extract links, tags, mentions, emails, phone numbers, dates, Twitter handles, and OpenGraph metadata</li>
+<li>Extract links, tags, mentions, emails, attachments, phone numbers, and more</li>
 <li>Safe Markdown rendering (Redcarpet, Kramdown, CommonMarker)</li>
-<li>OpenGraph link previews for any URL</li>
-<li>Rails &amp; ActionText integration for rich text and link preview</li>
-<li>Background job support for link metadata caching</li>
-<li>Highly customizable and extendable</li>
+<li>OpenGraph metadata extraction with intelligent caching</li>
+<li>Rails and ActionText integration</li>
+<li>Background jobs and cache invalidation</li>
+<li><strong>DRY architecture:</strong> Centralized extraction patterns, regexes, and cache operations</li>
+<li>Security-focused: output sanitization, dependency pinning, and safe defaults</li>
 </ul>
 
-<hr>
+<h2 id="architecture">Architecture</h2>
 
-<h2 id="installation">Installation</h2>
+<p>RichTextExtraction is designed for maintainability and extensibility:</p>
+
+<ul>
+<li><strong>Centralized Patterns:</strong> All regexes and extraction logic are in <code>lib/rich_text_extraction/constants.rb</code> and <code>extraction_patterns.rb</code>.</li>
+<li><strong>Cache Operations:</strong> All cache logic (Rails and custom) is in <code>lib/rich_text_extraction/cache_operations.rb</code>.</li>
+<li><strong>Instance Helpers:</strong> All instance-level methods use these shared modules.</li>
+<li><strong>Rails Integration:</strong> Auto-includes helpers and concerns for Rails apps.</li>
+<li><strong>Specs:</strong> DRY, shared contexts, and verifying doubles.</li>
+</ul>
+
+<h2 id="usage">Usage</h2>
+
+<p>See <a href="docs/usage.md"><code>docs/usage.md</code></a> and <a href="docs/quick-reference.md"><code>docs/quick-reference.md</code></a> for full usage examples.</p>
+
+<h2 id="contributing">Contributing</h2>
+
+<ul>
+<li><strong>Add new patterns or logic</strong> to the shared modules in <code>lib/rich_text_extraction/constants.rb</code>, <code>extraction_patterns.rb</code>, or <code>cache_operations.rb</code>.</li>
+<li><strong>Mirror the directory structure</strong> in <code>spec/</code> for tests.</li>
+<li><strong>Use shared contexts</strong> for DRY tests (see <code>spec/support/shared_contexts.rb</code>).</li>
+<li><strong>Run tests and RuboCop</strong> before submitting PRs.</li>
+</ul>
+
+<h2 id="test-quality-status-january-2025">Test &amp; Quality Status (January 2025)</h2>
+
+<ul>
+<li><strong>RSpec:</strong> 44 examples, 0 failures</li>
+<li><strong>RuboCop:</strong> No offenses detected</li>
+<li><strong>YARD:</strong> 90.91% documented</li>
+<li><strong>Gem build:</strong> No errors</li>
+</ul>
+
+<h2 id="license">License</h2>
+
+<p>MIT</p>
+
+<h2 id="features">✨ Features</h2>
+
+<ul>
+<li><strong>🔗 Link Extraction</strong>: Extract URLs, hashtags, and mentions from text</li>
+<li><strong>📄 Markdown Rendering</strong>: Safe Markdown to HTML conversion with customizable renderers</li>
+<li><strong>🌐 OpenGraph Metadata</strong>: Fetch and cache OpenGraph data from external URLs</li>
+<li><strong>🚀 Rails Integration</strong>: Seamless integration with Rails and ActionText</li>
+<li><strong>⚡ Background Jobs</strong>: Support for background processing with ActiveJob</li>
+<li><strong>💾 Caching</strong>: Built-in caching with configurable backends</li>
+<li><strong>🛡️ Error Handling</strong>: Robust error handling and fallbacks</li>
+<li><strong>📚 Comprehensive Documentation</strong>: Full API documentation with examples</li>
+<li><strong>🧪 Extensive Testing</strong>: 35+ test examples with 100% pass rate</li>
+</ul>
+
+<h2 id="quick-start">🚀 Quick Start</h2>
+
+<h3 id="installation">Installation</h3>
 
 <p>Add to your Gemfile:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rich_text_extraction</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>github:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ceccec/rich_text_extraction</span><span class='tstring_end'>&#39;</span></span>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rich_text_extraction</span><span class='tstring_end'>&#39;</span></span>
 </code></pre>
 
-<p>Then run:</p>
+<h3 id="basic-usage">Basic Usage</h3>
 
-<pre class="code bash"><code class="bash">bundle install
+<pre class="code ruby"><code class="ruby"><span class='comment'># Extract links from text
+</span><span class='id identifier rubyid_extractor'>extractor</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="RichTextExtraction/Extractor.html" title="RichTextExtraction::Extractor (class)">Extractor</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="RichTextExtraction/Extractor.html#initialize-instance_method" title="RichTextExtraction::Extractor#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Visit https://example.com and check out #ruby</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_extractor'>extractor</span><span class='period'>.</span><span class='id identifier rubyid_links'>links</span>        <span class='comment'># =&gt; [&quot;https://example.com&quot;]
+</span><span class='id identifier rubyid_extractor'>extractor</span><span class='period'>.</span><span class='id identifier rubyid_tags'>tags</span>         <span class='comment'># =&gt; [&quot;ruby&quot;]
+</span><span class='id identifier rubyid_extractor'>extractor</span><span class='period'>.</span><span class='id identifier rubyid_mentions'>mentions</span>     <span class='comment'># =&gt; []
+</span>
+<span class='comment'># Get rich link objects with OpenGraph data
+</span><span class='id identifier rubyid_link_objects'>link_objects</span> <span class='op'>=</span> <span class='id identifier rubyid_extractor'>extractor</span><span class='period'>.</span><span class='id identifier rubyid_link_objects'>link_objects</span><span class='lparen'>(</span><span class='label'>with_opengraph:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+<span class='comment'># =&gt; [{ url: &quot;https://example.com&quot;, opengraph: { title: &quot;Example Site&quot;, ... } }]
+</span>
+<span class='comment'># Render Markdown safely
+</span><span class='id identifier rubyid_markdown_service'>markdown_service</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="RichTextExtraction/MarkdownService.html" title="RichTextExtraction::MarkdownService (class)">MarkdownService</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="RichTextExtraction/MarkdownService.html#initialize-instance_method" title="RichTextExtraction::MarkdownService#initialize (method)">new</a></span></span>
+<span class='id identifier rubyid_html'>html</span> <span class='op'>=</span> <span class='id identifier rubyid_markdown_service'>markdown_service</span><span class='period'>.</span><span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>**Bold text** and [links](https://example.com)</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='comment'># =&gt; &quot;&lt;p&gt;&lt;strong&gt;Bold text&lt;/strong&gt; and &lt;a href=\&quot;https://example.com\&quot;&gt;links&lt;/a&gt;&lt;/p&gt;&quot;
+</span></code></pre>
+
+<h3 id="rails-integration">Rails Integration</h3>
+
+<p>RichTextExtraction is designed for seamless Rails integration:</p>
+
+<ul>
+<li><strong>Railtie</strong>: Auto-loads configuration and allows custom options via <code>Rails.application.config.rich_text_extraction</code>.</li>
+<li><strong>Model Concern</strong>: Use <code>include RichTextExtraction::ExtractsRichText</code> for automatic cache management.</li>
+<li><strong>View Helper</strong>: Use <code>opengraph_preview_for</code> in your views.</li>
+<li><strong>Background Job</strong>: Use the provided job template for async link processing.</li>
+</ul>
+
+<h3 id="example-usage">Example Usage</h3>
+
+<p><strong>config/initializers/rich_text_extraction.rb</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_configure'><span class='object_link'><a href="RichTextExtraction.html#configure-class_method" title="RichTextExtraction.configure (method)">configure</a></span></span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_config'>config</span><span class='op'>|</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_cache_enabled'>cache_enabled</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_cache_ttl'>cache_ttl</span> <span class='op'>=</span> <span class='int'>1</span><span class='period'>.</span><span class='id identifier rubyid_hour'>hour</span>
+<span class='kw'>end</span>
+<span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_rich_text_extraction'>rich_text_extraction</span><span class='period'>.</span><span class='id identifier rubyid_cache_options'>cache_options</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>expires_in:</span> <span class='int'>1</span><span class='period'>.</span><span class='id identifier rubyid_hour'>hour</span> <span class='rbrace'>}</span>
 </code></pre>
 
-<p>Or install directly:</p>
+<p><strong>app/models/post.rb</strong></p>
 
-<pre class="code bash"><code class="bash">gem install rich_text_extraction
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>Post</span> <span class='op'>&lt;</span> <span class='const'>ApplicationRecord</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="RichTextExtraction/ExtractsRichText.html" title="RichTextExtraction::ExtractsRichText (module)">ExtractsRichText</a></span></span>
+  <span class='id identifier rubyid_has_rich_text'>has_rich_text</span> <span class='symbol'>:content</span>
+<span class='kw'>end</span>
 </code></pre>
+
+<p><strong>app/views/posts/show.html.erb</strong></p>
+
+<pre class="code erb"><code class="erb">&lt;%= opengraph_preview_for(@post.content.link_objects(with_opengraph: true).first[:opengraph]) %&gt;
+</code></pre>
+
+<p><strong>app/jobs/process_links_job.rb</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>ProcessLinksJob</span> <span class='op'>&lt;</span> <span class='const'>ApplicationJob</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_perform'>perform</span><span class='lparen'>(</span><span class='id identifier rubyid_post'>post</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_links'>links</span> <span class='op'>=</span> <span class='id identifier rubyid_post'>post</span><span class='period'>.</span><span class='id identifier rubyid_content'>content</span><span class='period'>.</span><span class='id identifier rubyid_links'>links</span>
+    <span class='comment'># ...
+</span>  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<h3 id="troubleshooting">Troubleshooting</h3>
+
+<ul>
+<li><strong>Missing ActionText?</strong> Add <code>has_rich_text :content</code> to your model and ensure ActionText is installed.</li>
+<li><strong>Cache not working?</strong> Check your Rails cache store and initializer settings.</li>
+<li><strong>View helper missing?</strong> Ensure the gem is loaded and you are using ERB or a compatible template engine.</li>
+<li><strong>Generator not found?</strong> Run <code>bundle exec rails generate rich_text_extraction:install</code> and check your Gemfile for the gem entry.</li>
+</ul>
+
+<h2 id="documentation">📖 Documentation</h2>
+
+<ul>
+<li><strong><a href="https://ceccec.github.io/rich_text_extraction/">API Documentation</a></strong> - Complete API reference</li>
+<li><strong><a href="https://ceccec.github.io/rich_text_extraction/getting-started.html">Getting Started</a></strong> - Installation and basic usage</li>
+<li><strong><a href="https://ceccec.github.io/rich_text_extraction/advanced-usage.html">Advanced Usage</a></strong> - Advanced features and customization</li>
+<li><strong><a href="https://ceccec.github.io/rich_text_extraction/testing.html">Testing Guide</a></strong> - Test suite organization and best practices</li>
+<li><strong><a href="CONTRIBUTING.md">Contributing</a></strong> - How to contribute to the project</li>
+</ul>
+
+<h2 id="architecture">🏗️ Architecture</h2>
+
+<p>RichTextExtraction is built with a modular architecture:</p>
+
+<ul>
+<li><strong>Services</strong>: <code>OpenGraphService</code>, <code>MarkdownService</code> for core functionality</li>
+<li><strong>Extractors</strong>: <code>LinkExtractor</code>, <code>SocialExtractor</code> for content parsing</li>
+<li><strong>Helpers</strong>: View helpers, instance helpers, and extraction helpers</li>
+<li><strong>Configuration</strong>: Centralized configuration system</li>
+<li><strong>Rails Integration</strong>: Railtie for automatic Rails setup</li>
+</ul>
+
+<h2 id="testing">🧪 Testing</h2>
+
+<p>The project includes a comprehensive test suite with 35+ examples covering all functionality:</p>
+
+<pre class="code bash"><code class="bash"># Run all tests
+bundle exec rspec
+
+# Run with documentation format
+bundle exec rspec --format documentation
+
+# Run RuboCop for code quality
+bundle exec rubocop
+</code></pre>
+
+<p><strong>Current Status</strong>: ✅ All tests pass (44 examples, 0 failures)</p>
+
+<p>See the <a href="docs/testing.md">Testing Guide</a> for detailed information about the test suite organization, best practices, and CI/CD integration.</p>
+
+<h2 id="configuration">🔧 Configuration</h2>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># config/initializers/rich_text_extraction.rb
+</span><span class='const'><span class='object_link'><a href="RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_configure'><span class='object_link'><a href="RichTextExtraction.html#configure-class_method" title="RichTextExtraction.configure (method)">configure</a></span></span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_config'>config</span><span class='op'>|</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_cache_enabled'>cache_enabled</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_cache_prefix'>cache_prefix</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rte</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_cache_ttl'>cache_ttl</span> <span class='op'>=</span> <span class='int'>1</span><span class='period'>.</span><span class='id identifier rubyid_hour'>hour</span>
+
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_opengraph_timeout'>opengraph_timeout</span> <span class='op'>=</span> <span class='int'>5</span><span class='period'>.</span><span class='id identifier rubyid_seconds'>seconds</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_opengraph_user_agent'>opengraph_user_agent</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>RichTextExtraction/1.0</span><span class='tstring_end'>&#39;</span></span>
+
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_markdown_renderer'>markdown_renderer</span> <span class='op'>=</span> <span class='symbol'>:redcarpet</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_markdown_options'>markdown_options</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>hard_wrap:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>link_attributes:</span> <span class='lbrace'>{</span> <span class='label'>target:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>_blank</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<h2 id="performance">🚀 Performance</h2>
+
+<ul>
+<li><strong>Fast Execution</strong>: Test suite runs in ~1.23 seconds</li>
+<li><strong>Efficient Caching</strong>: Configurable caching with TTL support</li>
+<li><strong>Background Processing</strong>: Support for background jobs to avoid blocking</li>
+<li><strong>Memory Efficient</strong>: Minimal memory footprint with lazy loading</li>
+</ul>
+
+<h2 id="contributing">🤝 Contributing</h2>
+
+<p>We welcome contributions! Please see <a href="CONTRIBUTING.md">CONTRIBUTING.md</a> for guidelines.</p>
+
+<h3 id="development-setup">Development Setup</h3>
+
+<pre class="code bash"><code class="bash">git clone https://github.com/ceccec/rich_text_extraction.git
+cd rich_text_extraction
+bundle install
+bundle exec rspec
+</code></pre>
+
+<h2 id="license">📄 License</h2>
+
+<p>This project is licensed under the MIT License - see the <a href="LICENSE.txt">LICENSE.txt</a> file for details.</p>
+
+<h2 id="version">🏷️ Version</h2>
+
+<p>Current version: <strong>0.1.0</strong></p>
+
+<h2 id="test-quality-status-january-2025">Test &amp; Quality Status (January 2025)</h2>
+
+<ul>
+<li><strong>RSpec:</strong> 44 examples, 0 failures</li>
+<li><strong>RuboCop:</strong> No offenses detected</li>
+<li><strong>YARD:</strong> 90.91% documented, a few dynamic mixin warnings (expected for Rails mixins)</li>
+<li><strong>Gem build:</strong> No gemspec self-inclusion error (fixed January 2025)</li>
+</ul>
+
+<h2 id="generator-test-organization">Generator Test Organization</h2>
+
+<p>Each generated file (initializer, configuration, model, controller, view, job, routes, README) has its own dedicated test in <code>test/generators/rich_text_extraction/install/</code>.</p>
+
+<ul>
+<li>To add a test for a new generator feature, create a new test file in this directory.</li>
+<li>Each test file should focus on a single generated file or feature.</li>
+<li>Run all generator tests with:
+<code>sh
+bundle exec rake test
+</code></li>
+</ul>
+
+<p>This structure makes it easy to maintain and extend generator tests as the gem evolves.</p>
+
+<h2 id="static-analysis-exclusions">Static Analysis Exclusions</h2>
+
+<p>Generator templates in <code>lib/generators/rich_text_extraction/install/templates/</code> are excluded from RuboCop and YARD checks because they are ERB templates, not valid Ruby until rendered. This prevents false syntax and style errors in lint and documentation tools.</p>
+
+<ul>
+<li>See <code>.rubocop.yml</code> and <code>.yardopts</code> for exclusion rules.</li>
+</ul>
+
+<h2 id="universal-extraction-api">Universal Extraction API</h2>
+
+<p>RichTextExtraction provides a universal extraction API for all document types (plain, Markdown, HTML/ActionText) and elements (links, emails, phones, hashtags, mentions, images, attachments, dates, and more).</p>
+
+<h3 id="usage-examples">Usage Examples</h3>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># Extract by type
+</span><span class='id identifier rubyid_text'>text</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Contact me at alice@example.com or visit https://example.com #rails @alice</span><span class='tstring_end'>&quot;</span></span>
+<span class='id identifier rubyid_text'>text</span><span class='period'>.</span><span class='id identifier rubyid_extract'>extract</span><span class='lparen'>(</span><span class='symbol'>:links</span><span class='rparen'>)</span>      <span class='comment'># =&gt; [&quot;https://example.com&quot;]
+</span><span class='id identifier rubyid_text'>text</span><span class='period'>.</span><span class='id identifier rubyid_extract'>extract</span><span class='lparen'>(</span><span class='symbol'>:emails</span><span class='rparen'>)</span>     <span class='comment'># =&gt; [&quot;alice@example.com&quot;]
+</span><span class='id identifier rubyid_text'>text</span><span class='period'>.</span><span class='id identifier rubyid_extract'>extract</span><span class='lparen'>(</span><span class='symbol'>:hashtags</span><span class='rparen'>)</span>   <span class='comment'># =&gt; [&quot;#rails&quot;]
+</span><span class='id identifier rubyid_text'>text</span><span class='period'>.</span><span class='id identifier rubyid_extract'>extract</span><span class='lparen'>(</span><span class='symbol'>:mentions</span><span class='rparen'>)</span>   <span class='comment'># =&gt; [&quot;@alice&quot;]
+</span>
+<span class='comment'># Extract all known types
+</span><span class='id identifier rubyid_text'>text</span><span class='period'>.</span><span class='id identifier rubyid_extract'>extract</span><span class='lparen'>(</span><span class='symbol'>:all</span><span class='rparen'>)</span>
+<span class='comment'># =&gt; { links: [...], emails: [...], phones: [...], hashtags: [...], mentions: [...], ... }
+</span>
+<span class='comment'># Extract with a custom pattern
+</span><span class='id identifier rubyid_text'>text</span><span class='period'>.</span><span class='id identifier rubyid_extract'>extract</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>ID-\d{6}</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span> <span class='comment'># =&gt; [&quot;ID-123456&quot;]
+</span>
+<span class='comment'># In ActionText::RichText
+</span><span class='id identifier rubyid_post'>post</span><span class='period'>.</span><span class='id identifier rubyid_content'>content</span><span class='period'>.</span><span class='id identifier rubyid_extract'>extract</span><span class='lparen'>(</span><span class='symbol'>:links</span><span class='rparen'>)</span>
+</code></pre>
+
+<h3 id="extraction-by-type-element-and-standard">Extraction by Type, Element, and Standard</h3>
+
+<table><thead>
+<tr>
+<th>Type</th>
+<th>Method/Key</th>
+<th>Pattern/Standard</th>
+<th>Example Output</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Links</td>
+<td><code>:links</code></td>
+<td>RFC 3986, Markdown</td>
+<td><code>[&quot;https://...&quot;, ...]</code></td>
+</tr>
+<tr>
+<td>Emails</td>
+<td><code>:emails</code></td>
+<td>RFC 5322</td>
+<td>`[&quot;<a href="mailto:foo@bar.com">foo@bar.com</a>&quot;, ...]</td>
+</tr>
+<tr>
+<td>Phones</td>
+<td><code>:phones</code></td>
+<td>E.164</td>
+<td>`[&quot;+1234567890&quot;, ...]</td>
+</tr>
+<tr>
+<td>Hashtags</td>
+<td><code>:hashtags</code></td>
+<td><code>#\w+</code></td>
+<td>`[&quot;#rails&quot;, ...]</td>
+</tr>
+<tr>
+<td>Mentions</td>
+<td><code>:mentions</code></td>
+<td><code>@\w+</code></td>
+<td><code>[@alice, ...]</code></td>
+</tr>
+<tr>
+<td>Images</td>
+<td><code>:images</code></td>
+<td>Markdown/HTML</td>
+<td><code>[&quot;https://img...&quot;, ...]</code></td>
+</tr>
+<tr>
+<td>Attachments</td>
+<td><code>:attachments</code></td>
+<td>ActionText</td>
+<td><code>[ActiveStorage::Attachment]</code></td>
+</tr>
+<tr>
+<td>Dates</td>
+<td><code>:dates</code></td>
+<td>ISO 8601, RFC, NLP</td>
+<td><code>[Time, ...]</code></td>
+</tr>
+<tr>
+<td>Custom</td>
+<td><code>:custom_id</code></td>
+<td>User regex</td>
+<td>`[&quot;ID-123456&quot;, ...]</td>
+</tr>
+</tbody></table>
+
+<h3 id="custom-extractor-registration-dsl">Custom Extractor Registration (DSL)</h3>
+
+<p>You can register your own extractors:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_register_extractor'><span class='object_link'><a href="RichTextExtraction.html#register_extractor-class_method" title="RichTextExtraction.register_extractor (method)">register_extractor</a></span></span><span class='lparen'>(</span><span class='symbol'>:custom_id</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_text'>text</span><span class='op'>|</span>
+  <span class='id identifier rubyid_text'>text</span><span class='period'>.</span><span class='id identifier rubyid_scan'>scan</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>ID-\d{6}</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span>
+
+<span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Order ID-123456 and ID-654321</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_extract'>extract</span><span class='lparen'>(</span><span class='symbol'>:custom_id</span><span class='rparen'>)</span>
+<span class='comment'># =&gt; [&quot;ID-123456&quot;, &quot;ID-654321&quot;]
+</span></code></pre>
+
+<h3 id="extending-extraction">Extending Extraction</h3>
+
+<ul>
+<li>Add new extractors for any pattern or document element.</li>
+<li>Use the universal <code>extract</code> method on String, ActionText, or directly via <code>RichTextExtraction.extract</code>.</li>
+</ul>
+
+<h3 id="more-built-in-extractors">More Built-in Extractors</h3>
+
+<table><thead>
+<tr>
+<th>Type</th>
+<th>Method/Key</th>
+<th>Pattern/Standard</th>
+<th>Example Output</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>UUIDs</td>
+<td><code>:uuids</code></td>
+<td>RFC 4122</td>
+<td><code>[&quot;123e4567-e89b-12d3-a456-426614174000&quot;]</code></td>
+</tr>
+<tr>
+<td>Hex Colors</td>
+<td><code>:hex_colors</code></td>
+<td>CSS</td>
+<td><code>[&quot;#fff&quot;, &quot;#123abc&quot;]</code></td>
+</tr>
+<tr>
+<td>IP Addresses</td>
+<td><code>:ips</code></td>
+<td>IPv4</td>
+<td><code>[&quot;192.168.1.1&quot;]</code></td>
+</tr>
+<tr>
+<td>Credit Cards</td>
+<td><code>:credit_cards</code></td>
+<td>Luhn (basic)</td>
+<td><code>[&quot;4111 1111 1111 1111&quot;]</code></td>
+</tr>
+<tr>
+<td>Markdown Tables</td>
+<td><code>:markdown_tables</code></td>
+<td>Markdown</td>
+<td>`[&quot;</td>
+</tr>
+<tr>
+<td>Markdown Code</td>
+<td><code>:markdown_code</code></td>
+<td>Markdown</td>
+<td><code>[&quot;</code>code<code>&quot;, &quot;</code><code>block</code><code>&quot;]</code></td>
+</tr>
+<tr>
+<td>Twitter Handles</td>
+<td><code>:twitter_handles</code></td>
+<td>Twitter</td>
+<td><code>[&quot;@alice&quot;]</code></td>
+</tr>
+<tr>
+<td>Instagram Handles</td>
+<td><code>:instagram_handles</code></td>
+<td>Instagram</td>
+<td><code>[&quot;@insta.user&quot;]</code></td>
+</tr>
+</tbody></table>
+
+<h3 id="advanced-dsl-features">Advanced DSL Features</h3>
+
+<p><strong>Post-processing:</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_register_extractor'><span class='object_link'><a href="RichTextExtraction.html#register_extractor-class_method" title="RichTextExtraction.register_extractor (method)">register_extractor</a></span></span><span class='lparen'>(</span><span class='symbol'>:downcase_emails</span><span class='comma'>,</span> <span class='label'>postprocess:</span> <span class='tlambda'>-&gt;</span><span class='lparen'>(</span><span class='id identifier rubyid_arr'>arr</span><span class='rparen'>)</span> <span class='tlambeg'>{</span> <span class='id identifier rubyid_arr'>arr</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:downcase</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_text'>text</span><span class='op'>|</span>
+  <span class='id identifier rubyid_text'>text</span><span class='period'>.</span><span class='id identifier rubyid_scan'>scan</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span>
+<span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Alice@Example.com</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_extract'>extract</span><span class='lparen'>(</span><span class='symbol'>:downcase_emails</span><span class='rparen'>)</span> <span class='comment'># =&gt; [&quot;alice@example.com&quot;]
+</span></code></pre>
+
+<p><strong>Composition:</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_register_extractor'><span class='object_link'><a href="RichTextExtraction.html#register_extractor-class_method" title="RichTextExtraction.register_extractor (method)">register_extractor</a></span></span><span class='lparen'>(</span><span class='symbol'>:emails_in_links</span><span class='comma'>,</span> <span class='label'>compose:</span> <span class='lbracket'>[</span><span class='symbol'>:links</span><span class='comma'>,</span> <span class='symbol'>:emails</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Contact: https://foo.com?email=alice@example.com</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_extract'>extract</span><span class='lparen'>(</span><span class='symbol'>:emails_in_links</span><span class='rparen'>)</span>
+</code></pre>
+
+<h3 id="advanced-use-cases">Advanced Use Cases</h3>
+
+<ul>
+<li><strong>Extract all social handles:</strong>
+<code>ruby
+text.extract(:twitter_handles) + text.extract(:instagram_handles)
+</code></li>
+<li><strong>Extract and normalize all emails:</strong>
+<code>ruby
+text.extract(:emails).map(&amp;:downcase).uniq
+</code></li>
+<li><strong>Extract all code blocks from Markdown:</strong>
+<code>ruby
+markdown.extract(:markdown_code)
+</code></li>
+<li><strong>Extract all UUIDs and validate:</strong>
+<code>ruby
+text.extract(:uuids).select { |uuid| uuid.match?(/[0-9a-fA-F\-]{36}/) }
+</code></li>
+<li><strong>Batch extraction in background jobs:</strong>
+<code>ruby
+class ExtractJob &lt; ApplicationJob
+def perform(text)
+  results = text.extract(:all)
+  # process results...
+end
+end
+</code></li>
+</ul>
+
+<h2 id="non-rails-usage-and-cache-compatibility">Non-Rails Usage and Cache Compatibility</h2>
+
+<p>This gem works in any Ruby environment. Rails is <strong>not required</strong>.</p>
+
+<h3 id="example-plain-ruby-no-rails">Example (Plain Ruby, No Rails)</h3>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rich_text_extraction</span><span class='tstring_end'>&#39;</span></span>
+<span class='id identifier rubyid_extractor'>extractor</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="RichTextExtraction/Extractor.html" title="RichTextExtraction::Extractor (class)">Extractor</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="RichTextExtraction/Extractor.html#initialize-instance_method" title="RichTextExtraction::Extractor#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Check out https://example.com #ruby @alice</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_extractor'>extractor</span><span class='period'>.</span><span class='id identifier rubyid_links'>links</span>      <span class='comment'># =&gt; [&quot;https://example.com&quot;]
+</span><span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_extractor'>extractor</span><span class='period'>.</span><span class='id identifier rubyid_tags'>tags</span>       <span class='comment'># =&gt; [&quot;ruby&quot;]
+</span><span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_extractor'>extractor</span><span class='period'>.</span><span class='id identifier rubyid_mentions'>mentions</span>   <span class='comment'># =&gt; [&quot;alice&quot;]
+</span>
+<span class='comment'># Caching with a hash
+</span><span class='id identifier rubyid_cache'>cache</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+<span class='const'><span class='object_link'><a href="RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_extract_opengraph'><span class='object_link'><a href="RichTextExtraction.html#extract_opengraph-class_method" title="RichTextExtraction.extract_opengraph (method)">extract_opengraph</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://example.com</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>cache:</span> <span class='id identifier rubyid_cache'>cache</span><span class='rparen'>)</span>
+
+<span class='comment'># Passing cache: :rails (no Rails loaded) is safe and does nothing
+</span><span class='const'><span class='object_link'><a href="RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_extract_opengraph'><span class='object_link'><a href="RichTextExtraction.html#extract_opengraph-class_method" title="RichTextExtraction.extract_opengraph (method)">extract_opengraph</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://example.com</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>cache:</span> <span class='symbol'>:rails</span><span class='rparen'>)</span>
+
+<span class='comment'># Passing an invalid cache object (string, nil, or object without []=) is safe and bypasses caching
+</span><span class='const'><span class='object_link'><a href="RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_extract_opengraph'><span class='object_link'><a href="RichTextExtraction.html#extract_opengraph-class_method" title="RichTextExtraction.extract_opengraph (method)">extract_opengraph</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://example.com</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>cache:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not_a_cache</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+</code></pre>
+
+<h3 id="cache-behavior-table">Cache Behavior Table</h3>
+
+<table><thead>
+<tr>
+<th>Cache Param</th>
+<th>Rails Present?</th>
+<th>Behavior</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>nil</code></td>
+<td>Any</td>
+<td>No caching</td>
+</tr>
+<tr>
+<td>Ruby Hash</td>
+<td>Any</td>
+<td>Uses the hash for caching</td>
+</tr>
+<tr>
+<td><code>:rails</code></td>
+<td>Yes</td>
+<td>Uses Rails.cache</td>
+</tr>
+<tr>
+<td><code>:rails</code></td>
+<td>No</td>
+<td>No caching, no error</td>
+</tr>
+<tr>
+<td>Not hash/rails</td>
+<td>Any</td>
+<td>No caching, no error</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p><strong>Note:</strong> The gem will attempt to use any cache object you provide (anything that responds to <code>[]=</code>), but if an error occurs (e.g., the object is not actually usable as a cache), it will handle the error gracefully and bypass caching. This ensures maximum compatibility and safety in all Ruby environments.</p>
+</blockquote>
 
 <hr>
 
-<h2 id="basic-usage">Basic Usage</h2>
+<p>If you want to use advanced caching, pass any object that responds to <code>[]</code> and <code>[]=</code> (e.g., a custom cache, Redis, etc.).</p>
+
+<hr>
+
+<p><strong>RichTextExtraction</strong> – Professional rich text extraction for Ruby and Rails applications. 🚀</p>
+
+<h2 id="standards-based-document-extraction-dry-approach">Standards-Based Document Extraction (DRY Approach)</h2>
+
+<p><code>rich_text_extraction</code> can extract links, tags, mentions, and more from a variety of document standards, using a unified API.</p>
+
+<h3 id="supported-formats">Supported Formats</h3>
+
+<table><thead>
+<tr>
+<th>Format</th>
+<th>Standard</th>
+<th>Ruby Gem Needed</th>
+<th>Example Extraction Approach</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Plain Text</td>
+<td>-</td>
+<td>None</td>
+<td>Use directly</td>
+</tr>
+<tr>
+<td>HTML</td>
+<td>W3C HTML5</td>
+<td>Nokogiri</td>
+<td>Extract text, then use extractor</td>
+</tr>
+<tr>
+<td>Markdown</td>
+<td>CommonMark</td>
+<td>None</td>
+<td>Use directly</td>
+</tr>
+<tr>
+<td>DOCX</td>
+<td>ISO/IEC 29500</td>
+<td><code>docx</code></td>
+<td>Extract text, then use extractor</td>
+</tr>
+<tr>
+<td>ODT</td>
+<td>ISO/IEC 26300</td>
+<td><code>odf-report</code>/<code>odf</code></td>
+<td>Extract text, then use extractor</td>
+</tr>
+<tr>
+<td>PDF</td>
+<td>ISO 32000</td>
+<td><code>pdf-reader</code></td>
+<td>Extract text, then use extractor</td>
+</tr>
+</tbody></table>
+
+<h3 id="dry-example">DRY Example</h3>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rich_text_extraction</span><span class='tstring_end'>&#39;</span></span>
 
-<span class='id identifier rubyid_body'>body</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Hello @alice! Check out https://example.com #welcome</span><span class='tstring_end'>&quot;</span></span>
-<span class='id identifier rubyid_extractor'>extractor</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="RichTextExtraction/Extractor.html" title="RichTextExtraction::Extractor (class)">Extractor</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="RichTextExtraction/Extractor.html#initialize-instance_method" title="RichTextExtraction::Extractor#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_body'>body</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_extract_from_text'>extract_from_text</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_extractor'>extractor</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="RichTextExtraction/Extractor.html" title="RichTextExtraction::Extractor (class)">Extractor</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="RichTextExtraction/Extractor.html#initialize-instance_method" title="RichTextExtraction::Extractor#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='rparen'>)</span>
+  <span class='lbrace'>{</span>
+    <span class='label'>links:</span> <span class='id identifier rubyid_extractor'>extractor</span><span class='period'>.</span><span class='id identifier rubyid_links'>links</span><span class='comma'>,</span>
+    <span class='label'>tags:</span> <span class='id identifier rubyid_extractor'>extractor</span><span class='period'>.</span><span class='id identifier rubyid_tags'>tags</span><span class='comma'>,</span>
+    <span class='label'>mentions:</span> <span class='id identifier rubyid_extractor'>extractor</span><span class='period'>.</span><span class='id identifier rubyid_mentions'>mentions</span>
+  <span class='rbrace'>}</span>
+<span class='kw'>end</span>
 
-<span class='id identifier rubyid_extractor'>extractor</span><span class='period'>.</span><span class='id identifier rubyid_links'>links</span>      <span class='comment'># =&gt; [&quot;https://example.com&quot;]
-</span><span class='id identifier rubyid_extractor'>extractor</span><span class='period'>.</span><span class='id identifier rubyid_tags'>tags</span>       <span class='comment'># =&gt; [&quot;welcome&quot;]
-</span><span class='id identifier rubyid_extractor'>extractor</span><span class='period'>.</span><span class='id identifier rubyid_mentions'>mentions</span>   <span class='comment'># =&gt; [&quot;alice&quot;]
-</span><span class='id identifier rubyid_extractor'>extractor</span><span class='period'>.</span><span class='id identifier rubyid_emails'>emails</span>     <span class='comment'># =&gt; []
-</span>
-<span class='comment'># Markdown rendering
-</span><span class='id identifier rubyid_html'>html</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_render_markdown'><span class='object_link'><a href="RichTextExtraction.html#render_markdown-class_method" title="RichTextExtraction.render_markdown (method)">render_markdown</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>**Bold** [link](https://example.com)</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='comment'># DOCX
+</span><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>docx</span><span class='tstring_end'>&#39;</span></span>
+<span class='id identifier rubyid_doc'>doc</span> <span class='op'>=</span> <span class='const'>Docx</span><span class='op'>::</span><span class='const'>Document</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>example.docx</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_text'>text</span> <span class='op'>=</span> <span class='id identifier rubyid_doc'>doc</span><span class='period'>.</span><span class='id identifier rubyid_paragraphs'>paragraphs</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:text</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_extract_from_text'>extract_from_text</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='rparen'>)</span>
+
+<span class='comment'># PDF
+</span><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>pdf-reader</span><span class='tstring_end'>&#39;</span></span>
+<span class='id identifier rubyid_reader'>reader</span> <span class='op'>=</span> <span class='const'>PDF</span><span class='op'>::</span><span class='const'>Reader</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>example.pdf</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_text'>text</span> <span class='op'>=</span> <span class='id identifier rubyid_reader'>reader</span><span class='period'>.</span><span class='id identifier rubyid_pages'>pages</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:text</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_extract_from_text'>extract_from_text</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='rparen'>)</span>
+
+<span class='comment'># HTML
+</span><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>nokogiri</span><span class='tstring_end'>&#39;</span></span>
+<span class='id identifier rubyid_html'>html</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>example.html</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_text'>text</span> <span class='op'>=</span> <span class='const'>Nokogiri</span><span class='op'>::</span><span class='const'>HTML</span><span class='lparen'>(</span><span class='id identifier rubyid_html'>html</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span>
+<span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_extract_from_text'>extract_from_text</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='rparen'>)</span>
+
+<span class='comment'># ODT (if using odf-report or odf gem)
+</span><span class='comment'># ...similar approach...
+</span></code></pre>
+
+<hr>
+
+<h2 id="unified-dry-extraction-api">Unified DRY Extraction API</h2>
+
+<p>You can extract links, tags, mentions, and more from any supported file format with a single method:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_extract_from_file'><span class='object_link'><a href="RichTextExtraction.html#extract_from_file-class_method" title="RichTextExtraction.extract_from_file (method)">extract_from_file</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>path/to/file</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_result'>result</span><span class='lbracket'>[</span><span class='symbol'>:links</span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_result'>result</span><span class='lbracket'>[</span><span class='symbol'>:tags</span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_result'>result</span><span class='lbracket'>[</span><span class='symbol'>:mentions</span><span class='rbracket'>]</span>
+</code></pre>
+
+<h3 id="supported-formats">Supported Formats</h3>
+
+<table><thead>
+<tr>
+<th>Format</th>
+<th>Extension(s)</th>
+<th>Ruby Gem Needed</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Plain Text</td>
+<td>.txt, (none)</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Markdown</td>
+<td>.md</td>
+<td>None</td>
+</tr>
+<tr>
+<td>HTML</td>
+<td>.html, .htm</td>
+<td>nokogiri</td>
+</tr>
+<tr>
+<td>DOCX</td>
+<td>.docx</td>
+<td>docx</td>
+</tr>
+<tr>
+<td>PDF</td>
+<td>.pdf</td>
+<td>pdf-reader</td>
+</tr>
+<tr>
+<td>CSV/TSV</td>
+<td>.csv, .tsv</td>
+<td>csv</td>
+</tr>
+<tr>
+<td>JSON</td>
+<td>.json</td>
+<td>json</td>
+</tr>
+<tr>
+<td>ODT</td>
+<td>.odt</td>
+<td>odf-report</td>
+</tr>
+<tr>
+<td>EPUB</td>
+<td>.epub</td>
+<td>epub-parser</td>
+</tr>
+<tr>
+<td>RTF</td>
+<td>.rtf</td>
+<td>rtf</td>
+</tr>
+<tr>
+<td>XLSX</td>
+<td>.xlsx</td>
+<td>roo</td>
+</tr>
+<tr>
+<td>PPTX</td>
+<td>.pptx</td>
+<td>roo</td>
+</tr>
+<tr>
+<td>XML</td>
+<td>.xml</td>
+<td>nokogiri</td>
+</tr>
+<tr>
+<td>YAML</td>
+<td>.yml, .yaml</td>
+<td>yaml</td>
+</tr>
+<tr>
+<td>LaTeX</td>
+<td>.tex</td>
+<td>None</td>
+</tr>
+</tbody></table>
+
+<p>More formats can be added easily by extending the <code>extract_from_file</code> method.</p>
+
+<hr>
+
+<h2 id="identifier-and-code-extraction">Identifier and Code Extraction</h2>
+
+<p>You can extract barcodes, UUIDs, credit cards, hex colors, IPs, and more:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_extractor'>extractor</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="RichTextExtraction/Extractor.html" title="RichTextExtraction::Extractor (class)">Extractor</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="RichTextExtraction/Extractor.html#initialize-instance_method" title="RichTextExtraction::Extractor#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EAN: 9781234567897, UUID: 123e4567-e89b-12d3-a456-426614174000, Card: 4111 1111 1111 1111, Color: #fff, IP: 192.168.1.1</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_extractor'>extractor</span><span class='period'>.</span><span class='id identifier rubyid_extract'>extract</span><span class='lparen'>(</span><span class='symbol'>:ean13</span><span class='rparen'>)</span>        <span class='comment'># =&gt; [&quot;9781234567897&quot;]
+</span><span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_extractor'>extractor</span><span class='period'>.</span><span class='id identifier rubyid_extract'>extract</span><span class='lparen'>(</span><span class='symbol'>:uuid</span><span class='rparen'>)</span>         <span class='comment'># =&gt; [&quot;123e4567-e89b-12d3-a456-426614174000&quot;]
+</span><span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_extractor'>extractor</span><span class='period'>.</span><span class='id identifier rubyid_extract'>extract</span><span class='lparen'>(</span><span class='symbol'>:credit_cards</span><span class='rparen'>)</span> <span class='comment'># =&gt; [&quot;4111 1111 1111 1111&quot;]
+</span><span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_extractor'>extractor</span><span class='period'>.</span><span class='id identifier rubyid_extract'>extract</span><span class='lparen'>(</span><span class='symbol'>:hex_colors</span><span class='rparen'>)</span>   <span class='comment'># =&gt; [&quot;#fff&quot;]
+</span><span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_extractor'>extractor</span><span class='period'>.</span><span class='id identifier rubyid_extract'>extract</span><span class='lparen'>(</span><span class='symbol'>:ips</span><span class='rparen'>)</span>          <span class='comment'># =&gt; [&quot;192.168.1.1&quot;]
+</span></code></pre>
+
+<h3 id="supported-identifiers">Supported Identifiers</h3>
+
+<ul>
+<li>EAN-13 barcodes (<code>:ean13</code>)</li>
+<li>UPC-A barcodes (<code>:upca</code>)</li>
+<li>ISBN-10/13 (<code>:isbn</code>)</li>
+<li>UUID/GUID (<code>:uuid</code>)</li>
+<li>Credit card numbers (<code>:credit_cards</code>)</li>
+<li>Hex colors (<code>:hex_colors</code>)</li>
+<li>IP addresses (<code>:ips</code>)</li>
+</ul>
+
+<p>Add your own by registering a custom extractor!</p>
+
+<h3 id="more-supported-identifiers">More Supported Identifiers</h3>
+
+<ul>
+<li>VIN (<code>:vin</code>, with check digit validation)</li>
+<li>IMEI (<code>:imei</code>, with Luhn validation)</li>
+<li>ISSN (<code>:issn</code>, with checksum validation)</li>
+<li>MAC address (<code>:mac</code>)</li>
+<li>IBAN (<code>:iban</code>)</li>
+</ul>
+
+<p>Validation is improved for credit cards, ISBN, IMEI, VIN, ISSN, and IBAN (official mod-97 check).</p>
+
+<h4 id="example-iban-validation">Example: IBAN Validation</h4>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_extractor'>extractor</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="RichTextExtraction/Extractor.html" title="RichTextExtraction::Extractor (class)">Extractor</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="RichTextExtraction/Extractor.html#initialize-instance_method" title="RichTextExtraction::Extractor#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Valid: GB82WEST12345698765432 Invalid: GB82WEST12345698765431</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_extractor'>extractor</span><span class='period'>.</span><span class='id identifier rubyid_extract'>extract</span><span class='lparen'>(</span><span class='symbol'>:iban</span><span class='rparen'>)</span> <span class='comment'># =&gt; [&quot;GB82WEST12345698765432&quot;]
+</span></code></pre>
+
+<h3 id="validation-details">Validation Details</h3>
+
+<table><thead>
+<tr>
+<th>Identifier</th>
+<th>Validation Type</th>
+<th>Notes/Standard</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>EAN-13</td>
+<td>Pattern only</td>
+<td>No checksum</td>
+</tr>
+<tr>
+<td>UPC-A</td>
+<td>Pattern only</td>
+<td>No checksum</td>
+</tr>
+<tr>
+<td>ISBN</td>
+<td>Checksum (10/13)</td>
+<td>ISO 2108</td>
+</tr>
+<tr>
+<td>UUID</td>
+<td>Pattern only</td>
+<td>RFC 4122</td>
+</tr>
+<tr>
+<td>Credit Card</td>
+<td>Luhn algorithm</td>
+<td>ISO/IEC 7812</td>
+</tr>
+<tr>
+<td>Hex Color</td>
+<td>Pattern only</td>
+<td>CSS spec</td>
+</tr>
+<tr>
+<td>IP Address</td>
+<td>Pattern only</td>
+<td>IPv4 only</td>
+</tr>
+<tr>
+<td>VIN</td>
+<td>Check digit (ISO 3779)</td>
+<td>9th char, mod-11</td>
+</tr>
+<tr>
+<td>IMEI</td>
+<td>Luhn algorithm</td>
+<td>3GPP TS 23.003</td>
+</tr>
+<tr>
+<td>ISSN</td>
+<td>Checksum (mod-11)</td>
+<td>ISO 3297</td>
+</tr>
+<tr>
+<td>MAC Address</td>
+<td>Pattern only</td>
+<td>Colon or dash separated</td>
+</tr>
+<tr>
+<td>IBAN</td>
+<td>Mod-97 (official)</td>
+<td>ISO 13616</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>Pattern only</strong>: Only the format is checked (length, allowed chars).</li>
+<li><strong>Checksum/Luhn/Mod-97</strong>: The code is mathematically validated.</li>
+<li><strong>Standard</strong>: The relevant international standard.</li>
+</ul>
+
+<h4 id="example-credit-card-validation">Example: Credit Card Validation</h4>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_extractor'>extractor</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="RichTextExtraction/Extractor.html" title="RichTextExtraction::Extractor (class)">Extractor</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="RichTextExtraction/Extractor.html#initialize-instance_method" title="RichTextExtraction::Extractor#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Valid: 4111 1111 1111 1111 Invalid: 4111 1111 1111 1112</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_extractor'>extractor</span><span class='period'>.</span><span class='id identifier rubyid_extract'>extract</span><span class='lparen'>(</span><span class='symbol'>:credit_cards</span><span class='rparen'>)</span> <span class='comment'># =&gt; [&quot;4111 1111 1111 1111&quot;]
+</span></code></pre>
+
+<h4 id="example-isbn-validation">Example: ISBN Validation</h4>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_extractor'>extractor</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="RichTextExtraction/Extractor.html" title="RichTextExtraction::Extractor (class)">Extractor</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="RichTextExtraction/Extractor.html#initialize-instance_method" title="RichTextExtraction::Extractor#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Valid: 978-3-16-148410-0 Invalid: 978-3-16-148410-1</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_extractor'>extractor</span><span class='period'>.</span><span class='id identifier rubyid_extract'>extract</span><span class='lparen'>(</span><span class='symbol'>:isbn</span><span class='rparen'>)</span> <span class='comment'># =&gt; [&quot;978-3-16-148410-0&quot;]
+</span></code></pre>
+
+<h4 id="example-vin-validation">Example: VIN Validation</h4>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_extractor'>extractor</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="RichTextExtraction/Extractor.html" title="RichTextExtraction::Extractor (class)">Extractor</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="RichTextExtraction/Extractor.html#initialize-instance_method" title="RichTextExtraction::Extractor#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Valid: 1HGCM82633A004352 Invalid: 1HGCM82633A004353</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_extractor'>extractor</span><span class='period'>.</span><span class='id identifier rubyid_extract'>extract</span><span class='lparen'>(</span><span class='symbol'>:vin</span><span class='rparen'>)</span> <span class='comment'># =&gt; [&quot;1HGCM82633A004352&quot;]
+</span></code></pre>
+
+<hr>
+
+<h2 id="rails-model-integration">Rails Model Integration</h2>
+
+<p>All extractors are available as ActiveModel/ActiveRecord validators. Just add them to your model:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>Book</span> <span class='op'>&lt;</span> <span class='const'>ApplicationRecord</span>
+  <span class='id identifier rubyid_validates'>validates</span> <span class='symbol'>:isbn</span><span class='comma'>,</span> <span class='label'>isbn:</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_validates'>validates</span> <span class='symbol'>:vin</span><span class='comma'>,</span> <span class='label'>vin:</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_validates'>validates</span> <span class='symbol'>:issn</span><span class='comma'>,</span> <span class='label'>issn:</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_validates'>validates</span> <span class='symbol'>:iban</span><span class='comma'>,</span> <span class='label'>iban:</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_validates'>validates</span> <span class='symbol'>:credit_card</span><span class='comma'>,</span> <span class='label'>luhn:</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_validates'>validates</span> <span class='symbol'>:ean</span><span class='comma'>,</span> <span class='label'>ean13:</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_validates'>validates</span> <span class='symbol'>:upc</span><span class='comma'>,</span> <span class='label'>upca:</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_validates'>validates</span> <span class='symbol'>:uuid</span><span class='comma'>,</span> <span class='label'>uuid:</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_validates'>validates</span> <span class='symbol'>:imei</span><span class='comma'>,</span> <span class='label'>luhn:</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_validates'>validates</span> <span class='symbol'>:mac</span><span class='comma'>,</span> <span class='label'>mac_address:</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_validates'>validates</span> <span class='symbol'>:color</span><span class='comma'>,</span> <span class='label'>hex_color:</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_validates'>validates</span> <span class='symbol'>:ip</span><span class='comma'>,</span> <span class='label'>ip:</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_validates'>validates</span> <span class='symbol'>:hashtag</span><span class='comma'>,</span> <span class='label'>hashtag:</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_validates'>validates</span> <span class='symbol'>:mention</span><span class='comma'>,</span> <span class='label'>mention:</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_validates'>validates</span> <span class='symbol'>:twitter</span><span class='comma'>,</span> <span class='label'>twitter_handle:</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_validates'>validates</span> <span class='symbol'>:instagram</span><span class='comma'>,</span> <span class='label'>instagram_handle:</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_validates'>validates</span> <span class='symbol'>:website</span><span class='comma'>,</span> <span class='label'>url:</span> <span class='kw'>true</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<ul>
+<li>No extra setup is needed—just require the gem in your Rails app.</li>
+<li>All validators are available automatically.</li>
+<li>See <code>spec/integration/rails_model_validators_spec.rb</code> for a working integration test.</li>
+</ul>
+
+<h3 id="advanced-validator-usage">Advanced Validator Usage</h3>
+
+<ul>
+<li><strong>Custom error message:</strong>
+<code>ruby
+validates :isbn, isbn: { message: &#39;must be a valid ISBN-10 or ISBN-13&#39; }
+</code></li>
+<li><strong>Conditional validation:</strong>
+<code>ruby
+validates :vin, vin: true, if: -&gt; { vin.present? }
+</code></li>
+<li><strong>Multiple fields:</strong>
+<code>ruby
+validates :primary_email, :secondary_email, email: true, allow_blank: true
+</code></li>
+<li><strong>Custom validator with validates_with:</strong>
+<code>ruby
+class CustomValidator &lt; ActiveModel::Validator
+def validate(record)
+  record.errors.add(:base, &#39;Custom error&#39;) unless record.isbn.present? || record.vin.present?
+end
+end
+validates_with CustomValidator
+</code></li>
+</ul>
+
+<h2 id="generator-support">Generator Support</h2>
+
+<p>You can generate an example model with all validator usages:</p>
+
+<pre class="code sh"><code class="sh">bin/rails generate rich_text_extraction:install
+</code></pre>
+
+<p>See <code>lib/generators/rich_text_extraction/install/templates/example_model.rb</code> for a full example.</p>
+
+<h2 id="internationalization-i18n-for-validator-error-messages">Internationalization (I18n) for Validator Error Messages</h2>
+
+<p>You can override all validator error messages using Rails I18n. Add a file like <code>config/locales/rich_text_extraction.en.yml</code>:</p>
+
+<pre class="code yaml"><code class="yaml">en:
+  errors:
+    messages:
+      isbn: &quot;is not a valid ISBN&quot;
+      vin: &quot;is not a valid VIN&quot;
+      issn: &quot;is not a valid ISSN&quot;
+      iban: &quot;is not a valid IBAN&quot;
+      luhn: &quot;is not a valid number (Luhn check failed)&quot;
+      ean13: &quot;is not a valid EAN-13 barcode&quot;
+      upca: &quot;is not a valid UPC-A barcode&quot;
+      uuid: &quot;is not a valid UUID&quot;
+      hex_color: &quot;is not a valid hex color&quot;
+      ip: &quot;is not a valid IPv4 address&quot;
+      mac_address: &quot;is not a valid MAC address&quot;
+      hashtag: &quot;is not a valid hashtag&quot;
+      mention: &quot;is not a valid mention&quot;
+      twitter_handle: &quot;is not a valid Twitter handle&quot;
+      instagram_handle: &quot;is not a valid Instagram handle&quot;
+      url: &quot;is not a valid URL&quot;
+</code></pre>
+
+<p>Rails will use these messages automatically if present.</p>
+
+<hr>
+
+<h2 id="custom-validator-classes">Custom Validator Classes</h2>
+
+<p>You can create your own custom validators using the gem&#39;s logic:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>MyCustomValidator</span> <span class='op'>&lt;</span> <span class='const'>ActiveModel</span><span class='op'>::</span><span class='const'>EachValidator</span>
+  <span class='kw'>def</span> <span class='id identifier rubyid_validate_each'>validate_each</span><span class='lparen'>(</span><span class='id identifier rubyid_record'>record</span><span class='comma'>,</span> <span class='id identifier rubyid_attribute'>attribute</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+    <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="RichTextExtraction/Extractors.html" title="RichTextExtraction::Extractors (module)">Extractors</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="RichTextExtraction/Extractors/Validators.html" title="RichTextExtraction::Extractors::Validators (module)">Validators</a></span></span><span class='period'>.</span><span class='id identifier rubyid_valid_isbn?'><span class='object_link'><a href="RichTextExtraction/Extractors/Validators.html#valid_isbn%3F-class_method" title="RichTextExtraction::Extractors::Validators.valid_isbn? (method)">valid_isbn?</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='const'><span class='object_link'><a href="RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="RichTextExtraction/Extractors.html" title="RichTextExtraction::Extractors (module)">Extractors</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="RichTextExtraction/Extractors/Validators.html" title="RichTextExtraction::Extractors::Validators (module)">Validators</a></span></span><span class='period'>.</span><span class='id identifier rubyid_valid_vin?'><span class='object_link'><a href="RichTextExtraction/Extractors/Validators.html#valid_vin%3F-class_method" title="RichTextExtraction::Extractors::Validators.valid_vin? (method)">valid_vin?</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_record'>record</span><span class='period'>.</span><span class='id identifier rubyid_errors'>errors</span><span class='period'>.</span><span class='id identifier rubyid_add'>add</span><span class='lparen'>(</span><span class='id identifier rubyid_attribute'>attribute</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:message</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>must be a valid ISBN or VIN</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+
+<span class='kw'>class</span> <span class='const'>Book</span> <span class='op'>&lt;</span> <span class='const'>ApplicationRecord</span>
+  <span class='id identifier rubyid_validates'>validates</span> <span class='symbol'>:code</span><span class='comma'>,</span> <span class='label'>my_custom:</span> <span class='kw'>true</span>
+<span class='kw'>end</span>
 </code></pre>
 
 <hr>
 
-<h2 id="test-suite">Test Suite</h2>
+<h2 id="generator-options">Generator Options</h2>
 
-<p>See <a href="docs/testing.md">docs/testing.md</a> for full details on test suite organization, running tests, and adding new tests.</p>
+<p>You can extend the generator to create custom model or validator templates. For example, you can add your own templates to <code>lib/generators/rich_text_extraction/install/templates/</code> and modify the generator to use them.</p>
+
+<p>To generate the example model with all validator usages:</p>
+
+<pre class="code sh"><code class="sh">bin/rails generate rich_text_extraction:install
+</code></pre>
+
+<p>See the example model template for advanced usage and customization.</p>
+
+<h2 id="configurable-api-features">Configurable API Features</h2>
+
+<h3 id="cors">CORS</h3>
+
+<ul>
+<li>Configure allowed origins, headers, and methods:</li>
+</ul>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_api_cors_origins'>api_cors_origins</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://myfrontend.com</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://admin.myapp.com</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_api_cors_headers'>api_cors_headers</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Origin</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Content-Type</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Accept</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Authorization</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>X-Custom-Header</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_api_cors_methods'>api_cors_methods</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>GET</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>POST</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>OPTIONS</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>PUT</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+</code></pre>
+
+<h3 id="distributed-rate-limiting-with-redis">Distributed Rate Limiting (with Redis)</h3>
+
+<ul>
+<li>Configure global, per-user, and per-endpoint limits:</li>
+</ul>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_api_rate_limit'>api_rate_limit</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>limit:</span> <span class='int'>60</span><span class='comma'>,</span> <span class='label'>period:</span> <span class='int'>1</span><span class='period'>.</span><span class='id identifier rubyid_minute'>minute</span> <span class='rbrace'>}</span>
+<span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_api_rate_limit_per_user'>api_rate_limit_per_user</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>limit:</span> <span class='int'>100</span><span class='comma'>,</span> <span class='label'>period:</span> <span class='int'>1</span><span class='period'>.</span><span class='id identifier rubyid_hour'>hour</span> <span class='rbrace'>}</span>
+<span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_api_rate_limit_per_endpoint'>api_rate_limit_per_endpoint</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+  <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/validators/validate</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='label'>limit:</span> <span class='int'>10</span><span class='comma'>,</span> <span class='label'>period:</span> <span class='int'>1</span><span class='period'>.</span><span class='id identifier rubyid_minute'>minute</span> <span class='rbrace'>}</span>
+<span class='rbrace'>}</span>
+</code></pre>
+
+<ul>
+<li>Requires Redis. In production, use a shared Redis instance.</li>
+</ul>
+
+<h3 id="example-initializer">Example Initializer</h3>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># config/initializers/rich_text_extraction.rb
+</span><span class='const'><span class='object_link'><a href="RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_configure'><span class='object_link'><a href="RichTextExtraction.html#configure-class_method" title="RichTextExtraction.configure (method)">configure</a></span></span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_config'>config</span><span class='op'>|</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_api_cors_origins'>api_cors_origins</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://myfrontend.com</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_api_cors_headers'>api_cors_headers</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Origin</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Content-Type</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Accept</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_api_cors_methods'>api_cors_methods</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>GET</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>POST</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>OPTIONS</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_api_rate_limit'>api_rate_limit</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>limit:</span> <span class='int'>60</span><span class='comma'>,</span> <span class='label'>period:</span> <span class='int'>1</span><span class='period'>.</span><span class='id identifier rubyid_minute'>minute</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_api_rate_limit_per_user'>api_rate_limit_per_user</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>limit:</span> <span class='int'>100</span><span class='comma'>,</span> <span class='label'>period:</span> <span class='int'>1</span><span class='period'>.</span><span class='id identifier rubyid_hour'>hour</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_api_rate_limit_per_endpoint'>api_rate_limit_per_endpoint</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/validators/validate</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='label'>limit:</span> <span class='int'>10</span><span class='comma'>,</span> <span class='label'>period:</span> <span class='int'>1</span><span class='period'>.</span><span class='id identifier rubyid_minute'>minute</span> <span class='rbrace'>}</span>
+  <span class='rbrace'>}</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<h3 id="notes">Notes</h3>
+
+<ul>
+<li>CORS and rate limiting are enforced on all validator API endpoints.</li>
+<li>Per-user limits require a <code>current_user</code> method in your controller.</li>
+<li>For distributed rate limiting, ensure Redis is available and configured.</li>
+</ul>
+
+<h2 id="dry-metaprogramming-for-extractors-validators">DRY Metaprogramming for Extractors &amp; Validators</h2>
+
+<p>RichTextExtraction now uses metaprogramming to automatically generate extraction methods and validator classes for all pattern-based types. This means:</p>
+
+<ul>
+<li><strong>No need to manually define extractors or validator classes</strong> for simple regex-based types (e.g., UUID, MAC address, hashtag, mention, etc.).</li>
+<li><strong>Custom logic types</strong> (e.g., ISBN, VIN, ISSN, IBAN, Luhn, URL) are still implemented manually to preserve their advanced validation.</li>
+<li><strong>Error messages</strong> for pattern-based validators are centralized in <code>VALIDATOR_EXAMPLES</code> and can be overridden via I18n as before.</li>
+<li><strong>Automatic registration</strong>: All generated extractors are available in the extractor registry and API.</li>
+</ul>
+
+<h3 id="adding-a-new-pattern-based-extractor-validator">Adding a New Pattern-Based Extractor/Validator</h3>
+
+<ol>
+<li>Add an entry to <code>VALIDATOR_EXAMPLES</code> in <code>lib/rich_text_extraction/constants.rb</code> with:
+
+<ul>
+<li><code>regex</code>: The name of the regex constant in <code>ExtractionPatterns</code> (as a string)</li>
+<li><code>error_message</code>: The default error message</li>
+<li>(Optionally) <code>valid</code>, <code>invalid</code>, <code>schema_type</code>, etc.</li>
+</ul></li>
+<li>That&#39;s it! The extractor and validator will be available automatically.</li>
+<li>If you need custom logic (e.g., checksum), implement the extractor/validator manually and add the key to the skip list in the metaprogramming block.</li>
+</ol>
+
+<h3 id="example-adding-a-new-validator">Example: Adding a New Validator</h3>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># In lib/rich_text_extraction/constants.rb
+</span><span class='const'>VALIDATOR_EXAMPLES</span><span class='lbracket'>[</span><span class='symbol'>:foo_code</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+  <span class='label'>valid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>FOO123</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='label'>invalid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>BAR456</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='label'>regex:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>FOO_CODE_REGEX</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>error_message:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>is not a valid FOO code</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>schema_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Thing</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>schema_property:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>identifier</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>description:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>FOO code (custom example)</span><span class='tstring_end'>&#39;</span></span>
+<span class='rbrace'>}</span>
+
+<span class='comment'># In lib/rich_text_extraction/extraction_patterns.rb
+</span><span class='const'>FOO_CODE_REGEX</span> <span class='op'>=</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>FOO\d{3}</span><span class='regexp_end'>/</span></span>
+</code></pre>
+
+<p>Now you can use:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_extract_foo_codes'>extract_foo_codes</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>My code is FOO123</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='comment'># =&gt; [&#39;FOO123&#39;]
+</span><span class='id identifier rubyid_validates'>validates</span> <span class='symbol'>:foo</span><span class='comma'>,</span> <span class='label'>foo_code:</span> <span class='kw'>true</span>
+</code></pre>
+
+<h3 id="custom-logic-validators">Custom Logic Validators</h3>
+
+<p>For types like ISBN, VIN, ISSN, IBAN, Luhn, and URL, custom logic is preserved. These are not auto-generated and must be implemented manually as before.</p>
 
 <hr>
 
-<h2 id="rails-actiontext-integration">Rails &amp; ActionText Integration</h2>
+<h2 id="dry-documentation-for-validators-extractors">DRY Documentation for Validators &amp; Extractors</h2>
 
-<pre class="code ruby"><code class="ruby">&lt;/code&gt;</code></pre>
+<p>All validator and extractor documentation in RichTextExtraction is DRY and auto-generated from the <code>VALIDATOR_EXAMPLES</code> hash in <code>lib/rich_text_extraction/constants.rb</code>.</p>
+
+<ul>
+<li><strong>Consistency:</strong> The same source powers the code, API, and documentation.</li>
+<li><strong>Easy to extend:</strong> To add a new validator or extractor, just update the hash and (optionally) add a regex. The docs, API, and code will all reflect the change automatically.</li>
+<li><strong>No duplication:</strong> There is no need to manually update multiple places when adding or changing a validator/extractor.</li>
+</ul>
+
+<p>This approach ensures that your documentation is always up-to-date and matches the actual code and API behavior.</p>
+
+<h2 id="doc-driven-testing">Doc-Driven Testing</h2>
+
+<p>Validator specs are automatically generated from the <code>VALIDATOR_EXAMPLES</code> hash. This means:</p>
+
+<ul>
+<li>All valid/invalid examples in the documentation are tested against the actual validator classes.</li>
+<li>To run these tests, use:</li>
+</ul>
+
+<pre class="code sh"><code class="sh">rake test:scenarios_from_docs
+</code></pre>
+
+<p>This ensures your code, documentation, and tests are always DRY and in sync.</p>
+
+<h2 id="universal-caching-proxy-multi-interface-validation">Universal Caching Proxy &amp; Multi-Interface Validation</h2>
+
+<p>All validation requests—whether from Ruby, HTTP, or JavaScript—are automatically cached for maximum efficiency and scalability.</p>
+
+<ul>
+<li><p><strong>Ruby:</strong></p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="RichTextExtraction/ValidatorAPI.html" title="RichTextExtraction::ValidatorAPI (module)">ValidatorAPI</a></span></span><span class='period'>.</span><span class='id identifier rubyid_validate'><span class='object_link'><a href="RichTextExtraction/ValidatorAPI.html#validate-class_method" title="RichTextExtraction::ValidatorAPI.validate (method)">validate</a></span></span><span class='lparen'>(</span><span class='symbol'>:isbn</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='label'>cache:</span> <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_cache'>cache</span><span class='comma'>,</span> <span class='label'>cache_options:</span> <span class='lbrace'>{</span> <span class='label'>expires_in:</span> <span class='int'>1</span><span class='period'>.</span><span class='id identifier rubyid_hour'>hour</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
+<span class='const'><span class='object_link'><a href="RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="RichTextExtraction/ValidatorAPI.html" title="RichTextExtraction::ValidatorAPI (module)">ValidatorAPI</a></span></span><span class='period'>.</span><span class='id identifier rubyid_batch_validate'><span class='object_link'><a href="RichTextExtraction/ValidatorAPI.html#batch_validate-class_method" title="RichTextExtraction::ValidatorAPI.batch_validate (method)">batch_validate</a></span></span><span class='lparen'>(</span><span class='symbol'>:isbn</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>978-3-16-148410-0</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>123</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>cache:</span> <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_cache'>cache</span><span class='rparen'>)</span>
+</code></pre></li>
+<li><p><strong>HTTP API:</strong>
+All <code>/validate</code> and <code>/batch_validate</code> endpoints use server-side cache.</p>
+
+<pre class="code http"><code class="http">POST /validators/isbn/validate
+{ &quot;value&quot;: &quot;978-3-16-148410-0&quot; }
+</code></pre></li>
+</ul>
+
+<p>POST /validators/isbn/batch_validate
+  { &quot;values&quot;: [&quot;978-3-16-148410-0&quot;, &quot;123&quot;] }</p>
+
+<pre class="code ruby"><code class="ruby">
+- **JavaScript (Docs/Widget):**
+  Docs widgets and apps fetch from the API and cache results in the browser. See the live demo in the docs.
+
+- **CLI/Batch:**
+  Scripts and pipelines can use the same API and cache for efficient batch validation.
+
+**Configure cache backend and options in your initializer:**
+```ruby
+RichTextExtraction.configure do |config|
+  config.cache_options = { expires_in: 1.hour, compress: true }
+end
+</code></pre>
+
+<p><strong>Adding a new validator or scenario in <code>VALIDATOR_EXAMPLES</code> makes it available everywhere (Ruby, API, JS, CLI) with caching.</strong></p>
 </div></div>
 
       <div id="footer">
-  Generated on Tue Jun 24 01:40:32 2025 by
+  Generated on Tue Jun 24 18:08:32 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.3.6).
 </div>

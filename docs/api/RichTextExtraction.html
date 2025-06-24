@@ -78,18 +78,23 @@
   
   <dl>
       <dt>Includes:</dt>
-      <dd><span class='object_link'><a href="RichTextExtraction/InstanceHelpers.html" title="RichTextExtraction::InstanceHelpers (module)">InstanceHelpers</a></span></dd>
+      <dd><span class='object_link'><a href="RichTextExtraction/CacheOperations.html" title="RichTextExtraction::CacheOperations (module)">CacheOperations</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html" title="RichTextExtraction::ExtractionPatterns (module)">ExtractionPatterns</a></span>, <span class='object_link'><a href="RichTextExtraction/InstanceHelpers.html" title="RichTextExtraction::InstanceHelpers (module)">InstanceHelpers</a></span>, <span class='object_link'><a href="RichTextExtraction/LinkExtractor.html" title="RichTextExtraction::LinkExtractor (module)">LinkExtractor</a></span>, <span class='object_link'><a href="RichTextExtraction/SocialExtractor.html" title="RichTextExtraction::SocialExtractor (module)">SocialExtractor</a></span></dd>
   </dl>
   
   
 
+  
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="ActionText/RichText.html" title="ActionText::RichText (class)">ActionText::RichText</a></span></dd>
+  </dl>
   
 
   
   <dl>
     <dt>Defined in:</dt>
     <dd>lib/rich_text_extraction.rb<span class="defines">,<br />
-  lib/rich_text_extraction/error.rb,<br /> lib/rich_text_extraction/helpers.rb,<br /> lib/rich_text_extraction/railtie.rb,<br /> lib/rich_text_extraction/version.rb,<br /> lib/rich_text_extraction/extractor.rb,<br /> lib/rich_text_extraction/instance_helpers.rb,<br /> lib/rich_text_extraction/markdown_helpers.rb,<br /> lib/rich_text_extraction/opengraph_helpers.rb,<br /> lib/rich_text_extraction/extraction_helpers.rb,<br /> lib/rich_text_extraction/extracts_rich_text.rb</span>
+  lib/rich_text_extraction/error.rb,<br /> lib/rich_text_extraction/helpers.rb,<br /> lib/rich_text_extraction/railtie.rb,<br /> lib/rich_text_extraction/version.rb,<br /> lib/rich_text_extraction/constants.rb,<br /> lib/rich_text_extraction/extractor.rb,<br /> lib/rich_text_extraction/configuration.rb,<br /> lib/rich_text_extraction/validator_api.rb,<br /> lib/rich_text_extraction/cache_operations.rb,<br /> lib/rich_text_extraction/instance_helpers.rb,<br /> lib/rich_text_extraction/markdown_helpers.rb,<br /> lib/rich_text_extraction/opengraph_helpers.rb,<br /> lib/rich_text_extraction/extraction_helpers.rb,<br /> lib/rich_text_extraction/extracts_rich_text.rb,<br /> lib/rich_text_extraction/cache_configuration.rb,<br /> lib/rich_text_extraction/extraction_patterns.rb,<br /> lib/rich_text_extraction/extractors/validators.rb,<br /> lib/rich_text_extraction/extractors/link_extractor.rb,<br /> lib/rich_text_extraction/services/markdown_service.rb,<br /> lib/rich_text_extraction/services/opengraph_service.rb,<br /> lib/rich_text_extraction/extractors/social_extractor.rb,<br /> lib/rich_text_extraction/extractors/identifier_extractor.rb,<br /> lib/generators/rich_text_extraction/install/install_generator.rb</span>
 </dd>
   </dl>
   
@@ -98,7 +103,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>RichTextExtraction::ExtractsRichText is a concern for automatic cache invalidation in Rails models.</p>
+<p>RichTextExtraction::IdentifierExtractor provides extraction methods for barcodes, UUIDs, credit cards, colors, IPs, VINs, IMEIs, ISSNs, MAC addresses, and IBANs.</p>
 
 
   </div>
@@ -110,11 +115,11 @@
 <p class="children">
   
     
-      <strong class="modules">Modules:</strong> <span class='object_link'><a href="RichTextExtraction/ExtractionHelpers.html" title="RichTextExtraction::ExtractionHelpers (module)">ExtractionHelpers</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractsRichText.html" title="RichTextExtraction::ExtractsRichText (module)">ExtractsRichText</a></span>, <span class='object_link'><a href="RichTextExtraction/Helpers.html" title="RichTextExtraction::Helpers (module)">Helpers</a></span>, <span class='object_link'><a href="RichTextExtraction/InstanceHelpers.html" title="RichTextExtraction::InstanceHelpers (module)">InstanceHelpers</a></span>, <span class='object_link'><a href="RichTextExtraction/MarkdownHelpers.html" title="RichTextExtraction::MarkdownHelpers (module)">MarkdownHelpers</a></span>, <span class='object_link'><a href="RichTextExtraction/OpenGraphHelpers.html" title="RichTextExtraction::OpenGraphHelpers (module)">OpenGraphHelpers</a></span>
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="RichTextExtraction/CacheConfiguration.html" title="RichTextExtraction::CacheConfiguration (module)">CacheConfiguration</a></span>, <span class='object_link'><a href="RichTextExtraction/CacheOperations.html" title="RichTextExtraction::CacheOperations (module)">CacheOperations</a></span>, <span class='object_link'><a href="RichTextExtraction/Constants.html" title="RichTextExtraction::Constants (module)">Constants</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionHelpers.html" title="RichTextExtraction::ExtractionHelpers (module)">ExtractionHelpers</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html" title="RichTextExtraction::ExtractionPatterns (module)">ExtractionPatterns</a></span>, <span class='object_link'><a href="RichTextExtraction/Extractors.html" title="RichTextExtraction::Extractors (module)">Extractors</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractsRichText.html" title="RichTextExtraction::ExtractsRichText (module)">ExtractsRichText</a></span>, <span class='object_link'><a href="RichTextExtraction/Generators.html" title="RichTextExtraction::Generators (module)">Generators</a></span>, <span class='object_link'><a href="RichTextExtraction/Helpers.html" title="RichTextExtraction::Helpers (module)">Helpers</a></span>, <span class='object_link'><a href="RichTextExtraction/IdentifierExtractor.html" title="RichTextExtraction::IdentifierExtractor (module)">IdentifierExtractor</a></span>, <span class='object_link'><a href="RichTextExtraction/InstanceHelpers.html" title="RichTextExtraction::InstanceHelpers (module)">InstanceHelpers</a></span>, <span class='object_link'><a href="RichTextExtraction/LinkExtractor.html" title="RichTextExtraction::LinkExtractor (module)">LinkExtractor</a></span>, <span class='object_link'><a href="RichTextExtraction/MarkdownHelpers.html" title="RichTextExtraction::MarkdownHelpers (module)">MarkdownHelpers</a></span>, <span class='object_link'><a href="RichTextExtraction/OpenGraphHelpers.html" title="RichTextExtraction::OpenGraphHelpers (module)">OpenGraphHelpers</a></span>, <span class='object_link'><a href="RichTextExtraction/SocialExtractor.html" title="RichTextExtraction::SocialExtractor (module)">SocialExtractor</a></span>, <span class='object_link'><a href="RichTextExtraction/ValidatorAPI.html" title="RichTextExtraction::ValidatorAPI (module)">ValidatorAPI</a></span>
     
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="RichTextExtraction/Error.html" title="RichTextExtraction::Error (class)">Error</a></span>, <span class='object_link'><a href="RichTextExtraction/Extractor.html" title="RichTextExtraction::Extractor (class)">Extractor</a></span>, <span class='object_link'><a href="RichTextExtraction/Railtie.html" title="RichTextExtraction::Railtie (class)">Railtie</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="RichTextExtraction/Configuration.html" title="RichTextExtraction::Configuration (class)">Configuration</a></span>, <span class='object_link'><a href="RichTextExtraction/CustomMarkdownRenderer.html" title="RichTextExtraction::CustomMarkdownRenderer (class)">CustomMarkdownRenderer</a></span>, <span class='object_link'><a href="RichTextExtraction/Error.html" title="RichTextExtraction::Error (class)">Error</a></span>, <span class='object_link'><a href="RichTextExtraction/Extractor.html" title="RichTextExtraction::Extractor (class)">Extractor</a></span>, <span class='object_link'><a href="RichTextExtraction/MarkdownService.html" title="RichTextExtraction::MarkdownService (class)">MarkdownService</a></span>, <span class='object_link'><a href="RichTextExtraction/OpenGraphService.html" title="RichTextExtraction::OpenGraphService (class)">OpenGraphService</a></span>, <span class='object_link'><a href="RichTextExtraction/Railtie.html" title="RichTextExtraction::Railtie (class)">Railtie</a></span>, <span class='object_link'><a href="RichTextExtraction/ValidatorsController.html" title="RichTextExtraction::ValidatorsController (class)">ValidatorsController</a></span>
     
   
 </p>
@@ -137,6 +142,18 @@
 
 
 
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="RichTextExtraction/Constants.html" title="RichTextExtraction::Constants (module)">Constants</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="RichTextExtraction/Constants.html#ATTACHMENT_EXTENSIONS-constant" title="RichTextExtraction::Constants::ATTACHMENT_EXTENSIONS (constant)">Constants::ATTACHMENT_EXTENSIONS</a></span>, <span class='object_link'><a href="RichTextExtraction/Constants.html#ATTACHMENT_REGEX-constant" title="RichTextExtraction::Constants::ATTACHMENT_REGEX (constant)">Constants::ATTACHMENT_REGEX</a></span>, <span class='object_link'><a href="RichTextExtraction/Constants.html#DATE_REGEX-constant" title="RichTextExtraction::Constants::DATE_REGEX (constant)">Constants::DATE_REGEX</a></span>, <span class='object_link'><a href="RichTextExtraction/Constants.html#DEFAULT_CACHE_PREFIX-constant" title="RichTextExtraction::Constants::DEFAULT_CACHE_PREFIX (constant)">Constants::DEFAULT_CACHE_PREFIX</a></span>, <span class='object_link'><a href="RichTextExtraction/Constants.html#DEFAULT_CACHE_STORE-constant" title="RichTextExtraction::Constants::DEFAULT_CACHE_STORE (constant)">Constants::DEFAULT_CACHE_STORE</a></span>, <span class='object_link'><a href="RichTextExtraction/Constants.html#DEFAULT_CACHE_TTL-constant" title="RichTextExtraction::Constants::DEFAULT_CACHE_TTL (constant)">Constants::DEFAULT_CACHE_TTL</a></span>, <span class='object_link'><a href="RichTextExtraction/Constants.html#DEFAULT_EXCERPT_LENGTH-constant" title="RichTextExtraction::Constants::DEFAULT_EXCERPT_LENGTH (constant)">Constants::DEFAULT_EXCERPT_LENGTH</a></span>, <span class='object_link'><a href="RichTextExtraction/Constants.html#DEFAULT_MAX_REDIRECTS-constant" title="RichTextExtraction::Constants::DEFAULT_MAX_REDIRECTS (constant)">Constants::DEFAULT_MAX_REDIRECTS</a></span>, <span class='object_link'><a href="RichTextExtraction/Constants.html#DEFAULT_OPENGRAPH_TIMEOUT-constant" title="RichTextExtraction::Constants::DEFAULT_OPENGRAPH_TIMEOUT (constant)">Constants::DEFAULT_OPENGRAPH_TIMEOUT</a></span>, <span class='object_link'><a href="RichTextExtraction/Constants.html#DEFAULT_USER_AGENT-constant" title="RichTextExtraction::Constants::DEFAULT_USER_AGENT (constant)">Constants::DEFAULT_USER_AGENT</a></span>, <span class='object_link'><a href="RichTextExtraction/Constants.html#EMAIL_REGEX-constant" title="RichTextExtraction::Constants::EMAIL_REGEX (constant)">Constants::EMAIL_REGEX</a></span>, <span class='object_link'><a href="RichTextExtraction/Constants.html#HASHTAG_REGEX-constant" title="RichTextExtraction::Constants::HASHTAG_REGEX (constant)">Constants::HASHTAG_REGEX</a></span>, <span class='object_link'><a href="RichTextExtraction/Constants.html#IMAGE_EXTENSIONS-constant" title="RichTextExtraction::Constants::IMAGE_EXTENSIONS (constant)">Constants::IMAGE_EXTENSIONS</a></span>, <span class='object_link'><a href="RichTextExtraction/Constants.html#IMAGE_REGEX-constant" title="RichTextExtraction::Constants::IMAGE_REGEX (constant)">Constants::IMAGE_REGEX</a></span>, <span class='object_link'><a href="RichTextExtraction/Constants.html#MARKDOWN_LINK_REGEX-constant" title="RichTextExtraction::Constants::MARKDOWN_LINK_REGEX (constant)">Constants::MARKDOWN_LINK_REGEX</a></span>, <span class='object_link'><a href="RichTextExtraction/Constants.html#MENTION_REGEX-constant" title="RichTextExtraction::Constants::MENTION_REGEX (constant)">Constants::MENTION_REGEX</a></span>, <span class='object_link'><a href="RichTextExtraction/Constants.html#PHONE_REGEX-constant" title="RichTextExtraction::Constants::PHONE_REGEX (constant)">Constants::PHONE_REGEX</a></span>, <span class='object_link'><a href="RichTextExtraction/Constants.html#TWITTER_REGEX-constant" title="RichTextExtraction::Constants::TWITTER_REGEX (constant)">Constants::TWITTER_REGEX</a></span>, <span class='object_link'><a href="RichTextExtraction/Constants.html#VALIDATOR_EXAMPLES-constant" title="RichTextExtraction::Constants::VALIDATOR_EXAMPLES (constant)">Constants::VALIDATOR_EXAMPLES</a></span></p>
+
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html" title="RichTextExtraction::ExtractionPatterns (module)">ExtractionPatterns</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#CREDIT_CARD_REGEX-constant" title="RichTextExtraction::ExtractionPatterns::CREDIT_CARD_REGEX (constant)">ExtractionPatterns::CREDIT_CARD_REGEX</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#EAN13_REGEX-constant" title="RichTextExtraction::ExtractionPatterns::EAN13_REGEX (constant)">ExtractionPatterns::EAN13_REGEX</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#HASHTAG_PATTERN-constant" title="RichTextExtraction::ExtractionPatterns::HASHTAG_PATTERN (constant)">ExtractionPatterns::HASHTAG_PATTERN</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#HEX_COLOR_REGEX-constant" title="RichTextExtraction::ExtractionPatterns::HEX_COLOR_REGEX (constant)">ExtractionPatterns::HEX_COLOR_REGEX</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#IBAN_REGEX-constant" title="RichTextExtraction::ExtractionPatterns::IBAN_REGEX (constant)">ExtractionPatterns::IBAN_REGEX</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#IMEI_REGEX-constant" title="RichTextExtraction::ExtractionPatterns::IMEI_REGEX (constant)">ExtractionPatterns::IMEI_REGEX</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#INSTAGRAM_HANDLE_PATTERN-constant" title="RichTextExtraction::ExtractionPatterns::INSTAGRAM_HANDLE_PATTERN (constant)">ExtractionPatterns::INSTAGRAM_HANDLE_PATTERN</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#IP_REGEX-constant" title="RichTextExtraction::ExtractionPatterns::IP_REGEX (constant)">ExtractionPatterns::IP_REGEX</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#ISBN_REGEX-constant" title="RichTextExtraction::ExtractionPatterns::ISBN_REGEX (constant)">ExtractionPatterns::ISBN_REGEX</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#ISSN_REGEX-constant" title="RichTextExtraction::ExtractionPatterns::ISSN_REGEX (constant)">ExtractionPatterns::ISSN_REGEX</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#MAC_ADDRESS_REGEX-constant" title="RichTextExtraction::ExtractionPatterns::MAC_ADDRESS_REGEX (constant)">ExtractionPatterns::MAC_ADDRESS_REGEX</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#MENTION_PATTERN-constant" title="RichTextExtraction::ExtractionPatterns::MENTION_PATTERN (constant)">ExtractionPatterns::MENTION_PATTERN</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#TWITTER_HANDLE_PATTERN-constant" title="RichTextExtraction::ExtractionPatterns::TWITTER_HANDLE_PATTERN (constant)">ExtractionPatterns::TWITTER_HANDLE_PATTERN</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#UPCA_REGEX-constant" title="RichTextExtraction::ExtractionPatterns::UPCA_REGEX (constant)">ExtractionPatterns::UPCA_REGEX</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#URL_PATTERN-constant" title="RichTextExtraction::ExtractionPatterns::URL_PATTERN (constant)">ExtractionPatterns::URL_PATTERN</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#UUID_REGEX-constant" title="RichTextExtraction::ExtractionPatterns::UUID_REGEX (constant)">ExtractionPatterns::UUID_REGEX</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#VIN_REGEX-constant" title="RichTextExtraction::ExtractionPatterns::VIN_REGEX (constant)">ExtractionPatterns::VIN_REGEX</a></span></p>
+
 
 
 
@@ -148,6 +165,174 @@
     </h2>
 
     <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#config-class_method" title="config (class method)">.<strong>config</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the configuration object (not a hash).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#config_hash-class_method" title="config_hash (class method)">.<strong>config_hash</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the configuration as a hash.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#configuration-class_method" title="configuration (class method)">.<strong>configuration</strong>  &#x21d2; Configuration </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Class-level configuration instance.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#configure-class_method" title="configure (class method)">.<strong>configure</strong> {|config| ... } &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Configure RichTextExtraction with a block.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#extract-class_method" title="extract (class method)">.<strong>extract</strong>(text, type = :all, **opts)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Universal extract method.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#extract_from_file-class_method" title="extract_from_file (class method)">.<strong>extract_from_file</strong>(path)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Unified DRY extraction from any supported file format.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#extract_opengraph-class_method" title="extract_opengraph (class method)">.<strong>extract_opengraph</strong>(url, cache: nil, cache_options: {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Make extract_opengraph available as a module method.</p>
+</div></span>
+  
+</li>
+
       
         <li class="public ">
   <span class="summary_signature">
@@ -174,7 +359,31 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#render_markdown-class_method" title="render_markdown (class method)">.<strong>render_markdown</strong>(text)  &#x21d2; Object </a>
+      <a href="#register_extractor-class_method" title="register_extractor (class method)">.<strong>register_extractor</strong>(key, postprocess: nil, compose: nil, &amp;block)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>DSL for registering extractors.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#render_markdown-class_method" title="render_markdown (class method)">.<strong>render_markdown</strong>(text, options = {})  &#x21d2; Object </a>
     
 
     
@@ -190,6 +399,30 @@
   
     <span class="summary_desc"><div class='inline'>
 <p>Public API.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reset_configuration!-class_method" title="reset_configuration! (class method)">.<strong>reset_configuration!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Reset configuration to defaults.</p>
 </div></span>
   
 </li>
@@ -260,13 +493,652 @@
   
   
   
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="RichTextExtraction/CacheOperations.html" title="RichTextExtraction::CacheOperations (module)">CacheOperations</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="RichTextExtraction/CacheOperations.html#build_cache_key-instance_method" title="RichTextExtraction::CacheOperations#build_cache_key (method)">#build_cache_key</a></span>, <span class='object_link'><a href="RichTextExtraction/CacheOperations.html#clear_cache_for_urls-instance_method" title="RichTextExtraction::CacheOperations#clear_cache_for_urls (method)">#clear_cache_for_urls</a></span>, <span class='object_link'><a href="RichTextExtraction/CacheOperations.html#delete_cache-instance_method" title="RichTextExtraction::CacheOperations#delete_cache (method)">#delete_cache</a></span>, <span class='object_link'><a href="RichTextExtraction/CacheOperations.html#opengraph_cache_key-instance_method" title="RichTextExtraction::CacheOperations#opengraph_cache_key (method)">#opengraph_cache_key</a></span>, <span class='object_link'><a href="RichTextExtraction/CacheOperations.html#opengraph_key_prefix-instance_method" title="RichTextExtraction::CacheOperations#opengraph_key_prefix (method)">#opengraph_key_prefix</a></span>, <span class='object_link'><a href="RichTextExtraction/CacheOperations.html#rails_cache_delete-instance_method" title="RichTextExtraction::CacheOperations#rails_cache_delete (method)">#rails_cache_delete</a></span>, <span class='object_link'><a href="RichTextExtraction/CacheOperations.html#rails_cache_read-instance_method" title="RichTextExtraction::CacheOperations#rails_cache_read (method)">#rails_cache_read</a></span>, <span class='object_link'><a href="RichTextExtraction/CacheOperations.html#rails_cache_write-instance_method" title="RichTextExtraction::CacheOperations#rails_cache_write (method)">#rails_cache_write</a></span>, <span class='object_link'><a href="RichTextExtraction/CacheOperations.html#read_cache-instance_method" title="RichTextExtraction::CacheOperations#read_cache (method)">#read_cache</a></span>, <span class='object_link'><a href="RichTextExtraction/CacheOperations.html#resolve_key_prefix-instance_method" title="RichTextExtraction::CacheOperations#resolve_key_prefix (method)">#resolve_key_prefix</a></span>, <span class='object_link'><a href="RichTextExtraction/CacheOperations.html#use_rails_cache%3F-instance_method" title="RichTextExtraction::CacheOperations#use_rails_cache? (method)">#use_rails_cache?</a></span>, <span class='object_link'><a href="RichTextExtraction/CacheOperations.html#write_cache-instance_method" title="RichTextExtraction::CacheOperations#write_cache (method)">#write_cache</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="RichTextExtraction/Constants.html" title="RichTextExtraction::Constants (module)">Constants</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="RichTextExtraction/Constants.html#resolve_validator_regex-class_method" title="RichTextExtraction::Constants.resolve_validator_regex (method)">resolve_validator_regex</a></span>, <span class='object_link'><a href="RichTextExtraction/Constants.html#to_jsonld-class_method" title="RichTextExtraction::Constants.to_jsonld (method)">to_jsonld</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html" title="RichTextExtraction::ExtractionPatterns (module)">ExtractionPatterns</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#create_excerpt-instance_method" title="RichTextExtraction::ExtractionPatterns#create_excerpt (method)">#create_excerpt</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#extract_attachment_urls-instance_method" title="RichTextExtraction::ExtractionPatterns#extract_attachment_urls (method)">#extract_attachment_urls</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#extract_emails-instance_method" title="RichTextExtraction::ExtractionPatterns#extract_emails (method)">#extract_emails</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#extract_hashtags-instance_method" title="RichTextExtraction::ExtractionPatterns#extract_hashtags (method)">#extract_hashtags</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#extract_image_urls-instance_method" title="RichTextExtraction::ExtractionPatterns#extract_image_urls (method)">#extract_image_urls</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#extract_markdown_links-instance_method" title="RichTextExtraction::ExtractionPatterns#extract_markdown_links (method)">#extract_markdown_links</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#extract_mentions-instance_method" title="RichTextExtraction::ExtractionPatterns#extract_mentions (method)">#extract_mentions</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#extract_phone_numbers-instance_method" title="RichTextExtraction::ExtractionPatterns#extract_phone_numbers (method)">#extract_phone_numbers</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#extract_twitter_handles-instance_method" title="RichTextExtraction::ExtractionPatterns#extract_twitter_handles (method)">#extract_twitter_handles</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractionPatterns.html#process_scan_matches-instance_method" title="RichTextExtraction::ExtractionPatterns#process_scan_matches (method)">#process_scan_matches</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="RichTextExtraction/SocialExtractor.html" title="RichTextExtraction::SocialExtractor (module)">SocialExtractor</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="RichTextExtraction/SocialExtractor.html#extract_instagram_handles-instance_method" title="RichTextExtraction::SocialExtractor#extract_instagram_handles (method)">#extract_instagram_handles</a></span>, <span class='object_link'><a href="RichTextExtraction/SocialExtractor.html#extract_mentions-instance_method" title="RichTextExtraction::SocialExtractor#extract_mentions (method)">#extract_mentions</a></span>, <span class='object_link'><a href="RichTextExtraction/SocialExtractor.html#extract_mentions_with_context-instance_method" title="RichTextExtraction::SocialExtractor#extract_mentions_with_context (method)">#extract_mentions_with_context</a></span>, <span class='object_link'><a href="RichTextExtraction/SocialExtractor.html#extract_tags-instance_method" title="RichTextExtraction::SocialExtractor#extract_tags (method)">#extract_tags</a></span>, <span class='object_link'><a href="RichTextExtraction/SocialExtractor.html#extract_tags_with_context-instance_method" title="RichTextExtraction::SocialExtractor#extract_tags_with_context (method)">#extract_tags_with_context</a></span>, <span class='object_link'><a href="RichTextExtraction/SocialExtractor.html#extract_twitter_handles-instance_method" title="RichTextExtraction::SocialExtractor#extract_twitter_handles (method)">#extract_twitter_handles</a></span>, <span class='object_link'><a href="RichTextExtraction/SocialExtractor.html#valid_hashtag%3F-instance_method" title="RichTextExtraction::SocialExtractor#valid_hashtag? (method)">#valid_hashtag?</a></span>, <span class='object_link'><a href="RichTextExtraction/SocialExtractor.html#valid_mention%3F-instance_method" title="RichTextExtraction::SocialExtractor#valid_mention? (method)">#valid_mention?</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="RichTextExtraction/LinkExtractor.html" title="RichTextExtraction::LinkExtractor (module)">LinkExtractor</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="RichTextExtraction/LinkExtractor.html#extract_attachment_urls-instance_method" title="RichTextExtraction::LinkExtractor#extract_attachment_urls (method)">#extract_attachment_urls</a></span>, <span class='object_link'><a href="RichTextExtraction/LinkExtractor.html#extract_image_urls-instance_method" title="RichTextExtraction::LinkExtractor#extract_image_urls (method)">#extract_image_urls</a></span>, <span class='object_link'><a href="RichTextExtraction/LinkExtractor.html#extract_links-instance_method" title="RichTextExtraction::LinkExtractor#extract_links (method)">#extract_links</a></span>, <span class='object_link'><a href="RichTextExtraction/LinkExtractor.html#extract_markdown_links-instance_method" title="RichTextExtraction::LinkExtractor#extract_markdown_links (method)">#extract_markdown_links</a></span>, <span class='object_link'><a href="RichTextExtraction/LinkExtractor.html#normalize_url-instance_method" title="RichTextExtraction::LinkExtractor#normalize_url (method)">#normalize_url</a></span>, <span class='object_link'><a href="RichTextExtraction/LinkExtractor.html#valid_url%3F-instance_method" title="RichTextExtraction::LinkExtractor#valid_url? (method)">#valid_url?</a></span></p>
+
+  
+  
+  
+  
+  
+  
 
   <div id="class_method_details" class="method_details_list">
     <h2>Class Method Details</h2>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="opengraph_preview-class_method">
+  <h3 class="signature first" id="config-class_method">
+  
+    .<strong>config</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the configuration object (not a hash)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+306
+307
+308</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 306</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_config'>config</span>
+  <span class='id identifier rubyid_configuration'>configuration</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="config_hash-class_method">
+  
+    .<strong>config_hash</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the configuration as a hash</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+312
+313
+314</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 312</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_config_hash'>config_hash</span>
+  <span class='id identifier rubyid_configuration'>configuration</span><span class='period'>.</span><span class='id identifier rubyid_to_h'>to_h</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="configuration-class_method">
+  
+    .<strong>configuration</strong>  &#x21d2; <tt><span class='object_link'><a href="RichTextExtraction/Configuration.html" title="RichTextExtraction::Configuration (class)">Configuration</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Class-level configuration instance.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="RichTextExtraction/Configuration.html" title="RichTextExtraction::Configuration (class)">Configuration</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Configuration instance</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+277
+278
+279</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 277</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_configuration'>configuration</span>
+  <span class='ivar'>@configuration</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="RichTextExtraction/Configuration.html" title="RichTextExtraction::Configuration (class)">Configuration</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="RichTextExtraction/Configuration.html#initialize-instance_method" title="RichTextExtraction::Configuration#initialize (method)">new</a></span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="configure-class_method">
+  
+    .<strong>configure</strong> {|config| ... } &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Configure RichTextExtraction with a block.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_configure'>configure</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_config'>config</span><span class='op'>|</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_opengraph_timeout'>opengraph_timeout</span> <span class='op'>=</span> <span class='int'>15</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_sanitize_html'>sanitize_html</span> <span class='op'>=</span> <span class='kw'>false</span>
+<span class='kw'>end</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="#config-class_method" title="RichTextExtraction.config (method)">config</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Configuration instance</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Parameters:</p>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='name'>config</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="RichTextExtraction/Configuration.html" title="RichTextExtraction::Configuration (class)">Configuration</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Configuration to modify</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+293
+294
+295</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 293</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_configure'>configure</span>
+  <span class='kw'>yield</span><span class='lparen'>(</span><span class='id identifier rubyid_configuration'>configuration</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="extract-class_method">
+  
+    .<strong>extract</strong>(text, type = :all, **opts)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Universal extract method</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+183
+184
+185</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/extraction_helpers.rb', line 183</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_extract'>extract</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>=</span> <span class='symbol'>:all</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="RichTextExtraction/ExtractionHelpers.html" title="RichTextExtraction::ExtractionHelpers (module)">ExtractionHelpers</a></span></span><span class='period'>.</span><span class='id identifier rubyid_extract'><span class='object_link'><a href="RichTextExtraction/ExtractionHelpers.html#extract-class_method" title="RichTextExtraction::ExtractionHelpers.extract (method)">extract</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="extract_from_file-class_method">
+  
+    .<strong>extract_from_file</strong>(path)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Unified DRY extraction from any supported file format</p>
+
+<p>Usage: RichTextExtraction.extract_from_file(‘path/to/file’) Returns: { text: …, links: […], tags: […], mentions: […] }</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction.rb', line 77</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_extract_from_file'>extract_from_file</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_ext'>ext</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_extname'>extname</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span>
+  <span class='id identifier rubyid_text'>text</span> <span class='op'>=</span> <span class='kw'>case</span> <span class='id identifier rubyid_ext'>ext</span>
+         <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.txt</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+           <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+         <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.md</span><span class='tstring_end'>&#39;</span></span>
+           <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+         <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.html</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.htm</span><span class='tstring_end'>&#39;</span></span>
+           <span class='kw'>begin</span>
+             <span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>nokogiri</span><span class='tstring_end'>&#39;</span></span>
+             <span class='const'>Nokogiri</span><span class='op'>::</span><span class='const'>HTML</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span>
+           <span class='kw'>rescue</span> <span class='const'>LoadError</span>
+             <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>HTML extraction requires the nokogiri gem.</span><span class='tstring_end'>&#39;</span></span>
+             <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+           <span class='kw'>end</span>
+         <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.docx</span><span class='tstring_end'>&#39;</span></span>
+           <span class='kw'>begin</span>
+             <span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>docx</span><span class='tstring_end'>&#39;</span></span>
+             <span class='const'>Docx</span><span class='op'>::</span><span class='const'>Document</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_paragraphs'>paragraphs</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:text</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+           <span class='kw'>rescue</span> <span class='const'>LoadError</span>
+             <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>DOCX extraction requires the docx gem.</span><span class='tstring_end'>&#39;</span></span>
+             <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+           <span class='kw'>end</span>
+         <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.pdf</span><span class='tstring_end'>&#39;</span></span>
+           <span class='kw'>begin</span>
+             <span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>pdf-reader</span><span class='tstring_end'>&#39;</span></span>
+             <span class='const'>PDF</span><span class='op'>::</span><span class='const'>Reader</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_pages'>pages</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:text</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+           <span class='kw'>rescue</span> <span class='const'>LoadError</span>
+             <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>PDF extraction requires the pdf-reader gem.</span><span class='tstring_end'>&#39;</span></span>
+             <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+           <span class='kw'>end</span>
+         <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.csv</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.tsv</span><span class='tstring_end'>&#39;</span></span>
+           <span class='kw'>begin</span>
+             <span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>csv</span><span class='tstring_end'>&#39;</span></span>
+             <span class='const'>CSV</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='label'>col_sep:</span> <span class='lparen'>(</span><span class='id identifier rubyid_ext'>ext</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.tsv</span><span class='tstring_end'>&#39;</span></span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\t</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>,</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+           <span class='kw'>rescue</span> <span class='const'>LoadError</span>
+             <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>CSV/TSV extraction requires the csv gem.</span><span class='tstring_end'>&#39;</span></span>
+             <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+           <span class='kw'>end</span>
+         <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.json</span><span class='tstring_end'>&#39;</span></span>
+           <span class='kw'>begin</span>
+             <span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>json</span><span class='tstring_end'>&#39;</span></span>
+             <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+           <span class='kw'>rescue</span> <span class='const'>LoadError</span>
+             <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>JSON extraction requires the json gem.</span><span class='tstring_end'>&#39;</span></span>
+             <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+           <span class='kw'>end</span>
+         <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.odt</span><span class='tstring_end'>&#39;</span></span>
+           <span class='kw'>begin</span>
+             <span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>odf-report</span><span class='tstring_end'>&#39;</span></span>
+             <span class='id identifier rubyid_doc'>doc</span> <span class='op'>=</span> <span class='const'>ODFReport</span><span class='op'>::</span><span class='const'>Report</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+             <span class='id identifier rubyid_doc'>doc</span><span class='period'>.</span><span class='id identifier rubyid_instance_variable_get'>instance_variable_get</span><span class='lparen'>(</span><span class='symbol'>:@doc</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span>
+           <span class='kw'>rescue</span> <span class='const'>LoadError</span>
+             <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ODT extraction requires the odf-report gem.</span><span class='tstring_end'>&#39;</span></span>
+             <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+           <span class='kw'>end</span>
+         <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.epub</span><span class='tstring_end'>&#39;</span></span>
+           <span class='kw'>begin</span>
+             <span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>epub/parser</span><span class='tstring_end'>&#39;</span></span>
+             <span class='id identifier rubyid_book'>book</span> <span class='op'>=</span> <span class='const'>EPUB</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+             <span class='id identifier rubyid_book'>book</span><span class='period'>.</span><span class='id identifier rubyid_each_page'>each_page</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:content_document</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:text</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+           <span class='kw'>rescue</span> <span class='const'>LoadError</span>
+             <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>EPUB extraction requires the epub-parser gem.</span><span class='tstring_end'>&#39;</span></span>
+             <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+           <span class='kw'>end</span>
+         <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.rtf</span><span class='tstring_end'>&#39;</span></span>
+           <span class='kw'>begin</span>
+             <span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rtf</span><span class='tstring_end'>&#39;</span></span>
+             <span class='id identifier rubyid_doc'>doc</span> <span class='op'>=</span> <span class='const'>RTF</span><span class='op'>::</span><span class='const'>Document</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='rparen'>)</span>
+             <span class='id identifier rubyid_doc'>doc</span><span class='period'>.</span><span class='id identifier rubyid_to_text'>to_text</span>
+           <span class='kw'>rescue</span> <span class='const'>LoadError</span>
+             <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>RTF extraction requires the rtf gem.</span><span class='tstring_end'>&#39;</span></span>
+             <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+           <span class='kw'>end</span>
+         <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.xlsx</span><span class='tstring_end'>&#39;</span></span>
+           <span class='kw'>begin</span>
+             <span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>roo</span><span class='tstring_end'>&#39;</span></span>
+             <span class='id identifier rubyid_xlsx'>xlsx</span> <span class='op'>=</span> <span class='const'>Roo</span><span class='op'>::</span><span class='const'>Excelx</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+             <span class='id identifier rubyid_xlsx'>xlsx</span><span class='period'>.</span><span class='id identifier rubyid_sheets'>sheets</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_sheet'>sheet</span><span class='op'>|</span> <span class='id identifier rubyid_xlsx'>xlsx</span><span class='period'>.</span><span class='id identifier rubyid_sheet'>sheet</span><span class='lparen'>(</span><span class='id identifier rubyid_sheet'>sheet</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_a'>to_a</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+           <span class='kw'>rescue</span> <span class='const'>LoadError</span>
+             <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>XLSX extraction requires the roo gem.</span><span class='tstring_end'>&#39;</span></span>
+             <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+           <span class='kw'>end</span>
+         <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.pptx</span><span class='tstring_end'>&#39;</span></span>
+           <span class='kw'>begin</span>
+             <span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>roo</span><span class='tstring_end'>&#39;</span></span>
+             <span class='id identifier rubyid_pptx'>pptx</span> <span class='op'>=</span> <span class='const'>Roo</span><span class='op'>::</span><span class='const'>Powerpoint</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+             <span class='id identifier rubyid_pptx'>pptx</span><span class='period'>.</span><span class='id identifier rubyid_slides'>slides</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:text</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+           <span class='kw'>rescue</span> <span class='const'>LoadError</span>
+             <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>PPTX extraction requires the roo gem.</span><span class='tstring_end'>&#39;</span></span>
+             <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+           <span class='kw'>end</span>
+         <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.xml</span><span class='tstring_end'>&#39;</span></span>
+           <span class='kw'>begin</span>
+             <span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>nokogiri</span><span class='tstring_end'>&#39;</span></span>
+             <span class='const'>Nokogiri</span><span class='op'>::</span><span class='const'>XML</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span>
+           <span class='kw'>rescue</span> <span class='const'>LoadError</span>
+             <span class='id identifier rubyid_warn'>warn</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>XML extraction requires the nokogiri gem.</span><span class='tstring_end'>&#39;</span></span>
+             <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+           <span class='kw'>end</span>
+         <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.yml</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.yaml</span><span class='tstring_end'>&#39;</span></span>
+           <span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>yaml</span><span class='tstring_end'>&#39;</span></span>
+           <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='const'>YAML</span><span class='period'>.</span><span class='id identifier rubyid_load_file'>load_file</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+           <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+         <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.tex</span><span class='tstring_end'>&#39;</span></span>
+           <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+         <span class='kw'>else</span>
+           <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+         <span class='kw'>end</span>
+  <span class='id identifier rubyid_extractor'>extractor</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="RichTextExtraction/Extractor.html" title="RichTextExtraction::Extractor (class)">Extractor</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="RichTextExtraction/Extractor.html#initialize-instance_method" title="RichTextExtraction::Extractor#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='rparen'>)</span>
+  <span class='lbrace'>{</span>
+    <span class='label'>text:</span> <span class='id identifier rubyid_text'>text</span><span class='comma'>,</span>
+    <span class='label'>links:</span> <span class='id identifier rubyid_extractor'>extractor</span><span class='period'>.</span><span class='id identifier rubyid_links'>links</span><span class='comma'>,</span>
+    <span class='label'>tags:</span> <span class='id identifier rubyid_extractor'>extractor</span><span class='period'>.</span><span class='id identifier rubyid_tags'>tags</span><span class='comma'>,</span>
+    <span class='label'>mentions:</span> <span class='id identifier rubyid_extractor'>extractor</span><span class='period'>.</span><span class='id identifier rubyid_mentions'>mentions</span>
+  <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="extract_opengraph-class_method">
+  
+    .<strong>extract_opengraph</strong>(url, cache: nil, cache_options: {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Make extract_opengraph available as a module method</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+188
+189
+190</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/extraction_helpers.rb', line 188</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_extract_opengraph'>extract_opengraph</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='comma'>,</span> <span class='label'>cache:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cache_options:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="RichTextExtraction/ExtractionHelpers.html" title="RichTextExtraction::ExtractionHelpers (module)">ExtractionHelpers</a></span></span><span class='period'>.</span><span class='id identifier rubyid_extract_opengraph'><span class='object_link'><a href="RichTextExtraction/ExtractionHelpers.html#extract_opengraph-class_method" title="RichTextExtraction::ExtractionHelpers.extract_opengraph (method)">extract_opengraph</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='comma'>,</span> <span class='label'>cache:</span> <span class='id identifier rubyid_cache'>cache</span><span class='comma'>,</span> <span class='label'>cache_options:</span> <span class='id identifier rubyid_cache_options'>cache_options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="opengraph_preview-class_method">
   
     .<strong>opengraph_preview</strong>(og_data, format: :html)  &#x21d2; <tt>Object</tt> 
   
@@ -280,12 +1152,12 @@
       <pre class="lines">
 
 
-43
-44
-45</pre>
+58
+59
+60</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction.rb', line 58</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_opengraph_preview'>opengraph_preview</span><span class='lparen'>(</span><span class='id identifier rubyid_og_data'>og_data</span><span class='comma'>,</span> <span class='label'>format:</span> <span class='symbol'>:html</span><span class='rparen'>)</span>
   <span class='kw'>super</span>
@@ -296,9 +1168,50 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="register_extractor-class_method">
+  
+    .<strong>register_extractor</strong>(key, postprocess: nil, compose: nil, &amp;block)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>DSL for registering extractors</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+178
+179
+180</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/extraction_helpers.rb', line 178</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_register_extractor'>register_extractor</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='label'>postprocess:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>compose:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="RichTextExtraction/ExtractionHelpers.html" title="RichTextExtraction::ExtractionHelpers (module)">ExtractionHelpers</a></span></span><span class='period'>.</span><span class='id identifier rubyid_register_extractor'><span class='object_link'><a href="RichTextExtraction/ExtractionHelpers.html#register_extractor-class_method" title="RichTextExtraction::ExtractionHelpers.register_extractor (method)">register_extractor</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='label'>postprocess:</span> <span class='id identifier rubyid_postprocess'>postprocess</span><span class='comma'>,</span> <span class='label'>compose:</span> <span class='id identifier rubyid_compose'>compose</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="render_markdown-class_method">
   
-    .<strong>render_markdown</strong>(text)  &#x21d2; <tt>Object</tt> 
+    .<strong>render_markdown</strong>(text, options = {})  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -321,15 +1234,58 @@
       <pre class="lines">
 
 
-39
-40
-41</pre>
+53
+54
+55
+56</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction.rb', line 53</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_render_markdown'>render_markdown</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='rparen'>)</span>
-  <span class='const'><span class='object_link'><a href="RichTextExtraction/MarkdownHelpers.html" title="RichTextExtraction::MarkdownHelpers (module)">MarkdownHelpers</a></span></span><span class='period'>.</span><span class='id identifier rubyid_render_markdown_html'><span class='object_link'><a href="RichTextExtraction/MarkdownHelpers.html#render_markdown_html-class_method" title="RichTextExtraction::MarkdownHelpers.render_markdown_html (method)">render_markdown_html</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_render_markdown'>render_markdown</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='id identifier rubyid_configuration'>configuration</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="RichTextExtraction/MarkdownService.html" title="RichTextExtraction::MarkdownService (class)">MarkdownService</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="RichTextExtraction/MarkdownService.html#initialize-instance_method" title="RichTextExtraction::MarkdownService#initialize (method)">new</a></span></span><span class='period'>.</span><span class='id identifier rubyid_render'><span class='object_link'><a href="RichTextExtraction/MarkdownService.html#render-instance_method" title="RichTextExtraction::MarkdownService#render (method)">render</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="reset_configuration!-class_method">
+  
+    .<strong>reset_configuration!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Reset configuration to defaults.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+300
+301
+302</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 300</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_reset_configuration!'>reset_configuration!</span>
+  <span class='ivar'>@configuration</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="RichTextExtraction/Configuration.html" title="RichTextExtraction::Configuration (class)">Configuration</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="RichTextExtraction/Configuration.html#initialize-instance_method" title="RichTextExtraction::Configuration#initialize (method)">new</a></span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -408,23 +1364,17 @@
       <pre class="lines">
 
 
-50
-51
-52
-53
-54
-55
-56</pre>
+65
+66
+67
+68</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction.rb', line 50</span>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction.rb', line 65</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_clear_link_cache'>clear_link_cache</span><span class='lparen'>(</span><span class='label'>cache:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cache_options:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_key_prefix'>key_prefix</span> <span class='op'>=</span> <span class='id identifier rubyid_resolve_opengraph_key_prefix'>resolve_opengraph_key_prefix</span><span class='lparen'>(</span><span class='id identifier rubyid_cache_options'>cache_options</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_links'>links</span> <span class='op'>=</span> <span class='id identifier rubyid_resolve_links'>resolve_links</span>
-  <span class='id identifier rubyid_links'>links</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_url'>url</span><span class='op'>|</span>
-    <span class='id identifier rubyid_delete_opengraph_cache_entry'>delete_opengraph_cache_entry</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='comma'>,</span> <span class='id identifier rubyid_cache'>cache</span><span class='comma'>,</span> <span class='id identifier rubyid_cache_options'>cache_options</span><span class='comma'>,</span> <span class='id identifier rubyid_key_prefix'>key_prefix</span><span class='rparen'>)</span>
-  <span class='kw'>end</span>
+  <span class='id identifier rubyid_links'>links</span> <span class='op'>=</span> <span class='id identifier rubyid_extract_links'>extract_links</span><span class='lparen'>(</span><span class='id identifier rubyid_plain_text'>plain_text</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_clear_cache_for_urls'>clear_cache_for_urls</span><span class='lparen'>(</span><span class='id identifier rubyid_links'>links</span><span class='comma'>,</span> <span class='id identifier rubyid_cache'>cache</span><span class='comma'>,</span> <span class='id identifier rubyid_cache_options'>cache_options</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -436,7 +1386,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Jun 24 01:40:32 2025 by
+  Generated on Tue Jun 24 18:08:33 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.3.6).
 </div>

@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: RichTextExtraction::Constants
+  
+    &mdash; Documentation by YARD 0.9.37
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "RichTextExtraction::Constants";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span>
+     &raquo; 
+    <span class="title">Constants</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: RichTextExtraction::Constants
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="CacheOperations.html" title="RichTextExtraction::CacheOperations (module)">CacheOperations</a></span>, <span class='object_link'><a href="Configuration.html" title="RichTextExtraction::Configuration (class)">Configuration</a></span>, <span class='object_link'><a href="ExtractionPatterns.html" title="RichTextExtraction::ExtractionPatterns (module)">ExtractionPatterns</a></span>, <span class='object_link'><a href="LinkExtractor.html" title="RichTextExtraction::LinkExtractor (module)">LinkExtractor</a></span>, <span class='object_link'><a href="SocialExtractor.html" title="RichTextExtraction::SocialExtractor (module)">SocialExtractor</a></span></dd>
+  </dl>
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/rich_text_extraction/constants.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Constants provides centralized regex patterns and common values used across RichTextExtraction. This module helps maintain consistency and reduces duplication.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="EMAIL_REGEX-constant" class="">EMAIL_REGEX =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Email regex pattern</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z]{2,}\b</span><span class='regexp_end'>/i</span></span></pre></dd>
+      
+        <dt id="PHONE_REGEX-constant" class="">PHONE_REGEX =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Phone number regex pattern</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\b\+?\d[\d\s\-()]{7,}\b</span><span class='regexp_end'>/</span></span></pre></dd>
+      
+        <dt id="DATE_REGEX-constant" class="">DATE_REGEX =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Date regex patterns (ISO and US formats)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>\b\d{4}-\d{2}-\d{2}\b|\b\d{2}/\d{2}/\d{4}\b</span><span class='regexp_end'>}</span></span></pre></dd>
+      
+        <dt id="IMAGE_EXTENSIONS-constant" class="">IMAGE_EXTENSIONS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Image file extensions</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='qwords_beg'>%w[</span><span class='tstring_content'>jpg</span><span class='words_sep'> </span><span class='tstring_content'>jpeg</span><span class='words_sep'> </span><span class='tstring_content'>png</span><span class='words_sep'> </span><span class='tstring_content'>gif</span><span class='words_sep'> </span><span class='tstring_content'>svg</span><span class='words_sep'> </span><span class='tstring_content'>webp</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="ATTACHMENT_EXTENSIONS-constant" class="">ATTACHMENT_EXTENSIONS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Attachment file extensions</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='qwords_beg'>%w[</span><span class='tstring_content'>pdf</span><span class='words_sep'> </span><span class='tstring_content'>docx</span><span class='words_sep'> </span><span class='tstring_content'>doc</span><span class='words_sep'> </span><span class='tstring_content'>xlsx</span><span class='words_sep'> </span><span class='tstring_content'>xls</span><span class='words_sep'> </span><span class='tstring_content'>pptx</span><span class='words_sep'> </span><span class='tstring_content'>ppt</span><span class='words_sep'> </span><span class='tstring_content'>txt</span><span class='words_sep'> </span><span class='tstring_content'>csv</span><span class='words_sep'> </span><span class='tstring_content'>zip</span><span class='words_sep'> </span><span class='tstring_content'>rar</span><span class='words_sep'> </span><span class='tstring_content'>7z</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="IMAGE_REGEX-constant" class="">IMAGE_REGEX =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Image URL regex pattern</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>https?://[^\s]+?\.(</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#IMAGE_EXTENSIONS-constant" title="RichTextExtraction::Constants::IMAGE_EXTENSIONS (constant)">IMAGE_EXTENSIONS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>|</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='regexp_end'>}</span></span></pre></dd>
+      
+        <dt id="ATTACHMENT_REGEX-constant" class="">ATTACHMENT_REGEX =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Attachment URL regex pattern</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>https?://[\w\-.?,&#39;/\\+&amp;%$#_=:()~]+\.(</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#ATTACHMENT_EXTENSIONS-constant" title="RichTextExtraction::Constants::ATTACHMENT_EXTENSIONS (constant)">ATTACHMENT_EXTENSIONS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>|</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='regexp_end'>}i</span></span></pre></dd>
+      
+        <dt id="TWITTER_REGEX-constant" class="">TWITTER_REGEX =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Twitter handle regex pattern</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>@([A-Za-z0-9_]{1,15})</span><span class='regexp_end'>/</span></span></pre></dd>
+      
+        <dt id="MARKDOWN_LINK_REGEX-constant" class="">MARKDOWN_LINK_REGEX =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Markdown link regex pattern</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>\[([^\]]+)\]\((https?://[^)]+)\)</span><span class='regexp_end'>}</span></span></pre></dd>
+      
+        <dt id="HASHTAG_REGEX-constant" class="">HASHTAG_REGEX =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Hashtag regex pattern</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>#(\w+)</span><span class='regexp_end'>/</span></span></pre></dd>
+      
+        <dt id="MENTION_REGEX-constant" class="">MENTION_REGEX =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Mention regex pattern</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>@(\w+)</span><span class='regexp_end'>/</span></span></pre></dd>
+      
+        <dt id="DEFAULT_CACHE_TTL-constant" class="">DEFAULT_CACHE_TTL =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Default cache TTL in seconds (1 hour)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>3600</span></pre></dd>
+      
+        <dt id="DEFAULT_EXCERPT_LENGTH-constant" class="">DEFAULT_EXCERPT_LENGTH =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Default excerpt length</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>300</span></pre></dd>
+      
+        <dt id="DEFAULT_OPENGRAPH_TIMEOUT-constant" class="">DEFAULT_OPENGRAPH_TIMEOUT =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Default OpenGraph timeout in seconds</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>15</span></pre></dd>
+      
+        <dt id="DEFAULT_MAX_REDIRECTS-constant" class="">DEFAULT_MAX_REDIRECTS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Default max redirects</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>3</span></pre></dd>
+      
+        <dt id="DEFAULT_USER_AGENT-constant" class="">DEFAULT_USER_AGENT =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Default user agent</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>RichTextExtraction/1.0</span><span class='tstring_end'>&#39;</span></span></pre></dd>
+      
+        <dt id="DEFAULT_CACHE_PREFIX-constant" class="">DEFAULT_CACHE_PREFIX =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Default cache prefix</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rte</span><span class='tstring_end'>&#39;</span></span></pre></dd>
+      
+        <dt id="DEFAULT_CACHE_STORE-constant" class="">DEFAULT_CACHE_STORE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Default cache store</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:memory_store</span></pre></dd>
+      
+        <dt id="VALIDATOR_EXAMPLES-constant" class="">VALIDATOR_EXAMPLES =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Application-wide valid/invalid examples for all validators NOTE: Keys are validator symbols (e.g., :isbn, :vin) for Rails compatibility. NOTE: Regex values are string names to avoid circular dependency. Use .resolve_validator_regex(:symbol) to get the actual regex.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+  <span class='label'>isbn:</span> <span class='lbrace'>{</span>
+    <span class='label'>valid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>978-3-16-148410-0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>0-306-40615-2</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>invalid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>978-3-16-148410-1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>123</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>regex:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='comment'># Uses validation method
+</span>    <span class='label'>schema_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Book</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_property:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>isbn</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>description:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>International Standard Book Number (schema.org/Book/isbn)</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='label'>vin:</span> <span class='lbrace'>{</span>
+    <span class='label'>valid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>1HGCM82633A004352</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>invalid:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>1HGCM82633A004353</span><span class='words_sep'> </span><span class='tstring_content'>123</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
+    <span class='label'>regex:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>VIN_REGEX</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Vehicle</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_property:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>vehicleIdentificationNumber</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>description:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Vehicle Identification Number (schema.org/Vehicle/vehicleIdentificationNumber)</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='label'>issn:</span> <span class='lbrace'>{</span>
+    <span class='label'>valid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>2049-3630</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>invalid:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>2049-3631</span><span class='words_sep'> </span><span class='tstring_content'>123</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
+    <span class='label'>regex:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='comment'># Uses validation method
+</span>    <span class='label'>schema_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>PublicationIssue</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_property:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>issn</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>description:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>International Standard Serial Number (schema.org/PublicationIssue/issn)</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='label'>iban:</span> <span class='lbrace'>{</span>
+    <span class='label'>valid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>GB82WEST12345698765432</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>invalid:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>GB82WEST12345698765431</span><span class='words_sep'> </span><span class='tstring_content'>123</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
+    <span class='label'>regex:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>IBAN_REGEX</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>BankAccount</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_property:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>identifier</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>description:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>International Bank Account Number (no direct schema.org property, using identifier)</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='label'>luhn:</span> <span class='lbrace'>{</span>
+    <span class='label'>valid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>4111 1111 1111 1111</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>79927398713</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>invalid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>4111 1111 1111 1112</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>123</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>regex:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>CREDIT_CARD_REGEX</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>CreditCard</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_property:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>identifier</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>description:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Credit card number (schema.org/CreditCard/identifier, Luhn validated)</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='label'>ean13:</span> <span class='lbrace'>{</span>
+    <span class='label'>valid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>4006381333931</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>invalid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>4006381333932</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>123</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>regex:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>EAN13_REGEX</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Product</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_property:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>gtin13</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>description:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>EAN-13 barcode (schema.org/Product/gtin13)</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>error_message:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>is not a valid EAN-13 barcode</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='label'>upca:</span> <span class='lbrace'>{</span>
+    <span class='label'>valid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>036000291452</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>invalid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>036000291453</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>123</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>regex:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>UPCA_REGEX</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Product</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_property:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>gtin12</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>description:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>UPC-A barcode (schema.org/Product/gtin12)</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>error_message:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>is not a valid UPC-A barcode</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='label'>uuid:</span> <span class='lbrace'>{</span>
+    <span class='label'>valid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>123e4567-e89b-12d3-a456-426614174000</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>invalid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>123e4567-e89b-12d3-a456-42661417400Z</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>123</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>regex:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>UUID_REGEX</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Thing</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_property:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>identifier</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>description:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>UUID (schema.org/Thing/identifier)</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>error_message:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>is not a valid UUID</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='label'>hex_color:</span> <span class='lbrace'>{</span>
+    <span class='label'>valid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>#fff</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>#abcdef</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>invalid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>#ggg</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>123</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>regex:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>HEX_COLOR_REGEX</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Thing</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_property:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>color</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>description:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Hex color (schema.org/Thing/color)</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>error_message:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>is not a valid hex color</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='label'>ip:</span> <span class='lbrace'>{</span>
+    <span class='label'>valid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>192.168.1.1</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>invalid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>999.999.999.999</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>abc</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>regex:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>IP_REGEX</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Thing</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_property:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>identifier</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>description:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>IPv4 address (schema.org/Thing/identifier)</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>error_message:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>is not a valid IPv4 address</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='label'>mac_address:</span> <span class='lbrace'>{</span>
+    <span class='label'>valid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>00:1A:2B:3C:4D:5E</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>invalid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>00:1A:2B:3C:4D:5Z</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>123</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>regex:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>MAC_ADDRESS_REGEX</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Thing</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_property:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>identifier</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>description:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>MAC address (schema.org/Thing/identifier)</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>error_message:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>is not a valid MAC address</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='label'>hashtag:</span> <span class='lbrace'>{</span>
+    <span class='label'>valid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>hashtag</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>test123</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>invalid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>#hashtag</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>test 123</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>regex:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>HASHTAG_PATTERN</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Thing</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_property:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>identifier</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>description:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Hashtag (no direct schema.org property, using identifier)</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>error_message:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>is not a valid hashtag</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='label'>mention:</span> <span class='lbrace'>{</span>
+    <span class='label'>valid:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>mention</span><span class='words_sep'> </span><span class='tstring_content'>user123</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
+    <span class='label'>invalid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>@mention</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>user name</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>regex:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>MENTION_PATTERN</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Person</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_property:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>identifier</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>description:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Mention (no direct schema.org property, using identifier)</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>error_message:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>is not a valid mention</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='label'>twitter_handle:</span> <span class='lbrace'>{</span>
+    <span class='label'>valid:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>jack</span><span class='words_sep'> </span><span class='tstring_content'>user123</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
+    <span class='label'>invalid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>user_name_too_long_for_twitter</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>regex:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>TWITTER_HANDLE_PATTERN</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Person</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_property:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>sameAs</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>description:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Twitter handle (schema.org/Person/sameAs, for social profile URLs)</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>error_message:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>is not a valid Twitter handle</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='label'>instagram_handle:</span> <span class='lbrace'>{</span>
+    <span class='label'>valid:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>instauser</span><span class='words_sep'> </span><span class='tstring_content'>user123</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
+    <span class='label'>invalid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>user_name_that_is_way_too_long_for_instagram_because_it_is_over_30_chars</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>regex:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>INSTAGRAM_HANDLE_PATTERN</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Person</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_property:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>sameAs</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>description:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Instagram handle (schema.org/Person/sameAs, for social profile URLs)</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>error_message:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>is not a valid Instagram handle</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='label'>url:</span> <span class='lbrace'>{</span>
+    <span class='label'>valid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://example.com</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>http://test.com</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>invalid:</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>not a url</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ftp://example.com</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>regex:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>URL_PATTERN</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Thing</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>schema_property:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>url</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>description:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>URL (schema.org/Thing/url)</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span>
+<span class='rbrace'>}</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#resolve_validator_regex-class_method" title="resolve_validator_regex (class method)">.<strong>resolve_validator_regex</strong>(symbol)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Helper to resolve the regex for a validator symbol at runtime.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_jsonld-class_method" title="to_jsonld (class method)">.<strong>to_jsonld</strong>(symbol, value)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Helper to generate schema.org JSON-LD for a validated value.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="resolve_validator_regex-class_method">
+  
+    .<strong>resolve_validator_regex</strong>(symbol)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Helper to resolve the regex for a validator symbol at runtime</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+208
+209
+210
+211
+212
+213</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/constants.rb', line 208</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_resolve_validator_regex'>resolve_validator_regex</span><span class='lparen'>(</span><span class='id identifier rubyid_symbol'>symbol</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_entry'>entry</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#VALIDATOR_EXAMPLES-constant" title="RichTextExtraction::Constants::VALIDATOR_EXAMPLES (constant)">VALIDATOR_EXAMPLES</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_symbol'>symbol</span><span class='rbracket'>]</span>
+  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='id identifier rubyid_entry'>entry</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_entry'>entry</span><span class='lbracket'>[</span><span class='symbol'>:regex</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_require_relative'>require_relative</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>extraction_patterns</span><span class='tstring_end'>&#39;</span></span>
+  <span class='const'><span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ExtractionPatterns.html" title="RichTextExtraction::ExtractionPatterns (module)">ExtractionPatterns</a></span></span><span class='period'>.</span><span class='id identifier rubyid_const_get'>const_get</span><span class='lparen'>(</span><span class='id identifier rubyid_entry'>entry</span><span class='lbracket'>[</span><span class='symbol'>:regex</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_jsonld-class_method">
+  
+    .<strong>to_jsonld</strong>(symbol, value)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Helper to generate schema.org JSON-LD for a validated value</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+216
+217
+218
+219
+220
+221
+222
+223
+224</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/constants.rb', line 216</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_to_jsonld'>to_jsonld</span><span class='lparen'>(</span><span class='id identifier rubyid_symbol'>symbol</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_entry'>entry</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#VALIDATOR_EXAMPLES-constant" title="RichTextExtraction::Constants::VALIDATOR_EXAMPLES (constant)">VALIDATOR_EXAMPLES</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_symbol'>symbol</span><span class='rbracket'>]</span>
+  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='id identifier rubyid_entry'>entry</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_entry'>entry</span><span class='lbracket'>[</span><span class='symbol'>:schema_type</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_entry'>entry</span><span class='lbracket'>[</span><span class='symbol'>:schema_property</span><span class='rbracket'>]</span>
+  <span class='lbrace'>{</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>@context</span><span class='label_end'>&quot;:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>https://schema.org</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>@type</span><span class='label_end'>&quot;:</span> <span class='id identifier rubyid_entry'>entry</span><span class='lbracket'>[</span><span class='symbol'>:schema_type</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='id identifier rubyid_entry'>entry</span><span class='lbracket'>[</span><span class='symbol'>:schema_property</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_value'>value</span>
+  <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Tue Jun 24 18:08:33 2025 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.37 (ruby-3.3.6).
+</div>
+
+    </div>
+  </body>
+</html>

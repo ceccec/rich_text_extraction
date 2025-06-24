@@ -36,7 +36,7 @@ Gem::Specification.new do |spec|
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
   gemspec = File.basename(__FILE__)
   spec.files = IO.popen(%w[git ls-files -z], chdir: __dir__, err: IO::NULL) do |ls|
-    ls.readlines("\x0", chomp: true).reject do |f|
+    ls.each_line("\x0", chomp: true).reject do |f|
       (f == gemspec) ||
         f.end_with?('.gem') ||
         f.start_with?(*%w[bin/ test/ spec/ features/ .git .github appveyor Gemfile])
@@ -47,7 +47,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   # Dependencies (alphabetical order)
-  spec.add_dependency 'activesupport', '< 8.0'
+  spec.add_dependency 'activemodel', '>= 6.1', '< 9.0'
+  spec.add_dependency 'activesupport', '>= 6.1', '< 9.0'
   spec.add_dependency 'commonmarker', '>= 0.23', '< 1.0'
   spec.add_dependency 'kramdown', '>= 2.4', '< 3.0'
   spec.add_dependency 'redcarpet', '>= 3.6', '< 4.0'

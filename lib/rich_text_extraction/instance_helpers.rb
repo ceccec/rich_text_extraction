@@ -59,12 +59,6 @@ module RichTextExtraction
       extract_phone_numbers(plain_text)
     end
 
-    # Extracts all dates from the plain text.
-    # @return [Array<String>]
-    def dates
-      extract_dates(plain_text)
-    end
-
     # Extracts all Markdown links from the plain text.
     # @return [Array<Hash>]
     def markdown_links

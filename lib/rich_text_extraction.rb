@@ -25,6 +25,8 @@ require_relative 'rich_text_extraction/extraction_helpers'
 require_relative 'rich_text_extraction/rails' if defined?(Rails)
 
 ##
+# RichTextExtraction is a universal, extensible gem for extracting links, identifiers, Markdown, OpenGraph, and more from any document or string.
+#
 # RichTextExtraction provides a suite of helpers and extensions for extracting and processing rich text content,
 # such as links, tags, mentions, emails, attachments, phone numbers, dates, and more. It also integrates with Rails
 # and ActionText for seamless rich text handling and caching.
@@ -42,20 +44,10 @@ module RichTextExtraction
   include CacheOperations
 
   # Make all instance methods from InstanceHelpers publicly accessible
-  # @!method plain_text
-  # @!method links
-  # @!method tags
-  # @!method mentions
-  # @!method emails
-  # @!method excerpt
-  # @!method attachments
-  # @!method phone_numbers
-  # @!method dates
-  # @!method markdown_links
-  # @!method image_urls
-  # @!method twitter_handles
-  # @!method link_objects
+  # Only make methods public if they are actually defined at this level
   public(*InstanceHelpers.instance_methods(false))
+  # Remove :dates from the public list if not defined at this level
+  # public :dates, :links, :tags, :mentions, :emails, :excerpt, :attachments, :phone_numbers, :markdown_links, :image_urls, :twitter_handles, :link_objects
 
   # Public API
   def self.render_markdown(text, options = {})
@@ -75,7 +67,7 @@ module RichTextExtraction
     clear_cache_for_urls(links, cache, cache_options)
   end
 
-  public :links, :tags, :mentions, :emails, :excerpt, :attachments, :phone_numbers, :dates, :markdown_links,
+  public :links, :tags, :mentions, :emails, :excerpt, :attachments, :phone_numbers, :markdown_links,
          :image_urls, :twitter_handles, :link_objects
 
   # Unified DRY extraction from any supported file format
@@ -85,112 +77,112 @@ module RichTextExtraction
   def self.extract_from_file(path)
     ext = File.extname(path).downcase
     text = case ext
-    when '.txt', ''
-      File.read(path)
-    when '.md'
-      File.read(path)
-    when '.html', '.htm'
-      begin
-        require 'nokogiri'
-        Nokogiri::HTML(File.read(path)).text
-      rescue LoadError
-        warn 'HTML extraction requires the nokogiri gem.'
-        ''
-      end
-    when '.docx'
-      begin
-        require 'docx'
-        Docx::Document.open(path).paragraphs.map(&:text).join("\n")
-      rescue LoadError
-        warn 'DOCX extraction requires the docx gem.'
-        ''
-      end
-    when '.pdf'
-      begin
-        require 'pdf-reader'
-        PDF::Reader.new(path).pages.map(&:text).join("\n")
-      rescue LoadError
-        warn 'PDF extraction requires the pdf-reader gem.'
-        ''
-      end
-    when '.csv', '.tsv'
-      begin
-        require 'csv'
-        CSV.read(path, col_sep: (ext == '.tsv' ? "\t" : ",")).flatten.join("\n")
-      rescue LoadError
-        warn 'CSV/TSV extraction requires the csv gem.'
-        ''
-      end
-    when '.json'
-      begin
-        require 'json'
-        JSON.parse(File.read(path)).values.flatten.join("\n")
-      rescue LoadError
-        warn 'JSON extraction requires the json gem.'
-        ''
-      end
-    when '.odt'
-      begin
-        require 'odf-report'
-        doc = ODFReport::Report.new(path)
-        doc.instance_variable_get(:@doc).text
-      rescue LoadError
-        warn 'ODT extraction requires the odf-report gem.'
-        ''
-      end
-    when '.epub'
-      begin
-        require 'epub/parser'
-        book = EPUB::Parser.parse(path)
-        book.each_page.map(&:content_document).map(&:text).join("\n")
-      rescue LoadError
-        warn 'EPUB extraction requires the epub-parser gem.'
-        ''
-      end
-    when '.rtf'
-      begin
-        require 'rtf'
-        doc = RTF::Document.new(File.read(path))
-        doc.to_text
-      rescue LoadError
-        warn 'RTF extraction requires the rtf gem.'
-        ''
-      end
-    when '.xlsx'
-      begin
-        require 'roo'
-        xlsx = Roo::Excelx.new(path)
-        xlsx.sheets.map { |sheet| xlsx.sheet(sheet).to_a.flatten }.flatten.join("\n")
-      rescue LoadError
-        warn 'XLSX extraction requires the roo gem.'
-        ''
-      end
-    when '.pptx'
-      begin
-        require 'roo'
-        pptx = Roo::Powerpoint.new(path)
-        pptx.slides.map(&:text).join("\n")
-      rescue LoadError
-        warn 'PPTX extraction requires the roo gem.'
-        ''
-      end
-    when '.xml'
-      begin
-        require 'nokogiri'
-        Nokogiri::XML(File.read(path)).text
-      rescue LoadError
-        warn 'XML extraction requires the nokogiri gem.'
-        ''
-      end
-    when '.yml', '.yaml'
-      require 'yaml'
-      data = YAML.load_file(path)
-      data.values.flatten.join("\n")
-    when '.tex'
-      File.read(path)
-    else
-      File.read(path)
-    end
+           when '.txt', ''
+             File.read(path)
+           when '.md'
+             File.read(path)
+           when '.html', '.htm'
+             begin
+               require 'nokogiri'
+               Nokogiri::HTML(File.read(path)).text
+             rescue LoadError
+               warn 'HTML extraction requires the nokogiri gem.'
+               ''
+             end
+           when '.docx'
+             begin
+               require 'docx'
+               Docx::Document.open(path).paragraphs.map(&:text).join("\n")
+             rescue LoadError
+               warn 'DOCX extraction requires the docx gem.'
+               ''
+             end
+           when '.pdf'
+             begin
+               require 'pdf-reader'
+               PDF::Reader.new(path).pages.map(&:text).join("\n")
+             rescue LoadError
+               warn 'PDF extraction requires the pdf-reader gem.'
+               ''
+             end
+           when '.csv', '.tsv'
+             begin
+               require 'csv'
+               CSV.read(path, col_sep: (ext == '.tsv' ? "\t" : ',')).flatten.join("\n")
+             rescue LoadError
+               warn 'CSV/TSV extraction requires the csv gem.'
+               ''
+             end
+           when '.json'
+             begin
+               require 'json'
+               JSON.parse(File.read(path)).values.flatten.join("\n")
+             rescue LoadError
+               warn 'JSON extraction requires the json gem.'
+               ''
+             end
+           when '.odt'
+             begin
+               require 'odf-report'
+               doc = ODFReport::Report.new(path)
+               doc.instance_variable_get(:@doc).text
+             rescue LoadError
+               warn 'ODT extraction requires the odf-report gem.'
+               ''
+             end
+           when '.epub'
+             begin
+               require 'epub/parser'
+               book = EPUB::Parser.parse(path)
+               book.each_page.map(&:content_document).map(&:text).join("\n")
+             rescue LoadError
+               warn 'EPUB extraction requires the epub-parser gem.'
+               ''
+             end
+           when '.rtf'
+             begin
+               require 'rtf'
+               doc = RTF::Document.new(File.read(path))
+               doc.to_text
+             rescue LoadError
+               warn 'RTF extraction requires the rtf gem.'
+               ''
+             end
+           when '.xlsx'
+             begin
+               require 'roo'
+               xlsx = Roo::Excelx.new(path)
+               xlsx.sheets.map { |sheet| xlsx.sheet(sheet).to_a.flatten }.flatten.join("\n")
+             rescue LoadError
+               warn 'XLSX extraction requires the roo gem.'
+               ''
+             end
+           when '.pptx'
+             begin
+               require 'roo'
+               pptx = Roo::Powerpoint.new(path)
+               pptx.slides.map(&:text).join("\n")
+             rescue LoadError
+               warn 'PPTX extraction requires the roo gem.'
+               ''
+             end
+           when '.xml'
+             begin
+               require 'nokogiri'
+               Nokogiri::XML(File.read(path)).text
+             rescue LoadError
+               warn 'XML extraction requires the nokogiri gem.'
+               ''
+             end
+           when '.yml', '.yaml'
+             require 'yaml'
+             data = YAML.load_file(path)
+             data.values.flatten.join("\n")
+           when '.tex'
+             File.read(path)
+           else
+             File.read(path)
+           end
     extractor = RichTextExtraction::Extractor.new(text)
     {
       text: text,
@@ -287,4 +279,4 @@ end
 # Auto-include in ActionText::RichText if Rails and ActionText are loaded
 # @!parse
 #   ActionText::RichText.include(RichTextExtraction) if defined?(ActionText::RichText)
-ActionText::RichText.include(RichTextExtraction) if defined?(ActionText::RichText)
+ActiveSupport.on_load(:action_text_rich_text) { include RichTextExtraction } if defined?(ActionText::RichText)

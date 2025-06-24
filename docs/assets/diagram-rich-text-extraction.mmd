@@ -1,16 +1,41 @@
 graph TD
-  A["User Text"] --> B["Extractor"]
-  B --> C1["Links"]
-  B --> C2["Tags"]
-  B --> C3["Mentions"]
-  B --> C4["Emails"]
-  B --> C5["Phone Numbers"]
-  B --> C6["Dates"]
-  C1 --> D["OpenGraph Fetch (optional)"]
-  D --> E["Preview/Output"]
-  C1 --> E
-  C2 --> E
-  C3 --> E
-  C4 --> E
-  C5 --> E
-  C6 --> E 
+  social_group["social"] --> twitter_handle
+  social_group["social"] --> instagram_handle
+  social_group["social"] --> mention
+  social_group["social"] --> hashtag
+  barcodes_group["barcodes"] --> ean13
+  barcodes_group["barcodes"] --> upca
+  barcodes_group["barcodes"] --> isbn
+  barcodes_group["barcodes"] --> issn
+  barcodes_group["barcodes"] --> vin
+  network_group["network"] --> ip
+  network_group["network"] --> mac_address
+  network_group["network"] --> uuid
+  financial_group["financial"] --> iban
+  financial_group["financial"] --> luhn
+  financial_group["financial"] --> credit_card
+  web_group["web"] --> url
+  web_group["web"] --> email
+  web_group["web"] --> markdown_link
+  color_group["color"] --> hex_color
+  identifier_group["identifier"] --> uuid
+  identifier_group["identifier"] --> iban
+  identifier_group["identifier"] --> luhn
+  identifier_group["identifier"] --> mac_address
+  identifier_group["identifier"] --> ip
+  isbn -- schema.org:Book --> issn
+  isbn -- schema.org:Book --> vin
+  vin -- schema.org:Vehicle --> upca
+  vin -- schema.org:Vehicle --> ean13
+  twitter_handle -- schema.org:Person --> instagram_handle
+  mention -- schema.org:Person --> twitter_handle
+  mention -- schema.org:Person --> instagram_handle
+  hashtag -- schema.org:Thing --> uuid
+  hashtag -- schema.org:Thing --> hex_color
+  hashtag -- schema.org:Thing --> ip
+  hashtag -- schema.org:Thing --> mac_address
+  hashtag -- schema.org:Thing --> iban
+  hashtag -- schema.org:Thing --> luhn
+  hashtag -- schema.org:Thing --> url
+  hashtag -- schema.org:Thing --> markdown_link
+  hashtag -- schema.org:Thing --> email 

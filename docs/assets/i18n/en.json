@@ -1,0 +1,16 @@
+{
+  "validation_success": "Valid",
+  "validation_error": "Invalid: {error}",
+  "offline": "Offline: request queued.",
+  "online": "Online",
+  "install_prompt": "Install this app for a better experience!",
+  "home_title": "Home",
+  "home_welcome": "Welcome to Rich Text Extraction (English)",
+  "home_desc": "This is the English homepage for the universal, DRY, doc-driven, cache-optimized validation platform.",
+  "optout": "Opt out of analytics",
+  "add_input": "Add Input",
+  "remove": "Remove",
+  "queued": "Request queued.",
+  "error": "Error: {error}",
+  "skip_to_main": "Skip to main content"
+}

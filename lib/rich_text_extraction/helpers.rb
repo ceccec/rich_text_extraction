@@ -25,4 +25,6 @@ end
 # Auto-include helpers in ActionView::Base if Rails is loaded
 # @!parse
 #   ActionView::Base.include RichTextExtraction::Helpers if defined?(Rails) && defined?(ActionView::Base)
-ActionView::Base.include RichTextExtraction::Helpers if defined?(Rails) && defined?(ActionView::Base)
+if defined?(Rails) && defined?(ActionView::Base)
+  ActiveSupport.on_load(:action_view) { include RichTextExtraction::Helpers }
+end

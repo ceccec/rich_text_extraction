@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: RichTextExtraction::ValidatorsController
+  
+    &mdash; Documentation by YARD 0.9.37
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "RichTextExtraction::ValidatorsController";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (V)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span>
+     &raquo; 
+    <span class="title">ValidatorsController</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: RichTextExtraction::ValidatorsController
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">ActionController::Base</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">ActionController::Base</li>
+          
+            <li class="next">RichTextExtraction::ValidatorsController</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd>ActionController::MimeResponds</dd>
+  </dl>
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/rich_text_extraction/validators_controller.rb</dd>
+  </dl>
+  
+</div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#batch_validate-instance_method" title="#batch_validate (instance method)">#<strong>batch_validate</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cache-instance_method" title="#cache (instance method)">#<strong>cache</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Use Rails.cache and config cache_options for request-&gt;response caching.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cache_options-instance_method" title="#cache_options (instance method)">#<strong>cache_options</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#examples-instance_method" title="#examples (instance method)">#<strong>examples</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fields-instance_method" title="#fields (instance method)">#<strong>fields</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#index-instance_method" title="#index (instance method)">#<strong>index</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#jsonld-instance_method" title="#jsonld (instance method)">#<strong>jsonld</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#options-instance_method" title="#options (instance method)">#<strong>options</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#regex-instance_method" title="#regex (instance method)">#<strong>regex</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#show-instance_method" title="#show (instance method)">#<strong>show</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#validate-instance_method" title="#validate (instance method)">#<strong>validate</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>All validation requests are cached by default using Rails.cache and config cache_options.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="batch_validate-instance_method">
+  
+    #<strong>batch_validate</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/validators_controller.rb', line 79</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_batch_validate'>batch_validate</span>
+  <span class='id identifier rubyid_symbol'>symbol</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='op'>&amp;.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+  <span class='id identifier rubyid_values'>values</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:values</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_entry'>entry</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ValidatorAPI.html" title="RichTextExtraction::ValidatorAPI (module)">ValidatorAPI</a></span></span><span class='period'>.</span><span class='id identifier rubyid_metadata'><span class='object_link'><a href="ValidatorAPI.html#metadata-class_method" title="RichTextExtraction::ValidatorAPI.metadata (method)">metadata</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_symbol'>symbol</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span> <span class='label'>error:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Validator not found</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span> <span class='label'>status:</span> <span class='symbol'>:not_found</span> <span class='kw'>unless</span> <span class='id identifier rubyid_entry'>entry</span>
+  <span class='id identifier rubyid_results'>results</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ValidatorAPI.html" title="RichTextExtraction::ValidatorAPI (module)">ValidatorAPI</a></span></span><span class='period'>.</span><span class='id identifier rubyid_batch_validate'><span class='object_link'><a href="ValidatorAPI.html#batch_validate-class_method" title="RichTextExtraction::ValidatorAPI.batch_validate (method)">batch_validate</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_symbol'>symbol</span><span class='comma'>,</span> <span class='id identifier rubyid_values'>values</span><span class='comma'>,</span> <span class='label'>cache:</span> <span class='id identifier rubyid_cache'>cache</span><span class='comma'>,</span> <span class='label'>cache_options:</span> <span class='id identifier rubyid_cache_options'>cache_options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_results'>results</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_result'>result</span><span class='comma'>,</span> <span class='id identifier rubyid_idx'>idx</span><span class='op'>|</span>
+    <span class='id identifier rubyid_result'>result</span><span class='lbracket'>[</span><span class='symbol'>:jsonld</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_result'>result</span><span class='lbracket'>[</span><span class='symbol'>:valid</span><span class='rbracket'>]</span> <span class='op'>?</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html" title="RichTextExtraction::Constants (module)">Constants</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_jsonld'><span class='object_link'><a href="Constants.html#to_jsonld-class_method" title="RichTextExtraction::Constants.to_jsonld (method)">to_jsonld</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_symbol'>symbol</span><span class='comma'>,</span> <span class='id identifier rubyid_values'>values</span><span class='lbracket'>[</span><span class='id identifier rubyid_idx'>idx</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>{}</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='op'>:</span> <span class='kw'>nil</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_results'>results</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="cache-instance_method">
+  
+    #<strong>cache</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Use Rails.cache and config cache_options for request-&gt;response caching</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+9
+10
+11</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/validators_controller.rb', line 9</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_cache'>cache</span>
+  <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_cache'>cache</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="cache_options-instance_method">
+  
+    #<strong>cache_options</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+13
+14
+15
+16</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/validators_controller.rb', line 13</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_cache_options'>cache_options</span>
+  <span class='id identifier rubyid_config'>config</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:configuration</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='const'><span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_configuration'><span class='object_link'><a href="../RichTextExtraction.html#configuration-class_method" title="RichTextExtraction.configuration (method)">configuration</a></span></span> <span class='op'>:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_config'>config</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:cache_options</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_cache_options'>cache_options</span> <span class='op'>:</span> <span class='lbrace'>{</span> <span class='label'>expires_in:</span> <span class='int'>1</span><span class='period'>.</span><span class='id identifier rubyid_hour'>hour</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="examples-instance_method">
+  
+    #<strong>examples</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+53
+54
+55
+56
+57
+58</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/validators_controller.rb', line 53</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_examples'>examples</span>
+  <span class='id identifier rubyid_symbol'>symbol</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='op'>&amp;.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+  <span class='id identifier rubyid_ex'>ex</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ValidatorAPI.html" title="RichTextExtraction::ValidatorAPI (module)">ValidatorAPI</a></span></span><span class='period'>.</span><span class='id identifier rubyid_examples'><span class='object_link'><a href="ValidatorAPI.html#examples-class_method" title="RichTextExtraction::ValidatorAPI.examples (method)">examples</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_symbol'>symbol</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span> <span class='label'>error:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Validator not found</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span> <span class='label'>status:</span> <span class='symbol'>:not_found</span> <span class='kw'>if</span> <span class='id identifier rubyid_ex'>ex</span><span class='lbracket'>[</span><span class='symbol'>:valid</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_ex'>ex</span><span class='lbracket'>[</span><span class='symbol'>:invalid</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_ex'>ex</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="fields-instance_method">
+  
+    #<strong>fields</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+33
+34
+35</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/validators_controller.rb', line 33</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_fields'>fields</span>
+  <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span> <span class='label'>fields:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>schema_type</span><span class='words_sep'> </span><span class='tstring_content'>schema_property</span><span class='words_sep'> </span><span class='tstring_content'>description</span><span class='words_sep'> </span><span class='tstring_content'>regex</span><span class='words_sep'> </span><span class='tstring_content'>valid</span><span class='words_sep'> </span><span class='tstring_content'>invalid</span><span class='tstring_end'>]</span></span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="index-instance_method">
+  
+    #<strong>index</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+23
+24
+25
+26
+27
+28
+29
+30
+31</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/validators_controller.rb', line 23</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_index'>index</span>
+  <span class='id identifier rubyid_fields'>fields</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:fields</span><span class='rbracket'>]</span><span class='op'>&amp;.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>,</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_validators'>validators</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html" title="RichTextExtraction::Constants (module)">Constants</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html#VALIDATOR_EXAMPLES-constant" title="RichTextExtraction::Constants::VALIDATOR_EXAMPLES (constant)">VALIDATOR_EXAMPLES</a></span></span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_symbol'>symbol</span><span class='comma'>,</span> <span class='id identifier rubyid_meta'>meta</span><span class='op'>|</span>
+    <span class='id identifier rubyid_entry'>entry</span> <span class='op'>=</span> <span class='id identifier rubyid_meta'>meta</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
+    <span class='id identifier rubyid_entry'>entry</span><span class='lbracket'>[</span><span class='symbol'>:symbol</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_symbol'>symbol</span>
+    <span class='id identifier rubyid_fields'>fields</span> <span class='op'>?</span> <span class='id identifier rubyid_entry'>entry</span><span class='period'>.</span><span class='id identifier rubyid_slice'>slice</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_fields'>fields</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_sym</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id identifier rubyid_entry'>entry</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_validators'>validators</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="jsonld-instance_method">
+  
+    #<strong>jsonld</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+44
+45
+46
+47
+48
+49
+50
+51</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/validators_controller.rb', line 44</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_jsonld'>jsonld</span>
+  <span class='id identifier rubyid_symbol'>symbol</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='op'>&amp;.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+  <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_entry'>entry</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ValidatorAPI.html" title="RichTextExtraction::ValidatorAPI (module)">ValidatorAPI</a></span></span><span class='period'>.</span><span class='id identifier rubyid_metadata'><span class='object_link'><a href="ValidatorAPI.html#metadata-class_method" title="RichTextExtraction::ValidatorAPI.metadata (method)">metadata</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_symbol'>symbol</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span> <span class='label'>error:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Validator not found</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span> <span class='label'>status:</span> <span class='symbol'>:not_found</span> <span class='kw'>unless</span> <span class='id identifier rubyid_entry'>entry</span>
+  <span class='id identifier rubyid_jsonld'>jsonld</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html" title="RichTextExtraction::Constants (module)">Constants</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_jsonld'><span class='object_link'><a href="Constants.html#to_jsonld-class_method" title="RichTextExtraction::Constants.to_jsonld (method)">to_jsonld</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_symbol'>symbol</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_jsonld'>jsonld</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="options-instance_method">
+  
+    #<strong>options</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+18
+19
+20
+21</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/validators_controller.rb', line 18</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_options'>options</span>
+  <span class='id identifier rubyid_set_cors_headers'>set_cors_headers</span>
+  <span class='id identifier rubyid_head'>head</span> <span class='symbol'>:no_content</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="regex-instance_method">
+  
+    #<strong>regex</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+60
+61
+62
+63
+64
+65
+66</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/validators_controller.rb', line 60</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_regex'>regex</span>
+  <span class='id identifier rubyid_symbol'>symbol</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='op'>&amp;.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+  <span class='id identifier rubyid_regex'>regex</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ValidatorAPI.html" title="RichTextExtraction::ValidatorAPI (module)">ValidatorAPI</a></span></span><span class='period'>.</span><span class='id identifier rubyid_regex'><span class='object_link'><a href="ValidatorAPI.html#regex-class_method" title="RichTextExtraction::ValidatorAPI.regex (method)">regex</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_symbol'>symbol</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_entry'>entry</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ValidatorAPI.html" title="RichTextExtraction::ValidatorAPI (module)">ValidatorAPI</a></span></span><span class='period'>.</span><span class='id identifier rubyid_metadata'><span class='object_link'><a href="ValidatorAPI.html#metadata-class_method" title="RichTextExtraction::ValidatorAPI.metadata (method)">metadata</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_symbol'>symbol</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span> <span class='label'>error:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Validator not found</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span> <span class='label'>status:</span> <span class='symbol'>:not_found</span> <span class='kw'>unless</span> <span class='id identifier rubyid_entry'>entry</span>
+  <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span> <span class='label'>regex:</span> <span class='id identifier rubyid_regex'>regex</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="show-instance_method">
+  
+    #<strong>show</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+37
+38
+39
+40
+41
+42</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/validators_controller.rb', line 37</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_show'>show</span>
+  <span class='id identifier rubyid_symbol'>symbol</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='op'>&amp;.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+  <span class='id identifier rubyid_entry'>entry</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ValidatorAPI.html" title="RichTextExtraction::ValidatorAPI (module)">ValidatorAPI</a></span></span><span class='period'>.</span><span class='id identifier rubyid_metadata'><span class='object_link'><a href="ValidatorAPI.html#metadata-class_method" title="RichTextExtraction::ValidatorAPI.metadata (method)">metadata</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_symbol'>symbol</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span> <span class='label'>error:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Validator not found</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span> <span class='label'>status:</span> <span class='symbol'>:not_found</span> <span class='kw'>unless</span> <span class='id identifier rubyid_entry'>entry</span>
+  <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='id identifier rubyid_entry'>entry</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='label'>symbol:</span> <span class='id identifier rubyid_symbol'>symbol</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="validate-instance_method">
+  
+    #<strong>validate</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>All validation requests are cached by default using Rails.cache and config cache_options</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+69
+70
+71
+72
+73
+74
+75
+76
+77</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/validators_controller.rb', line 69</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_validate'>validate</span>
+  <span class='id identifier rubyid_symbol'>symbol</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='op'>&amp;.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+  <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:validator</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:validator</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ValidatorAPI.html" title="RichTextExtraction::ValidatorAPI (module)">ValidatorAPI</a></span></span><span class='period'>.</span><span class='id identifier rubyid_validate'><span class='object_link'><a href="ValidatorAPI.html#validate-class_method" title="RichTextExtraction::ValidatorAPI.validate (method)">validate</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_symbol'>symbol</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='label'>cache:</span> <span class='id identifier rubyid_cache'>cache</span><span class='comma'>,</span> <span class='label'>cache_options:</span> <span class='id identifier rubyid_cache_options'>cache_options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_entry'>entry</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ValidatorAPI.html" title="RichTextExtraction::ValidatorAPI (module)">ValidatorAPI</a></span></span><span class='period'>.</span><span class='id identifier rubyid_metadata'><span class='object_link'><a href="ValidatorAPI.html#metadata-class_method" title="RichTextExtraction::ValidatorAPI.metadata (method)">metadata</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_symbol'>symbol</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span> <span class='label'>error:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Validator not found</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span> <span class='label'>status:</span> <span class='symbol'>:not_found</span> <span class='kw'>unless</span> <span class='id identifier rubyid_entry'>entry</span>
+  <span class='id identifier rubyid_jsonld'>jsonld</span> <span class='op'>=</span> <span class='id identifier rubyid_result'>result</span><span class='lbracket'>[</span><span class='symbol'>:valid</span><span class='rbracket'>]</span> <span class='op'>?</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constants.html" title="RichTextExtraction::Constants (module)">Constants</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_jsonld'><span class='object_link'><a href="Constants.html#to_jsonld-class_method" title="RichTextExtraction::Constants.to_jsonld (method)">to_jsonld</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_symbol'>symbol</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>{}</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='op'>:</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_render'>render</span> <span class='label'>json:</span> <span class='lbrace'>{</span> <span class='label'>valid:</span> <span class='id identifier rubyid_result'>result</span><span class='lbracket'>[</span><span class='symbol'>:valid</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>errors:</span> <span class='id identifier rubyid_result'>result</span><span class='lbracket'>[</span><span class='symbol'>:errors</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>jsonld:</span> <span class='id identifier rubyid_jsonld'>jsonld</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Tue Jun 24 18:08:33 2025 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.37 (ruby-3.3.6).
+</div>
+
+    </div>
+  </body>
+</html>

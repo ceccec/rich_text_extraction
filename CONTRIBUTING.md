@@ -1,11 +1,11 @@
 # Contributing to RichTextExtraction
 
-Thank you for your interest in contributing to RichTextExtraction! This document provides guidelines and information for contributors.
+Thank you for your interest in contributing! This project uses a **doc-driven, self-learning, DRY workflow** to ensure maximum maintainability and developer happiness.
 
 ## 🚀 Quick Start
 
 1. **Fork** the repository
-2. **Clone** your fork: `git clone https://github.com/YOUR_USERNAME/rich_text_extraction.git`
+2. **Clone** your fork: `git clone https://github.com/ceccec/rich_text_extraction.git`
 3. **Install** dependencies: `bundle install`
 4. **Run tests** to ensure everything works: `bundle exec rspec`
 5. **Create** a feature branch: `git checkout -b feature/your-feature-name`
@@ -349,6 +349,76 @@ By contributing to RichTextExtraction, you agree that your contributions will be
 - Generator templates (`lib/generators/rich_text_extraction/install/templates/`) are excluded from RuboCop and YARD checks because they are ERB templates, not valid Ruby until rendered.
 - See `.rubocop.yml` and `.yardopts` for exclusion rules.
 
+## 🚦 Quick Checklist for Adding or Updating a Validator
+
+1. **Edit the Source of Truth:**
+   - Open `lib/rich_text_extraction/constants.rb`.
+   - Add or update the entry in `VALIDATOR_EXAMPLES`:
+     - `valid`: Array of valid examples
+     - `invalid`: Array of invalid examples
+     - `regex`: (Optional) Name of the regex constant in `ExtractionPatterns` (as a string)
+     - `schema_type`, `schema_property`, `description`, `error_message`: (Optional) Metadata for docs and API
+
+2. **(Optional) Add a Regex:**
+   - If your validator is pattern-based, add the regex constant to `lib/rich_text_extraction/extraction_patterns.rb`.
+
+3. **Custom Logic?**
+   - If your validator needs custom logic (e.g., ISBN, VIN), implement the validator class in `lib/rich_text_extraction/validators/`.
+   - Reference it in `VALIDATOR_EXAMPLES` and add to the skip list in the metaprogramming block if needed.
+
+4. **Run Automation:**
+   - Run `rake docs:all` to regenerate documentation.
+   - Run `rake test:scenarios_from_docs` to run doc-driven tests.
+   - Run `rake` or `rake test` to run all quality checks and tests.
+
+5. **Check the Results:**
+   - If you see a failure about a missing validator, either add a regex (for pattern-based) or implement the custom logic class.
+   - If you see a drift/gap warning, ensure your docs, code, and tests are in sync.
+
+6. **Open a Pull Request:**
+   - Commit your changes and open a PR. CI will run all checks automatically.
+
+## 🧠 How the System Works (Self-Learning, DRY, Doc-Driven)
+
+- **Single Source of Truth:** All validator logic, examples, and docs are driven from `VALIDATOR_EXAMPLES`.
+- **Docs, API, and tests are auto-generated** from this source. No need to update multiple places.
+- **Doc-driven tests** ensure all examples in the docs are tested. If a validator is missing, the system will auto-generate a stub (for regex types) or fail with a clear message.
+- **Drift/gap detection**: If docs, code, or tests are out of sync, CI will fail and report the issue.
+
+## 🛠️ Drift/Gap Detection & CI Failures
+
+- **Missing Validator:** If you add a new validator to the docs but don't implement it, the test runner will:
+  - Auto-generate a stub for regex-based types.
+  - Fail with a clear message for custom logic types.
+- **Drift Detected:** If docs, code, or tests are out of sync, CI will fail. Run the automation steps above to fix.
+- **Coverage Gaps:** The summary report after tests will list any missing or untested features.
+
+## 📝 Example: Adding a New Validator
+
+1. In `lib/rich_text_extraction/constants.rb`:
+   ```ruby
+   VALIDATOR_EXAMPLES[:foo_code] = {
+     valid: ['FOO123'],
+     invalid: ['BAR456'],
+     regex: 'FOO_CODE_REGEX',
+     error_message: 'is not a valid FOO code',
+     schema_type: 'Thing',
+     schema_property: 'identifier',
+     description: 'FOO code (custom example)'
+   }
+   ```
+2. In `lib/rich_text_extraction/extraction_patterns.rb`:
+   ```ruby
+   FOO_CODE_REGEX = /FOO\d{3}/
+   ```
+3. Run `rake docs:all` and `rake test:scenarios_from_docs`.
+4. If all tests pass, you're done!
+
+## 💡 Tips
+- **Never edit the docs or tests directly for validators.** Always update the source hash.
+- **If in doubt, run `rake` and read the output.**
+- **For advanced features, see the README and usage guide.**
+
 ---
 
-Thank you for contributing to RichTextExtraction! 🚀 
+Happy contributing! 🎉 

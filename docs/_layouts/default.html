@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none';">
+  <link rel="preload" href="/assets/common.css" as="style">
+  <link rel="stylesheet" href="/assets/common.css">
+  <title>{{ page.title }} | {{ site.data.meta.title }}</title>
   <meta name="description" content="{{ site.description }}">
   <meta name="keywords" content="{{ site.keywords }}">
   <meta property="og:title" content="{{ page.title | default: site.title }}">
@@ -9,6 +18,13 @@
   <meta name="twitter:title" content="{{ page.title | default: site.title }}">
   <meta name="twitter:description" content="{{ page.description | default: site.description }}">
   <meta name="twitter:image" content="{{ site.url }}/assets/example-screenshot.png">
+  <meta name="theme-color" content="#d7263d">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/icon.png">
+  <link rel="apple-touch-icon" href="/icon.png">
+  <link rel="offline" href="/offline.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -21,4 +37,43 @@
     "softwareVersion": "1.0.0",
     "programmingLanguage": "Ruby"
   }
-  </script> 
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Rich Text Extraction Validator Platform",
+    "applicationCategory": "Utility",
+    "operatingSystem": "All",
+    "url": "https://yourdomain.com/",
+    "description": "Universal, DRY, doc-driven, cache-optimized validation platform with live API and interactive docs.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+  <!-- Plausible Analytics -->
+  <script async defer data-domain="yourdomain.com" src="https://plausible.io/js/plausible.js"></script>
+</head>
+<body>
+  {% include header.html %}
+  <main id="main-content">
+    {{ content }}
+  </main>
+  {% include footer.html %}
+  <script src="/assets/translation_loader.js" type="module" defer></script>
+  <script src="/assets/validation_utils.js" type="module" defer></script>
+  <script>
+    const userLang = (navigator.language || 'en').split('-')[0];
+    loadTranslations(['en','es'].includes(userLang) ? userLang : 'en');
+  </script>
+  <script>
+    window.addEventListener('beforeinstallprompt', (e) => {
+      if (typeof trackPWAInstallPrompt === 'function') trackPWAInstallPrompt();
+    });
+  </script>
+  <a href="#main-content" class="skip-link" style="position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:100;">{{ site.data.translations[page.lang].skip_to_main }}</a>
+</body>
+</html> 

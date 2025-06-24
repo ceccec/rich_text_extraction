@@ -275,6 +275,29 @@ lib/rich_text_extraction/
 
 This project is licensed under the MIT License - see the [LICENSE.txt](https://github.com/ceccec/rich_text_extraction/blob/main/LICENSE.txt) file for details.
 
+## Deployment
+
+### Deploying to GitHub Pages
+
+1. Push all changes to the `main` branch.
+2. In your repository settings, go to **Pages** and set the source to the `/docs` folder on `main`.
+3. Visit your site at `https://yourusername.github.io/yourrepo/`.
+
+### Custom Domain
+
+- Add your custom domain in the Pages settings and create a `CNAME` file in `docs/`.
+- Update your DNS provider to point to GitHub Pages.
+- Enable **Enforce HTTPS** in the Pages settings.
+
+### Continuous Deployment & PWA Audits
+
+- Every push to `main` triggers a GitHub Actions workflow that runs a Lighthouse PWA audit.
+- The audit report is available in the Actions tab as an artifact.
+
+### Testing & Verification
+
+- See [testing.md](testing.md) for a full checklist and troubleshooting guide.
+
 ---
 
 **RichTextExtraction** - Professional rich text extraction for Ruby and Rails applications. 🚀 

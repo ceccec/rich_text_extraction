@@ -1,0 +1,32 @@
+name: Lighthouse PWA Audit
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install Lighthouse
+        run: npm install -g lighthouse
+      - name: Start local server
+        run: |
+          npm install -g http-server
+          http-server docs -p 8080 &
+          sleep 5
+      - name: Run Lighthouse Audit
+        run: |
+          lighthouse http://localhost:8080 --output html --output-path ./lighthouse-report.html --only-categories=pwa
+      - name: Upload Lighthouse Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: lighthouse-report
+          path: ./lighthouse-report.html 

@@ -1,0 +1,29 @@
+name: Cypress E2E Tests (Doc-Driven)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  cypress-e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: |
+          npm install js-yaml cypress
+      - name: Generate Cypress E2E tests from YAML
+        run: node bin/generate_cypress_e2e_tests.js
+      - name: Start local server
+        run: |
+          npm install -g http-server
+          http-server docs -p 8080 &
+          sleep 5
+      - name: Run Cypress E2E tests
+        run: npx cypress run --config baseUrl=http://localhost:8080 --spec cypress/e2e/generated_scenarios.cy.js 

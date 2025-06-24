@@ -1,0 +1,2388 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: RichTextExtraction::Configuration
+  
+    &mdash; Documentation by YARD 0.9.37
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "RichTextExtraction::Configuration";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span>
+     &raquo; 
+    <span class="title">Configuration</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: RichTextExtraction::Configuration
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">RichTextExtraction::Configuration</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="CacheConfiguration.html" title="RichTextExtraction::CacheConfiguration (module)">CacheConfiguration</a></span>, <span class='object_link'><a href="Constants.html" title="RichTextExtraction::Constants (module)">Constants</a></span></dd>
+  </dl>
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/rich_text_extraction/configuration.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Configuration provides centralized settings and defaults for RichTextExtraction. This module allows users to customize behavior globally or per-instance.</p>
+
+<p>Configuration class for RichTextExtraction</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h4 class="tag_title">Examples:</h4>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_configure'><span class='object_link'><a href="../RichTextExtraction.html#configure-class_method" title="RichTextExtraction.configure (method)">configure</a></span></span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_config'>config</span><span class='op'>|</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_default_cache_options'>default_cache_options</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>expires_in:</span> <span class='int'>1</span><span class='period'>.</span><span class='id identifier rubyid_hour'>hour</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_opengraph_timeout'>opengraph_timeout</span> <span class='op'>=</span> <span class='int'>10</span>
+<span class='kw'>end</span></code></pre>
+    
+      
+        <h5 class="example_title"><div class='inline'>
+<p>Basic configuration</p>
+</div></h5>
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_configure'><span class='object_link'><a href="../RichTextExtraction.html#configure-class_method" title="RichTextExtraction.configure (method)">configure</a></span></span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_config'>config</span><span class='op'>|</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_opengraph_timeout'>opengraph_timeout</span> <span class='op'>=</span> <span class='int'>15</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_sanitize_html'>sanitize_html</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='kw'>end</span></code></pre>
+    
+      
+        <h5 class="example_title"><div class='inline'>
+<p>Advanced configuration with caching</p>
+</div></h5>
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_configure'><span class='object_link'><a href="../RichTextExtraction.html#configure-class_method" title="RichTextExtraction.configure (method)">configure</a></span></span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_config'>config</span><span class='op'>|</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_opengraph_timeout'>opengraph_timeout</span> <span class='op'>=</span> <span class='int'>30</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_sanitize_html'>sanitize_html</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_default_excerpt_length'>default_excerpt_length</span> <span class='op'>=</span> <span class='int'>500</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_cache_enabled'>cache_enabled</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_cache_store'>cache_store</span> <span class='op'>=</span> <span class='symbol'>:redis_cache_store</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_cache_prefix'>cache_prefix</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rte</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_cache_ttl'>cache_ttl</span> <span class='op'>=</span> <span class='int'>2</span><span class='period'>.</span><span class='id identifier rubyid_hours'>hours</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_cache_compression'>cache_compression</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_default_cache_options'>default_cache_options</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>expires_in:</span> <span class='int'>2</span><span class='period'>.</span><span class='id identifier rubyid_hours'>hours</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_debug'>debug</span> <span class='op'>=</span> <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_env'>env</span><span class='period'>.</span><span class='id identifier rubyid_development?'>development?</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_user_agent'>user_agent</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>MyApp/1.0</span><span class='tstring_end'>&#39;</span></span>
+<span class='kw'>end</span></code></pre>
+    
+  </div>
+
+
+</div>
+
+
+  <h2>Constant Summary</h2>
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="Constants.html" title="RichTextExtraction::Constants (module)">Constants</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Constants.html#ATTACHMENT_EXTENSIONS-constant" title="RichTextExtraction::Constants::ATTACHMENT_EXTENSIONS (constant)">RichTextExtraction::Constants::ATTACHMENT_EXTENSIONS</a></span>, <span class='object_link'><a href="Constants.html#ATTACHMENT_REGEX-constant" title="RichTextExtraction::Constants::ATTACHMENT_REGEX (constant)">RichTextExtraction::Constants::ATTACHMENT_REGEX</a></span>, <span class='object_link'><a href="Constants.html#DATE_REGEX-constant" title="RichTextExtraction::Constants::DATE_REGEX (constant)">RichTextExtraction::Constants::DATE_REGEX</a></span>, <span class='object_link'><a href="Constants.html#DEFAULT_CACHE_PREFIX-constant" title="RichTextExtraction::Constants::DEFAULT_CACHE_PREFIX (constant)">RichTextExtraction::Constants::DEFAULT_CACHE_PREFIX</a></span>, <span class='object_link'><a href="Constants.html#DEFAULT_CACHE_STORE-constant" title="RichTextExtraction::Constants::DEFAULT_CACHE_STORE (constant)">RichTextExtraction::Constants::DEFAULT_CACHE_STORE</a></span>, <span class='object_link'><a href="Constants.html#DEFAULT_CACHE_TTL-constant" title="RichTextExtraction::Constants::DEFAULT_CACHE_TTL (constant)">RichTextExtraction::Constants::DEFAULT_CACHE_TTL</a></span>, <span class='object_link'><a href="Constants.html#DEFAULT_EXCERPT_LENGTH-constant" title="RichTextExtraction::Constants::DEFAULT_EXCERPT_LENGTH (constant)">RichTextExtraction::Constants::DEFAULT_EXCERPT_LENGTH</a></span>, <span class='object_link'><a href="Constants.html#DEFAULT_MAX_REDIRECTS-constant" title="RichTextExtraction::Constants::DEFAULT_MAX_REDIRECTS (constant)">RichTextExtraction::Constants::DEFAULT_MAX_REDIRECTS</a></span>, <span class='object_link'><a href="Constants.html#DEFAULT_OPENGRAPH_TIMEOUT-constant" title="RichTextExtraction::Constants::DEFAULT_OPENGRAPH_TIMEOUT (constant)">RichTextExtraction::Constants::DEFAULT_OPENGRAPH_TIMEOUT</a></span>, <span class='object_link'><a href="Constants.html#DEFAULT_USER_AGENT-constant" title="RichTextExtraction::Constants::DEFAULT_USER_AGENT (constant)">RichTextExtraction::Constants::DEFAULT_USER_AGENT</a></span>, <span class='object_link'><a href="Constants.html#EMAIL_REGEX-constant" title="RichTextExtraction::Constants::EMAIL_REGEX (constant)">RichTextExtraction::Constants::EMAIL_REGEX</a></span>, <span class='object_link'><a href="Constants.html#HASHTAG_REGEX-constant" title="RichTextExtraction::Constants::HASHTAG_REGEX (constant)">RichTextExtraction::Constants::HASHTAG_REGEX</a></span>, <span class='object_link'><a href="Constants.html#IMAGE_EXTENSIONS-constant" title="RichTextExtraction::Constants::IMAGE_EXTENSIONS (constant)">RichTextExtraction::Constants::IMAGE_EXTENSIONS</a></span>, <span class='object_link'><a href="Constants.html#IMAGE_REGEX-constant" title="RichTextExtraction::Constants::IMAGE_REGEX (constant)">RichTextExtraction::Constants::IMAGE_REGEX</a></span>, <span class='object_link'><a href="Constants.html#MARKDOWN_LINK_REGEX-constant" title="RichTextExtraction::Constants::MARKDOWN_LINK_REGEX (constant)">RichTextExtraction::Constants::MARKDOWN_LINK_REGEX</a></span>, <span class='object_link'><a href="Constants.html#MENTION_REGEX-constant" title="RichTextExtraction::Constants::MENTION_REGEX (constant)">RichTextExtraction::Constants::MENTION_REGEX</a></span>, <span class='object_link'><a href="Constants.html#PHONE_REGEX-constant" title="RichTextExtraction::Constants::PHONE_REGEX (constant)">RichTextExtraction::Constants::PHONE_REGEX</a></span>, <span class='object_link'><a href="Constants.html#TWITTER_REGEX-constant" title="RichTextExtraction::Constants::TWITTER_REGEX (constant)">RichTextExtraction::Constants::TWITTER_REGEX</a></span>, <span class='object_link'><a href="Constants.html#VALIDATOR_EXAMPLES-constant" title="RichTextExtraction::Constants::VALIDATOR_EXAMPLES (constant)">RichTextExtraction::Constants::VALIDATOR_EXAMPLES</a></span></p>
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#api_cors_headers-instance_method" title="#api_cors_headers (instance method)">#<strong>api_cors_headers</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Custom CORS headers for the API.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#api_cors_methods-instance_method" title="#api_cors_methods (instance method)">#<strong>api_cors_methods</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Custom CORS methods for the API.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#api_cors_origins-instance_method" title="#api_cors_origins (instance method)">#<strong>api_cors_origins</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Allowed CORS origins for the API (string or array, ‘*’ for all).</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#api_rate_limit-instance_method" title="#api_rate_limit (instance method)">#<strong>api_rate_limit</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Rate limiting config: { limit: Integer, period: ActiveSupport::Duration }.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#api_rate_limit_per_endpoint-instance_method" title="#api_rate_limit_per_endpoint (instance method)">#<strong>api_rate_limit_per_endpoint</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Per-endpoint rate limiting config: { ‘/path’ =&gt; { limit: Integer, period: … } }.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#api_rate_limit_per_user-instance_method" title="#api_rate_limit_per_user (instance method)">#<strong>api_rate_limit_per_user</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Per-user rate limiting config: { limit: Integer, period: ActiveSupport::Duration }.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cache_compression-instance_method" title="#cache_compression (instance method)">#<strong>cache_compression</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Whether to compress cached data.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cache_enabled-instance_method" title="#cache_enabled (instance method)">#<strong>cache_enabled</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Whether caching is enabled globally.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cache_key_generator-instance_method" title="#cache_key_generator (instance method)">#<strong>cache_key_generator</strong>  &#x21d2; Proc<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Custom cache key generator proc.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cache_key_strategy-instance_method" title="#cache_key_strategy (instance method)">#<strong>cache_key_strategy</strong>  &#x21d2; Symbol </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Cache key generation strategy (:url, :hash, :custom).</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cache_prefix-instance_method" title="#cache_prefix (instance method)">#<strong>cache_prefix</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Cache key prefix for namespacing.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cache_store-instance_method" title="#cache_store (instance method)">#<strong>cache_store</strong>  &#x21d2; Symbol, Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Cache store to use (Rails cache store symbol or object).</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cache_ttl-instance_method" title="#cache_ttl (instance method)">#<strong>cache_ttl</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Default TTL (Time To Live) for cached items in seconds.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#debug-instance_method" title="#debug (instance method)">#<strong>debug</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Whether to enable debug logging.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#default_cache_options-instance_method" title="#default_cache_options (instance method)">#<strong>default_cache_options</strong>  &#x21d2; Hash </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Default cache options for OpenGraph data.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#default_excerpt_length-instance_method" title="#default_excerpt_length (instance method)">#<strong>default_excerpt_length</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Default excerpt length for text truncation.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#max_redirects-instance_method" title="#max_redirects (instance method)">#<strong>max_redirects</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Maximum number of redirects to follow.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#opengraph_timeout-instance_method" title="#opengraph_timeout (instance method)">#<strong>opengraph_timeout</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Timeout for OpenGraph HTTP requests in seconds.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sanitize_html-instance_method" title="#sanitize_html (instance method)">#<strong>sanitize_html</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Whether to sanitize HTML output by default.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#user_agent-instance_method" title="#user_agent (instance method)">#<strong>user_agent</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Custom user agent for HTTP requests.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>  &#x21d2; Configuration </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Initialize configuration with defaults.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#inspect-instance_method" title="#inspect (instance method)">#<strong>inspect</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Inspect representation of configuration.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#merge-instance_method" title="#merge (instance method)">#<strong>merge</strong>(options)  &#x21d2; Hash </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Merge configuration with provided options.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reset!-instance_method" title="#reset! (instance method)">#<strong>reset!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Reset configuration to defaults.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_h-instance_method" title="#to_h (instance method)">#<strong>to_h</strong>  &#x21d2; Hash </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Convert configuration to hash.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_s-instance_method" title="#to_s (instance method)">#<strong>to_s</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>String representation of configuration.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Constants.html" title="RichTextExtraction::Constants (module)">Constants</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Constants.html#resolve_validator_regex-class_method" title="RichTextExtraction::Constants.resolve_validator_regex (method)">resolve_validator_regex</a></span>, <span class='object_link'><a href="Constants.html#to_jsonld-class_method" title="RichTextExtraction::Constants.to_jsonld (method)">to_jsonld</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="CacheConfiguration.html" title="RichTextExtraction::CacheConfiguration (module)">CacheConfiguration</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="CacheConfiguration.html#cache_options-instance_method" title="RichTextExtraction::CacheConfiguration#cache_options (method)">#cache_options</a></span>, <span class='object_link'><a href="CacheConfiguration.html#caching_available%3F-instance_method" title="RichTextExtraction::CacheConfiguration#caching_available? (method)">#caching_available?</a></span>, <span class='object_link'><a href="CacheConfiguration.html#generate_cache_key-instance_method" title="RichTextExtraction::CacheConfiguration#generate_cache_key (method)">#generate_cache_key</a></span></p>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>  &#x21d2; <tt><span class='object_link'><a href="" title="RichTextExtraction::Configuration (class)">Configuration</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Initialize configuration with defaults.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 153</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span>
+  <span class='id identifier rubyid_initialize_caching_config'>initialize_caching_config</span>
+  <span class='id identifier rubyid_initialize_general_config'>initialize_general_config</span>
+  <span class='ivar'>@api_cors_origins</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>*</span><span class='tstring_end'>&#39;</span></span>
+  <span class='ivar'>@api_rate_limit</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@api_cors_headers</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Origin</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Content-Type</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Accept</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Authorization</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+  <span class='ivar'>@api_cors_methods</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>GET</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>POST</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>OPTIONS</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+  <span class='ivar'>@api_rate_limit_per_user</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@api_rate_limit_per_endpoint</span> <span class='op'>=</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="api_cors_headers=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="api_cors_headers-instance_method">
+  
+    #<strong>api_cors_headers</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Custom CORS headers for the API</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+136
+137
+138</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 136</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_api_cors_headers'>api_cors_headers</span>
+  <span class='ivar'>@api_cors_headers</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="api_cors_methods=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="api_cors_methods-instance_method">
+  
+    #<strong>api_cors_methods</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Custom CORS methods for the API</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+140
+141
+142</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 140</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_api_cors_methods'>api_cors_methods</span>
+  <span class='ivar'>@api_cors_methods</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="api_cors_origins=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="api_cors_origins-instance_method">
+  
+    #<strong>api_cors_origins</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Allowed CORS origins for the API (string or array, ‘*’ for all)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+128
+129
+130</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 128</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_api_cors_origins'>api_cors_origins</span>
+  <span class='ivar'>@api_cors_origins</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="api_rate_limit=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="api_rate_limit-instance_method">
+  
+    #<strong>api_rate_limit</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Rate limiting config: { limit: Integer, period: ActiveSupport::Duration }</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+132
+133
+134</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 132</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_api_rate_limit'>api_rate_limit</span>
+  <span class='ivar'>@api_rate_limit</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="api_rate_limit_per_endpoint=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="api_rate_limit_per_endpoint-instance_method">
+  
+    #<strong>api_rate_limit_per_endpoint</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Per-endpoint rate limiting config: { ‘/path’ =&gt; { limit: Integer, period: … } }</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+148
+149
+150</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 148</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_api_rate_limit_per_endpoint'>api_rate_limit_per_endpoint</span>
+  <span class='ivar'>@api_rate_limit_per_endpoint</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="api_rate_limit_per_user=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="api_rate_limit_per_user-instance_method">
+  
+    #<strong>api_rate_limit_per_user</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Per-user rate limiting config: { limit: Integer, period: ActiveSupport::Duration }</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+144
+145
+146</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 144</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_api_rate_limit_per_user'>api_rate_limit_per_user</span>
+  <span class='ivar'>@api_rate_limit_per_user</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="cache_compression=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="cache_compression-instance_method">
+  
+    #<strong>cache_compression</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Whether to compress cached data.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Cache compression</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+70
+71
+72</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 70</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_cache_compression'>cache_compression</span>
+  <span class='ivar'>@cache_compression</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="cache_enabled=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="cache_enabled-instance_method">
+  
+    #<strong>cache_enabled</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Whether caching is enabled globally.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Cache enabled</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+46
+47
+48</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 46</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_cache_enabled'>cache_enabled</span>
+  <span class='ivar'>@cache_enabled</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="cache_key_generator=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="cache_key_generator-instance_method">
+  
+    #<strong>cache_key_generator</strong>  &#x21d2; <tt>Proc</tt><sup>?</sup> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Custom cache key generator proc.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Proc</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Custom key generator</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+82
+83
+84</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 82</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_cache_key_generator'>cache_key_generator</span>
+  <span class='ivar'>@cache_key_generator</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="cache_key_strategy=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="cache_key_strategy-instance_method">
+  
+    #<strong>cache_key_strategy</strong>  &#x21d2; <tt>Symbol</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Cache key generation strategy (:url, :hash, :custom).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Cache key strategy</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+76
+77
+78</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 76</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_cache_key_strategy'>cache_key_strategy</span>
+  <span class='ivar'>@cache_key_strategy</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="cache_prefix=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="cache_prefix-instance_method">
+  
+    #<strong>cache_prefix</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Cache key prefix for namespacing.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Cache prefix</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+58
+59
+60</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 58</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_cache_prefix'>cache_prefix</span>
+  <span class='ivar'>@cache_prefix</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="cache_store=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="cache_store-instance_method">
+  
+    #<strong>cache_store</strong>  &#x21d2; <tt>Symbol</tt>, <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Cache store to use (Rails cache store symbol or object).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Cache store</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+52
+53
+54</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 52</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_cache_store'>cache_store</span>
+  <span class='ivar'>@cache_store</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="cache_ttl=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="cache_ttl-instance_method">
+  
+    #<strong>cache_ttl</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Default TTL (Time To Live) for cached items in seconds.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Cache TTL in seconds</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+64
+65
+66</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 64</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_cache_ttl'>cache_ttl</span>
+  <span class='ivar'>@cache_ttl</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="debug=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="debug-instance_method">
+  
+    #<strong>debug</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Whether to enable debug logging.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Debug mode</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+112
+113
+114</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 112</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_debug'>debug</span>
+  <span class='ivar'>@debug</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="default_cache_options=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="default_cache_options-instance_method">
+  
+    #<strong>default_cache_options</strong>  &#x21d2; <tt>Hash</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Default cache options for OpenGraph data.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Cache options</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+88
+89
+90</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 88</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_default_cache_options'>default_cache_options</span>
+  <span class='ivar'>@default_cache_options</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="default_excerpt_length=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="default_excerpt_length-instance_method">
+  
+    #<strong>default_excerpt_length</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Default excerpt length for text truncation.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Excerpt length</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+106
+107
+108</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 106</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_default_excerpt_length'>default_excerpt_length</span>
+  <span class='ivar'>@default_excerpt_length</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="max_redirects=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="max_redirects-instance_method">
+  
+    #<strong>max_redirects</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Maximum number of redirects to follow.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Max redirects</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+124
+125
+126</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 124</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_max_redirects'>max_redirects</span>
+  <span class='ivar'>@max_redirects</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="opengraph_timeout=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="opengraph_timeout-instance_method">
+  
+    #<strong>opengraph_timeout</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Timeout for OpenGraph HTTP requests in seconds.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Timeout in seconds</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+94
+95
+96</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 94</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_opengraph_timeout'>opengraph_timeout</span>
+  <span class='ivar'>@opengraph_timeout</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="sanitize_html=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="sanitize_html-instance_method">
+  
+    #<strong>sanitize_html</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Whether to sanitize HTML output by default.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Sanitize HTML</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+100
+101
+102</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 100</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_sanitize_html'>sanitize_html</span>
+  <span class='ivar'>@sanitize_html</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="user_agent=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="user_agent-instance_method">
+  
+    #<strong>user_agent</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Custom user agent for HTTP requests.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>User agent string</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+118
+119
+120</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 118</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_user_agent'>user_agent</span>
+  <span class='ivar'>@user_agent</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="inspect-instance_method">
+  
+    #<strong>inspect</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Inspect representation of configuration.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Inspect representation of configuration</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+200
+201
+202</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 200</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_inspect'>inspect</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>#&lt;RichTextExtraction::Configuration </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_to_h'>to_h</span><span class='embexpr_end'>}</span><span class='tstring_content'>&gt;</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="merge-instance_method">
+  
+    #<strong>merge</strong>(options)  &#x21d2; <tt>Hash</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Merge configuration with provided options.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Options to merge</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Merged configuration</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+177
+178
+179</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 177</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_to_h'>to_h</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="reset!-instance_method">
+  
+    #<strong>reset!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Reset configuration to defaults.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+167
+168
+169</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 167</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_reset!'>reset!</span>
+  <span class='id identifier rubyid_initialize'>initialize</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_h-instance_method">
+  
+    #<strong>to_h</strong>  &#x21d2; <tt>Hash</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Convert configuration to hash.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Configuration as hash</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+186
+187
+188</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 186</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_h'>to_h</span>
+  <span class='id identifier rubyid_caching_config_hash'>caching_config_hash</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_general_config_hash'>general_config_hash</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_s-instance_method">
+  
+    #<strong>to_s</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns String representation of configuration.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>String representation of configuration</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+193
+194
+195</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/configuration.rb', line 193</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>RichTextExtraction::Configuration(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_to_h'>to_h</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Tue Jun 24 18:08:33 2025 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.37 (ruby-3.3.6).
+</div>
+
+    </div>
+  </body>
+</html>

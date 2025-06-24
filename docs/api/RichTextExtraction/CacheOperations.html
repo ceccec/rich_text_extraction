@@ -1,0 +1,1724 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: RichTextExtraction::CacheOperations
+  
+    &mdash; Documentation by YARD 0.9.37
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "RichTextExtraction::CacheOperations";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span></span>
+     &raquo; 
+    <span class="title">CacheOperations</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: RichTextExtraction::CacheOperations
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="Constants.html" title="RichTextExtraction::Constants (module)">Constants</a></span></dd>
+  </dl>
+  
+  
+
+  
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="../RichTextExtraction.html" title="RichTextExtraction (module)">RichTextExtraction</a></span>, <span class='object_link'><a href="ExtractionHelpers.html" title="RichTextExtraction::ExtractionHelpers (module)">ExtractionHelpers</a></span></dd>
+  </dl>
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/rich_text_extraction/cache_operations.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>CacheOperations provides centralized cache operations for RichTextExtraction. This module eliminates duplication and provides consistent caching logic.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+  <h2>Constant Summary</h2>
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="Constants.html" title="RichTextExtraction::Constants (module)">Constants</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Constants.html#ATTACHMENT_EXTENSIONS-constant" title="RichTextExtraction::Constants::ATTACHMENT_EXTENSIONS (constant)">RichTextExtraction::Constants::ATTACHMENT_EXTENSIONS</a></span>, <span class='object_link'><a href="Constants.html#ATTACHMENT_REGEX-constant" title="RichTextExtraction::Constants::ATTACHMENT_REGEX (constant)">RichTextExtraction::Constants::ATTACHMENT_REGEX</a></span>, <span class='object_link'><a href="Constants.html#DATE_REGEX-constant" title="RichTextExtraction::Constants::DATE_REGEX (constant)">RichTextExtraction::Constants::DATE_REGEX</a></span>, <span class='object_link'><a href="Constants.html#DEFAULT_CACHE_PREFIX-constant" title="RichTextExtraction::Constants::DEFAULT_CACHE_PREFIX (constant)">RichTextExtraction::Constants::DEFAULT_CACHE_PREFIX</a></span>, <span class='object_link'><a href="Constants.html#DEFAULT_CACHE_STORE-constant" title="RichTextExtraction::Constants::DEFAULT_CACHE_STORE (constant)">RichTextExtraction::Constants::DEFAULT_CACHE_STORE</a></span>, <span class='object_link'><a href="Constants.html#DEFAULT_CACHE_TTL-constant" title="RichTextExtraction::Constants::DEFAULT_CACHE_TTL (constant)">RichTextExtraction::Constants::DEFAULT_CACHE_TTL</a></span>, <span class='object_link'><a href="Constants.html#DEFAULT_EXCERPT_LENGTH-constant" title="RichTextExtraction::Constants::DEFAULT_EXCERPT_LENGTH (constant)">RichTextExtraction::Constants::DEFAULT_EXCERPT_LENGTH</a></span>, <span class='object_link'><a href="Constants.html#DEFAULT_MAX_REDIRECTS-constant" title="RichTextExtraction::Constants::DEFAULT_MAX_REDIRECTS (constant)">RichTextExtraction::Constants::DEFAULT_MAX_REDIRECTS</a></span>, <span class='object_link'><a href="Constants.html#DEFAULT_OPENGRAPH_TIMEOUT-constant" title="RichTextExtraction::Constants::DEFAULT_OPENGRAPH_TIMEOUT (constant)">RichTextExtraction::Constants::DEFAULT_OPENGRAPH_TIMEOUT</a></span>, <span class='object_link'><a href="Constants.html#DEFAULT_USER_AGENT-constant" title="RichTextExtraction::Constants::DEFAULT_USER_AGENT (constant)">RichTextExtraction::Constants::DEFAULT_USER_AGENT</a></span>, <span class='object_link'><a href="Constants.html#EMAIL_REGEX-constant" title="RichTextExtraction::Constants::EMAIL_REGEX (constant)">RichTextExtraction::Constants::EMAIL_REGEX</a></span>, <span class='object_link'><a href="Constants.html#HASHTAG_REGEX-constant" title="RichTextExtraction::Constants::HASHTAG_REGEX (constant)">RichTextExtraction::Constants::HASHTAG_REGEX</a></span>, <span class='object_link'><a href="Constants.html#IMAGE_EXTENSIONS-constant" title="RichTextExtraction::Constants::IMAGE_EXTENSIONS (constant)">RichTextExtraction::Constants::IMAGE_EXTENSIONS</a></span>, <span class='object_link'><a href="Constants.html#IMAGE_REGEX-constant" title="RichTextExtraction::Constants::IMAGE_REGEX (constant)">RichTextExtraction::Constants::IMAGE_REGEX</a></span>, <span class='object_link'><a href="Constants.html#MARKDOWN_LINK_REGEX-constant" title="RichTextExtraction::Constants::MARKDOWN_LINK_REGEX (constant)">RichTextExtraction::Constants::MARKDOWN_LINK_REGEX</a></span>, <span class='object_link'><a href="Constants.html#MENTION_REGEX-constant" title="RichTextExtraction::Constants::MENTION_REGEX (constant)">RichTextExtraction::Constants::MENTION_REGEX</a></span>, <span class='object_link'><a href="Constants.html#PHONE_REGEX-constant" title="RichTextExtraction::Constants::PHONE_REGEX (constant)">RichTextExtraction::Constants::PHONE_REGEX</a></span>, <span class='object_link'><a href="Constants.html#TWITTER_REGEX-constant" title="RichTextExtraction::Constants::TWITTER_REGEX (constant)">RichTextExtraction::Constants::TWITTER_REGEX</a></span>, <span class='object_link'><a href="Constants.html#VALIDATOR_EXAMPLES-constant" title="RichTextExtraction::Constants::VALIDATOR_EXAMPLES (constant)">RichTextExtraction::Constants::VALIDATOR_EXAMPLES</a></span></p>
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#build_cache_key-instance_method" title="#build_cache_key (instance method)">#<strong>build_cache_key</strong>(base_key, prefix = nil)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Builds a cache key with optional prefix.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#clear_cache_for_urls-instance_method" title="#clear_cache_for_urls (instance method)">#<strong>clear_cache_for_urls</strong>(urls, cache, cache_options = {})  &#x21d2; Array&lt;Boolean&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Clears cache entries for multiple URLs.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_cache-instance_method" title="#delete_cache (instance method)">#<strong>delete_cache</strong>(key, cache, cache_options = {})  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Deletes data from cache with support for Rails cache and custom cache objects.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#opengraph_cache_key-instance_method" title="#opengraph_cache_key (instance method)">#<strong>opengraph_cache_key</strong>(url, prefix = nil)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Generates a cache key for OpenGraph data.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#opengraph_key_prefix-instance_method" title="#opengraph_key_prefix (instance method)">#<strong>opengraph_key_prefix</strong>(cache_options)  &#x21d2; String<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Resolves the key prefix for OpenGraph cache operations.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rails_cache_delete-instance_method" title="#rails_cache_delete (instance method)">#<strong>rails_cache_delete</strong>(key, cache_options = {})  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Deletes from Rails cache.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rails_cache_read-instance_method" title="#rails_cache_read (instance method)">#<strong>rails_cache_read</strong>(key, cache_options = {})  &#x21d2; Object<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Reads from Rails cache.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rails_cache_write-instance_method" title="#rails_cache_write (instance method)">#<strong>rails_cache_write</strong>(key, data, cache_options = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Writes to Rails cache.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#read_cache-instance_method" title="#read_cache (instance method)">#<strong>read_cache</strong>(key, cache, cache_options = {})  &#x21d2; Object<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Reads data from cache with support for Rails cache and custom cache objects.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#resolve_key_prefix-instance_method" title="#resolve_key_prefix (instance method)">#<strong>resolve_key_prefix</strong>(cache_options)  &#x21d2; String<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Resolves cache key prefix from options.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#use_rails_cache%3F-instance_method" title="#use_rails_cache? (instance method)">#<strong>use_rails_cache?</strong>(cache)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Checks if Rails cache should be used.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#write_cache-instance_method" title="#write_cache (instance method)">#<strong>write_cache</strong>(key, data, cache, cache_options = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Writes data to cache with support for Rails cache and custom cache objects.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Constants.html" title="RichTextExtraction::Constants (module)">Constants</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Constants.html#resolve_validator_regex-class_method" title="RichTextExtraction::Constants.resolve_validator_regex (method)">resolve_validator_regex</a></span>, <span class='object_link'><a href="Constants.html#to_jsonld-class_method" title="RichTextExtraction::Constants.to_jsonld (method)">to_jsonld</a></span></p>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="build_cache_key-instance_method">
+  
+    #<strong>build_cache_key</strong>(base_key, prefix = nil)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Builds a cache key with optional prefix.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>base_key</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The base key</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>prefix</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Optional prefix</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The complete cache key</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+74
+75
+76</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/cache_operations.rb', line 74</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_build_cache_key'>build_cache_key</span><span class='lparen'>(</span><span class='id identifier rubyid_base_key'>base_key</span><span class='comma'>,</span> <span class='id identifier rubyid_prefix'>prefix</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_prefix'>prefix</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>opengraph:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_prefix'>prefix</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_base_key'>base_key</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='id identifier rubyid_base_key'>base_key</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="clear_cache_for_urls-instance_method">
+  
+    #<strong>clear_cache_for_urls</strong>(urls, cache, cache_options = {})  &#x21d2; <tt>Array&lt;Boolean&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Clears cache entries for multiple URLs.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>urls</span>
+      
+      
+        <span class='type'>(<tt>Array&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The URLs to clear cache for</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cache</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>, <tt>Symbol</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Cache object or :rails</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cache_options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Cache options</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;Boolean&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Array of deletion results</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+166
+167
+168
+169</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/cache_operations.rb', line 166</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_clear_cache_for_urls'>clear_cache_for_urls</span><span class='lparen'>(</span><span class='id identifier rubyid_urls'>urls</span><span class='comma'>,</span> <span class='id identifier rubyid_cache'>cache</span><span class='comma'>,</span> <span class='id identifier rubyid_cache_options'>cache_options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_prefix'>prefix</span> <span class='op'>=</span> <span class='id identifier rubyid_resolve_key_prefix'>resolve_key_prefix</span><span class='lparen'>(</span><span class='id identifier rubyid_cache_options'>cache_options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_urls'>urls</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_url'>url</span><span class='op'>|</span> <span class='id identifier rubyid_delete_cache'>delete_cache</span><span class='lparen'>(</span><span class='id identifier rubyid_opengraph_cache_key'>opengraph_cache_key</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='comma'>,</span> <span class='id identifier rubyid_prefix'>prefix</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_cache'>cache</span><span class='comma'>,</span> <span class='id identifier rubyid_cache_options'>cache_options</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete_cache-instance_method">
+  
+    #<strong>delete_cache</strong>(key, cache, cache_options = {})  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Deletes data from cache with support for Rails cache and custom cache objects.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The cache key</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cache</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>, <tt>Symbol</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Cache object or :rails</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cache_options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Cache options</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>True if deleted, false otherwise</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+57
+58
+59
+60
+61
+62
+63
+64
+65</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/cache_operations.rb', line 57</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_delete_cache'>delete_cache</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_cache'>cache</span><span class='comma'>,</span> <span class='id identifier rubyid_cache_options'>cache_options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id identifier rubyid_cache'>cache</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_use_rails_cache?'>use_rails_cache?</span><span class='lparen'>(</span><span class='id identifier rubyid_cache'>cache</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_rails_cache_delete'>rails_cache_delete</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_cache_options'>cache_options</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_cache'>cache</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="opengraph_cache_key-instance_method">
+  
+    #<strong>opengraph_cache_key</strong>(url, prefix = nil)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Generates a cache key for OpenGraph data.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>url</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The URL</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>prefix</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Optional prefix</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The cache key</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+154
+155
+156</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/cache_operations.rb', line 154</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_opengraph_cache_key'>opengraph_cache_key</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='comma'>,</span> <span class='id identifier rubyid_prefix'>prefix</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_build_cache_key'>build_cache_key</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='comma'>,</span> <span class='id identifier rubyid_prefix'>prefix</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="opengraph_key_prefix-instance_method">
+  
+    #<strong>opengraph_key_prefix</strong>(cache_options)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt><sup>?</sup> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Resolves the key prefix for OpenGraph cache operations. This method provides backward compatibility with existing code.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>cache_options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Cache options</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The key prefix</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+178
+179
+180</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/cache_operations.rb', line 178</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_opengraph_key_prefix'>opengraph_key_prefix</span><span class='lparen'>(</span><span class='id identifier rubyid_cache_options'>cache_options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_resolve_key_prefix'>resolve_key_prefix</span><span class='lparen'>(</span><span class='id identifier rubyid_cache_options'>cache_options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="rails_cache_delete-instance_method">
+  
+    #<strong>rails_cache_delete</strong>(key, cache_options = {})  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Deletes from Rails cache.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The cache key</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cache_options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Cache options</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>True if deleted, false otherwise</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+141
+142
+143
+144
+145</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/cache_operations.rb', line 141</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_rails_cache_delete'>rails_cache_delete</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_cache_options'>cache_options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>Rails</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:cache</span><span class='rparen'>)</span>
+
+  <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_cache'>cache</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_cache_options'>cache_options</span><span class='period'>.</span><span class='id identifier rubyid_except'>except</span><span class='lparen'>(</span><span class='symbol'>:key_prefix</span><span class='rparen'>)</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="rails_cache_read-instance_method">
+  
+    #<strong>rails_cache_read</strong>(key, cache_options = {})  &#x21d2; <tt>Object</tt><sup>?</sup> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Reads from Rails cache.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The cache key</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cache_options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Cache options</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Object</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Cached data or nil</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+113
+114
+115
+116
+117</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/cache_operations.rb', line 113</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_rails_cache_read'>rails_cache_read</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_cache_options'>cache_options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>Rails</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:cache</span><span class='rparen'>)</span>
+
+  <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_cache'>cache</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_cache_options'>cache_options</span><span class='period'>.</span><span class='id identifier rubyid_except'>except</span><span class='lparen'>(</span><span class='symbol'>:key_prefix</span><span class='rparen'>)</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="rails_cache_write-instance_method">
+  
+    #<strong>rails_cache_write</strong>(key, data, cache_options = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Writes to Rails cache.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The cache key</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>data</span>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The data to cache</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cache_options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Cache options</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The cached data</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+127
+128
+129
+130
+131
+132</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/cache_operations.rb', line 127</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_rails_cache_write'>rails_cache_write</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_cache_options'>cache_options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_data'>data</span> <span class='kw'>unless</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>Rails</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:cache</span><span class='rparen'>)</span>
+
+  <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_cache'>cache</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_cache_options'>cache_options</span><span class='period'>.</span><span class='id identifier rubyid_except'>except</span><span class='lparen'>(</span><span class='symbol'>:key_prefix</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_data'>data</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="read_cache-instance_method">
+  
+    #<strong>read_cache</strong>(key, cache, cache_options = {})  &#x21d2; <tt>Object</tt><sup>?</sup> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Reads data from cache with support for Rails cache and custom cache objects.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The cache key</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cache</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>, <tt>Symbol</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Cache object or :rails</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cache_options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Cache options</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Object</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Cached data or nil if not found</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+19
+20
+21
+22
+23
+24
+25
+26
+27</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/cache_operations.rb', line 19</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_read_cache'>read_cache</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_cache'>cache</span><span class='comma'>,</span> <span class='id identifier rubyid_cache_options'>cache_options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='id identifier rubyid_cache'>cache</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_use_rails_cache?'>use_rails_cache?</span><span class='lparen'>(</span><span class='id identifier rubyid_cache'>cache</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_rails_cache_read'>rails_cache_read</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_cache_options'>cache_options</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_cache'>cache</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="resolve_key_prefix-instance_method">
+  
+    #<strong>resolve_key_prefix</strong>(cache_options)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt><sup>?</sup> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Resolves cache key prefix from options.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>cache_options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Cache options</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The key prefix</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/cache_operations.rb', line 84</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_resolve_key_prefix'>resolve_key_prefix</span><span class='lparen'>(</span><span class='id identifier rubyid_cache_options'>cache_options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_key_prefix'>key_prefix</span> <span class='op'>=</span> <span class='id identifier rubyid_cache_options'>cache_options</span><span class='lbracket'>[</span><span class='symbol'>:key_prefix</span><span class='rbracket'>]</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_key_prefix'>key_prefix</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>&amp;&amp;</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>Rails</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:application</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_key_prefix'>key_prefix</span> <span class='op'>=</span> <span class='kw'>begin</span>
+      <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_module_parent_name'>module_parent_name</span>
+    <span class='kw'>rescue</span> <span class='const'>StandardError</span>
+      <span class='kw'>nil</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_key_prefix'>key_prefix</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="use_rails_cache?-instance_method">
+  
+    #<strong>use_rails_cache?</strong>(cache)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Checks if Rails cache should be used.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>cache</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>, <tt>Symbol</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Cache object or :rails</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>True if Rails cache should be used</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+102
+103
+104</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/cache_operations.rb', line 102</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_use_rails_cache?'>use_rails_cache?</span><span class='lparen'>(</span><span class='id identifier rubyid_cache'>cache</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_cache'>cache</span> <span class='op'>==</span> <span class='symbol'>:rails</span> <span class='op'>&amp;&amp;</span> <span class='kw'>defined?</span><span class='lparen'>(</span><span class='const'>Rails</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='const'>Rails</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:cache</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="write_cache-instance_method">
+  
+    #<strong>write_cache</strong>(key, data, cache, cache_options = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Writes data to cache with support for Rails cache and custom cache objects.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The cache key</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>data</span>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The data to cache</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cache</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>, <tt>Symbol</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Cache object or :rails</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cache_options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Cache options</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The cached data</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction/cache_operations.rb', line 38</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_write_cache'>write_cache</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_cache'>cache</span><span class='comma'>,</span> <span class='id identifier rubyid_cache_options'>cache_options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_data'>data</span> <span class='kw'>unless</span> <span class='id identifier rubyid_cache'>cache</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_use_rails_cache?'>use_rails_cache?</span><span class='lparen'>(</span><span class='id identifier rubyid_cache'>cache</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_rails_cache_write'>rails_cache_write</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_cache_options'>cache_options</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_cache'>cache</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_data'>data</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Tue Jun 24 18:08:33 2025 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.37 (ruby-3.3.6).
+</div>
+
+    </div>
+  </body>
+</html>

@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'active_support/core_ext/string/inflections'
+
+# RichTextExtraction provides universal rich text, link, identifier, and metadata extraction for Ruby and Rails projects.
 module RichTextExtraction
   ##
   # ExtractionHelpers provides reusable extraction methods for links, tags, mentions, and OpenGraph data.
@@ -21,10 +24,8 @@ module RichTextExtraction
       # Usage: RichTextExtraction.register_extractor(:custom) { |text| ... }
       def register_extractor(key, postprocess: nil, compose: nil, &block)
         extractor = block
-        extractor = ->(text, **opts) { postprocess.call(block.call(text, **opts)) } if postprocess
-        if compose
-          extractor = ->(text, **opts) { compose.inject(text) { |acc, k| @extractors[k].call(acc, **opts) } }
-        end
+        extractor = ->(text, **opts) { postprocess.call(yield(text, **opts)) } if postprocess
+        extractor = ->(text, **opts) { compose.inject(text) { |acc, k| @extractors[k].call(acc, **opts) } } if compose
         @extractors[key.to_sym] = extractor
       end
 
@@ -45,8 +46,8 @@ module RichTextExtraction
 
       # Extract all known types
       def extract_all(text, **opts)
-        @extractors.keys.each_with_object({}) do |key, h|
-          h[key] = extract(text, key, **opts)
+        @extractors.keys.index_with do |key|
+          extract(text, key, **opts)
         end
       end
 
@@ -54,7 +55,7 @@ module RichTextExtraction
       def default_extractor(type)
         case type.to_sym
         when :links
-          ->(text, **) { LinkExtractor.instance_method(:extract_links).bind(self).call(text) }
+          ->(text, **) { LinkExtractor.instance_method(:extract_links).bind_call(self, text) }
         when :emails
           ->(text, **) { text.to_s.scan(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/) }
         when :phones
@@ -64,7 +65,7 @@ module RichTextExtraction
         when :mentions
           ->(text, **) { text.to_s.scan(/@(\w+)/).flatten }
         when :images
-          ->(text, **) { text.to_s.scan(/https?:\/\/(?:[\w.-]+)\/(?:[\w\/-]+)\.(?:jpg|jpeg|png|gif)/i) }
+          ->(text, **) { text.to_s.scan(%r{https?://(?:[\w.-]+)/(?:[\w/-]+)\.(?:jpg|jpeg|png|gif)}i) }
         when :dates
           ->(text, **) { text.to_s.scan(/\b\d{4}-\d{2}-\d{2}\b/) }
         when :uuids
@@ -83,8 +84,6 @@ module RichTextExtraction
           ->(text, **) { text.to_s.scan(/@([A-Za-z0-9_]{1,15})/) }
         when :instagram_handles
           ->(text, **) { text.to_s.scan(/@([A-Za-z0-9_.]{1,30})/) }
-        else
-          nil
         end
       end
 
@@ -141,7 +140,7 @@ module RichTextExtraction
           begin
             response = HTTParty.get(url)
             if response.respond_to?(:body) && response.body =~ /<meta property="og:title" content="([^"]+)">/
-              title = $1
+              title = ::Regexp.last_match(1)
             end
           rescue StandardError
             # Ignore errors, fallback to other stubs
@@ -153,15 +152,15 @@ module RichTextExtraction
         title ||= case url
                   when /test\.com/ then 'Test Title'
                   when /example\.com/ then 'Title'
-                  else nil
                   end
         # 4. Build result hash with both string and symbol keys for 'title'
-        result = { url: url, title: title, 'title' => title, error: (title.nil? ? 'OpenGraph stub error' : nil), cache: cache, cache_options: cache_options }.compact
+        result = { url: url, title: title, 'title' => title, error: (title.nil? ? 'OpenGraph stub error' : nil),
+                   cache: cache, cache_options: cache_options }.compact
         # 5. Try to use any cache object that responds to []=, but handle errors gracefully
         if cache && cache != :rails && cache.respond_to?(:[]=)
           begin
             cache[url] = result
-          rescue StandardError => e
+          rescue StandardError
             # If cache assignment fails (e.g., IndexError, TypeError), ignore and continue
             # Optionally, you could log or warn here
           end
@@ -171,25 +170,6 @@ module RichTextExtraction
           Rails.cache.write(cache_key, result, **cache_options.except(:key_prefix))
         end
         result
-      end
-
-      # Register identifier extractors (modular, DRY)
-      identifier_extractors = {
-        ean13:        ->(text) { RichTextExtraction::IdentifierExtractor.extract_ean13(text) },
-        upca:         ->(text) { RichTextExtraction::IdentifierExtractor.extract_upca(text) },
-        isbn:         ->(text) { RichTextExtraction::IdentifierExtractor.extract_isbn(text) },
-        uuid:         ->(text) { RichTextExtraction::IdentifierExtractor.extract_uuids(text) },
-        credit_cards: ->(text) { RichTextExtraction::IdentifierExtractor.extract_credit_cards(text) },
-        hex_colors:   ->(text) { RichTextExtraction::IdentifierExtractor.extract_hex_colors(text) },
-        ips:          ->(text) { RichTextExtraction::IdentifierExtractor.extract_ips(text) },
-        vin:          ->(text) { RichTextExtraction::IdentifierExtractor.extract_vins(text) },
-        imei:         ->(text) { RichTextExtraction::IdentifierExtractor.extract_imeis(text) },
-        issn:         ->(text) { RichTextExtraction::IdentifierExtractor.extract_issns(text) },
-        mac:          ->(text) { RichTextExtraction::IdentifierExtractor.extract_mac_addresses(text) },
-        iban:         ->(text) { RichTextExtraction::IdentifierExtractor.extract_ibans(text) }
-      }
-      identifier_extractors.each do |key, extractor|
-        register_extractor(key, &extractor)
       end
     end
   end
@@ -208,6 +188,15 @@ module RichTextExtraction
   def self.extract_opengraph(url, cache: nil, cache_options: {})
     ExtractionHelpers.extract_opengraph(url, cache: cache, cache_options: cache_options)
   end
+
+  # === DRY: Automatic Registration of Pattern-based Extractors ===
+  require_relative 'constants'
+  RichTextExtraction::Constants::VALIDATOR_EXAMPLES.each do |key, meta|
+    next unless meta[:regex] && !%i[isbn vin issn iban luhn url].include?(key)
+
+    method_name = "extract_#{key.to_s.pluralize}"
+    register_extractor(key) { |text| send(method_name, text) } if respond_to?(method_name)
+  end
 end
 
 # Add extract to String and ActionText::RichText if available
@@ -218,9 +207,30 @@ class String
 end
 
 if defined?(ActionText::RichText)
-  class ActionText::RichText
-    def extract(type = :all, **opts)
-      RichTextExtraction.extract(to_plain_text, type, **opts)
+  module ActionText
+    class RichText
+      def extract(type = :all, **opts)
+        RichTextExtraction.extract(to_plain_text, type, **opts)
+      end
     end
   end
+end
+
+# Register identifier extractors (modular, DRY)
+identifier_extractors = {
+  ean13: ->(text) { RichTextExtraction::IdentifierExtractor.extract_ean13(text) },
+  upca: ->(text) { RichTextExtraction::IdentifierExtractor.extract_upca(text) },
+  isbn: ->(text) { RichTextExtraction::IdentifierExtractor.extract_isbn(text) },
+  uuid: ->(text) { RichTextExtraction::IdentifierExtractor.extract_uuids(text) },
+  credit_cards: ->(text) { RichTextExtraction::IdentifierExtractor.extract_credit_cards(text) },
+  hex_colors: ->(text) { RichTextExtraction::IdentifierExtractor.extract_hex_colors(text) },
+  ips: ->(text) { RichTextExtraction::IdentifierExtractor.extract_ips(text) },
+  vin: ->(text) { RichTextExtraction::IdentifierExtractor.extract_vins(text) },
+  imei: ->(text) { RichTextExtraction::IdentifierExtractor.extract_imeis(text) },
+  issn: ->(text) { RichTextExtraction::IdentifierExtractor.extract_issns(text) },
+  mac: ->(text) { RichTextExtraction::IdentifierExtractor.extract_mac_addresses(text) },
+  iban: ->(text) { RichTextExtraction::IdentifierExtractor.extract_ibans(text) }
+}
+identifier_extractors.each do |key, extractor|
+  RichTextExtraction::ExtractionHelpers.register_extractor(key, &extractor)
 end

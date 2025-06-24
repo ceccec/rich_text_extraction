@@ -64,6 +64,7 @@ link_objects = extractor.link_objects(with_opengraph: true)
 valid_links = extractor.valid_urls
 # => ["https://example.com"]
 ```
+See also: [url validator](validator_reference.md#url)
 
 ### Extracting Social Content
 
@@ -80,6 +81,7 @@ mentions = extractor.mentions
 tags_with_context = extractor.tags_with_context
 # => [{ tag: "ruby", context: "check out #ruby #rails!" }]
 ```
+See also: [hashtag validator](validator_reference.md#hashtag), [mention validator](validator_reference.md#mention)
 
 ### Markdown Rendering
 

@@ -1,0 +1,28 @@
+name: Check i18n Completeness
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  check-i18n:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Check translation keys
+        run: |
+          ruby -e '
+            require "yaml"
+            t = YAML.load_file("docs/_data/translations.yml")
+            keys = t.values.map(&:keys)
+            all_keys = keys.flatten.uniq
+            t.each do |lang, h|
+              missing = all_keys - h.keys
+              unless missing.empty?
+                puts "Missing keys in #{lang}: #{missing.join(", ")}"
+                exit 1
+              end
+            end
+          ' 

@@ -100,6 +100,188 @@ end
 - **[RubyGems](https://rubygems.org/gems/rich_text_extraction)** - Gem installation
 - **[Documentation Site](https://ceccec.github.io/rich_text_extraction/)** - Full documentation
 
+## Validators API
+
+- [Validator Reference](validator_reference.md)
+
+# For each endpoint, add a note like:
+# See also: [validator reference](validator_reference.md#isbn) (for /validators/isbn/validate)
+
+## Doc-Driven Testing & API Consistency
+
+All validator API endpoints and their test scenarios are **automatically tested and kept in sync with documentation**. This is achieved through a doc-driven, DRY workflow:
+
+- **Single Source of Truth:** All validator logic, examples, and metadata are defined in `VALIDATOR_EXAMPLES` in the codebase.
+- **Automated Test Generation:**
+  - The script [`bin/doc_driven_validator_spec.rb`](../bin/doc_driven_validator_spec.rb) reads all valid/invalid examples from the documentation source and runs them as tests against the actual validator classes.
+  - If a validator is missing, a stub is auto-generated (for regex-based types), or a clear error is reported for custom logic types.
+- **Drift/Gap Detection:**
+  - If any validator is missing, or if the docs, code, and tests are out of sync, a warning banner appears in the generated documentation and the CI build will fail.
+- **Rake Tasks:**
+  - `rake test:scenarios_from_docs` — Runs all doc-driven validator tests.
+  - `rake docs:all` — Regenerates documentation and drift warnings.
+  - `rake` or `rake test` — Runs all quality checks and tests.
+
+### Example Workflow
+
+1. Add or update a validator in `VALIDATOR_EXAMPLES`.
+2. Run `rake docs:all` and `rake test:scenarios_from_docs`.
+3. All API scenarios (valid/invalid) are tested automatically.
+4. If anything is missing or out of sync, you'll see a warning in the docs and a failed CI build.
+
+**This ensures the API, documentation, and tests are always DRY, robust, and in sync.**
+
+## 🧪 API Testing Scenarios: What's Automatically Tested
+
+All validator API endpoints are covered by **doc-driven, automated tests**. The following scenarios are (or should be) executed for every validator, ensuring the API, documentation, and implementation are always in sync and robust.
+
+### 1. Metadata Endpoints
+
+- **GET `/validators`**
+  - Returns a list of all validators with their metadata.
+  - **Test:** Response includes all symbols in `VALIDATOR_EXAMPLES` and all requested fields.
+
+- **GET `/validators/fields`**
+  - Returns a list of all available metadata fields.
+  - **Test:** Response matches the documented fields.
+
+- **GET `/validators/:id`**
+  - Returns metadata for a specific validator.
+  - **Test:** Response matches the entry in `VALIDATOR_EXAMPLES` for the given symbol.
+  - **Test:** Returns 404 for unknown validator.
+
+- **GET `/validators/:id/regex`**
+  - Returns the regex for a validator (if applicable).
+  - **Test:** Response matches the regex in `VALIDATOR_EXAMPLES`.
+  - **Test:** Returns 404 for unknown validator.
+
+- **GET `/validators/:id/examples`**
+  - Returns valid and invalid examples for a validator.
+  - **Test:** Response matches the examples in `VALIDATOR_EXAMPLES`.
+  - **Test:** Returns 404 for unknown validator.
+
+- **GET `/validators/:id/jsonld?value=...`**
+  - Returns schema.org JSON-LD for a value.
+  - **Test:** Response matches the schema_type and schema_property in `VALIDATOR_EXAMPLES`.
+  - **Test:** Returns 404 for unknown validator.
+
+---
+
+### 2. Validation Endpoints
+
+- **POST `/validators/:id/validate`**
+  - Validates a single value.
+  - **Test:** For each `valid` example in `VALIDATOR_EXAMPLES`, the response is `{ valid: true, errors: [] }`.
+  - **Test:** For each `invalid` example, the response is `{ valid: false, errors: [...] }`.
+  - **Test:** Returns 404 for unknown validator.
+  - **Test:** Returns error for missing or malformed input.
+
+- **POST `/validators/:id/batch_validate`**
+  - Validates an array of values.
+  - **Test:** For each value, response matches the single validate endpoint.
+  - **Test:** Returns 404 for unknown validator.
+  - **Test:** Returns error for missing or malformed input.
+
+---
+
+### 3. Error Handling & Edge Cases
+
+- **Unknown Validator**
+  - All endpoints return 404 and a clear error message if the validator does not exist.
+
+- **Malformed Input**
+  - Validation endpoints return a clear error if required fields are missing or input is not a string/array as expected.
+
+- **Rate Limiting**
+  - Exceeding the configured rate limit returns a 429 error with a clear message.
+
+- **CORS**
+  - All endpoints respond with correct CORS headers for allowed origins, methods, and headers.
+
+---
+
+### 4. Security & Sanitation
+
+- **No Arbitrary Code Execution**
+  - Only documented, whitelisted scenarios are tested.
+  - No `eval` or dynamic code execution is allowed.
+
+- **Strict Input Validation**
+  - Only values and types documented in `VALIDATOR_EXAMPLES` are accepted for automated tests.
+
+---
+
+### 5. Drift & Coverage Detection
+
+- **Drift Detection**
+  - If any validator is missing a class or regex, or if docs/tests/code are out of sync, a warning is shown in the docs and CI fails.
+
+- **Coverage Reporting**
+  - After running tests, a summary is printed listing any missing or untested features.
+
+---
+
+### 6. Extensibility
+
+- **Adding New Scenarios**
+  - To add a new test scenario, simply add it to the `valid` or `invalid` array in `VALIDATOR_EXAMPLES`. The system will automatically test it and update the docs.
+
+---
+
+## Example Table: Test Scenarios for a Validator
+
+| Input                | Expected Result | Example API Request         | Example API Response                |
+|----------------------|----------------|----------------------------|-------------------------------------|
+| `978-3-16-148410-0`  | ✅ valid       | `{ "value": "978-3-16-148410-0" }` | `{ "valid": true, "errors": [] }` |
+| `978-3-16-148410-1`  | ❌ invalid     | `{ "value": "978-3-16-148410-1" }` | `{ "valid": false, "errors": ["is not a valid ISBN"] }` |
+
+---
+
+## How to Run All Tests
+
+- `rake test:scenarios_from_docs` — Runs all doc-driven validator tests.
+- `rake` or `rake test` — Runs all quality checks and tests.
+- See the [Contributing Guide](CONTRIBUTING.md) for more details.
+
+**This approach ensures that every documented scenario is tested, every API endpoint is robust, and the system is always DRY, secure, and in sync.**
+
 ---
 
 **RichTextExtraction** - Professional rich text extraction for Ruby and Rails applications. 🚀 
+
+## ⚡ Request→Response Caching
+
+All validation requests (both via the public API and the HTTP API) support request→response caching to reduce system load and improve performance.
+
+- **How it works:**
+  - Every validation request (symbol + value) is cached using a configurable cache (defaults to `Rails.cache`).
+  - Cache keys are based on the validator symbol and value.
+  - Cache options (e.g., `expires_in`) are configurable via Rails/RichTextExtraction config or per-request.
+
+### **API Controller**
+- All `/validators/:id/validate` and `/validators/:id/batch_validate` requests are cached by default using `Rails.cache` and your configured cache options.
+- You can configure cache TTL and other options in your initializer:
+  ```ruby
+  # config/initializers/rich_text_extraction.rb
+  RichTextExtraction.configure do |config|
+    config.cache_options = { expires_in: 1.hour, compress: true }
+  end
+  ```
+
+### **Public API Usage**
+- You can use caching in your own scripts:
+  ```ruby
+  # Use Rails.cache (default)
+  RichTextExtraction::ValidatorAPI.validate(:isbn, "978-3-16-148410-0")
+
+  # Use a custom cache and options
+  require 'active_support/cache'
+  cache = ActiveSupport::Cache::MemoryStore.new
+  RichTextExtraction::ValidatorAPI.validate(:isbn, "978-3-16-148410-0", cache: cache, cache_options: { expires_in: 600 })
+  ```
+- The result will be cached and reused for identical requests, reducing repeated computation.
+
+### **Benefits**
+- Reduces system load for repeated or batch validations.
+- Makes the API and public methods more scalable and responsive.
+- Fully user-configurable and works out of the box with Rails. 

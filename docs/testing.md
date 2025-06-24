@@ -521,3 +521,68 @@ end
 ---
 
 **RichTextExtraction** – Professional rich text extraction for Ruby and Rails applications. 🚀 
+
+# Testing Guide: DRY/Automated Platform
+
+This guide explains how to test and verify your platform, both automatically (CI) and manually.
+
+---
+
+## 1. Automated CI Testing
+
+- **Sync Enforcement:**
+  - CI runs all sync scripts (translations, tokens, features, etc.).
+  - Fails if generated files are out of sync with YAML/JSON sources.
+- **Accessibility (a11y):**
+  - CI runs axe-core or pa11y on key pages.
+  - Fails if accessibility violations are found.
+- **SEO:**
+  - CI runs Lighthouse SEO audits.
+- **Visual Regression:**
+  - CI runs Percy/Chromatic (if set up).
+- **Spellcheck/Linkcheck:**
+  - CI checks all docs for spelling and broken links.
+- **Test Scenarios:**
+  - CI checks that all test scenarios are covered in code and docs.
+- **Feature Flags:**
+  - CI checks that all flags are documented and used.
+
+---
+
+## 2. Manual Testing Checklist
+
+- Visit your deployed site (GitHub Pages, Netlify, Vercel, etc.).
+- Check:
+  - All UI is accessible (try with a screen reader).
+  - All features and languages work.
+  - PWA installability and offline mode.
+  - API endpoints via Swagger UI or Redoc.
+  - Visual consistency and theming.
+  - Analytics and opt-out work as expected.
+
+---
+
+## 3. Troubleshooting
+
+- **Sync errors:**
+  - Run the relevant sync script in `bin/` and commit the changes.
+- **Accessibility/SEO/Visual errors:**
+  - Review CI logs for details and fix issues in code or YAML.
+- **Test scenario/flag coverage:**
+  - Add missing scenarios/flags to YAML and sync.
+- **Deployment issues:**
+  - Ensure all assets are present and paths are correct.
+
+---
+
+## 4. Resources
+
+- [axe-core](https://github.com/dequelabs/axe-core)
+- [pa11y](https://github.com/pa11y/pa11y)
+- [Lighthouse](https://web.dev/lighthouse/)
+- [Percy](https://percy.io/)
+- [GitHub Actions Docs](https://docs.github.com/en/actions)
+
+---
+
+**For further help, see the README or open an issue in the repository.** 

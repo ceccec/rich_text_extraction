@@ -1,3 +1,34 @@
+# Rich Text Extraction
+
+## Mission Statement
+
+**Rich Text Extraction** is a universal, DRY, documentation-driven, cache-optimized validation and extraction platform. Our mission is to empower developers and organizations to build robust, accessible, and future-proof applications by providing a single source of truth for validation, documentation, testing, and UI—across all interfaces and languages.
+
+## Main Features
+
+- **Single Source of Truth:**
+  - All validation logic, patterns, examples, ARIA labels, and content are defined in YAML/JSON, ensuring DRYness and consistency across code, docs, and tests.
+- **Doc-Driven Testing & Automation:**
+  - Test scenarios, API docs, and UI are auto-generated from documentation, with CI enforcing drift/gap detection.
+- **Universal API & Multi-Interface Support:**
+  - Exposes all validation, batch validation, metadata, and examples via HTTP, JS, CLI, and Ruby APIs.
+- **Interactive, Responsive PWA UI:**
+  - Modern, installable, offline-capable UI with live validation, batch validation, and dynamic docs.
+- **Accessibility & Internationalization:**
+  - All UI is accessible, ARIA-compliant, and fully i18n-ready, with translations and a11y labels managed centrally.
+- **Security & Privacy:**
+  - Strict Content Security Policy, input sanitation, HTTPS, and privacy-respecting analytics with opt-out.
+- **Automated CI/CD & Quality Gates:**
+  - Linting, spellcheck, accessibility, SEO, visual regression, and scenario coverage are enforced in CI.
+- **Extensible & Future-Proof:**
+  - Easily add new validators, scenarios, languages, or UI features by updating a single YAML/JSON file.
+- **Self-Documenting:**
+  - Every feature, test, and doc references its own source, ensuring transparency and maintainability.
+
+---
+
+For full documentation, see the [docs/](docs/) directory and the in-app interactive documentation.
+
 # RichTextExtraction
 
 [![Tests](https://github.com/ceccec/rich_text_extraction/actions/workflows/main.yml/badge.svg)](https://github.com/ceccec/rich_text_extraction/actions/workflows/main.yml)
@@ -7,7 +38,7 @@
 Professional rich text, Markdown, and OpenGraph extraction for Ruby and Rails applications.
 
 ## Features
-- Extract links, tags, mentions, emails, attachments, phone numbers, dates, and more
+- Extract links, tags, mentions, emails, attachments, phone numbers, and more
 - Safe Markdown rendering (Redcarpet, Kramdown, CommonMarker)
 - OpenGraph metadata extraction with intelligent caching
 - Rails and ActionText integration
@@ -34,6 +65,22 @@ See [`docs/usage.md`](docs/usage.md) and [`docs/quick-reference.md`](docs/quick-
 - **Mirror the directory structure** in `spec/` for tests.
 - **Use shared contexts** for DRY tests (see `spec/support/shared_contexts.rb`).
 - **Run tests and RuboCop** before submitting PRs.
+
+## How to Add or Update a Validator (DRY, Doc-Driven)
+
+RichTextExtraction is fully DRY and doc-driven. To add or update a validator:
+
+1. **Edit `VALIDATOR_EXAMPLES` in `lib/rich_text_extraction/constants.rb`:**
+   - Add or update the validator entry with its name, description, regex (if pattern-based), valid/invalid examples, and schema.org metadata.
+2. **Input Normalization:**
+   - All validator input is automatically normalized: values are converted to string and whitespace is stripped before validation. This ensures consistent, user-friendly validation across all interfaces.
+3. **(If needed) Add a custom validator class:**
+   - For custom logic (not regex-based), add a validator class in `lib/rich_text_extraction/validators/`.
+4. **Everything else is automatic!**
+   - Tests, documentation, and API endpoints are auto-generated from `VALIDATOR_EXAMPLES`.
+   - Run the doc-driven test runner and documentation generator to ensure everything is in sync.
+
+**Tip:** If you see a drift warning in the docs or CI, it means a validator is missing a class or regex. Just update `VALIDATOR_EXAMPLES` and the relevant class or pattern.
 
 ## Test & Quality Status (January 2025)
 - **RSpec:** 44 examples, 0 failures
@@ -699,3 +746,154 @@ bin/rails generate rich_text_extraction:install
 ```
 
 See the example model template for advanced usage and customization.
+
+## Configurable API Features
+
+### CORS
+- Configure allowed origins, headers, and methods:
+
+```ruby
+config.api_cors_origins = ['https://myfrontend.com', 'https://admin.myapp.com']
+config.api_cors_headers = ['Origin', 'Content-Type', 'Accept', 'Authorization', 'X-Custom-Header']
+config.api_cors_methods = ['GET', 'POST', 'OPTIONS', 'PUT']
+```
+
+### Distributed Rate Limiting (with Redis)
+- Configure global, per-user, and per-endpoint limits:
+
+```ruby
+config.api_rate_limit = { limit: 60, period: 1.minute }
+config.api_rate_limit_per_user = { limit: 100, period: 1.hour }
+config.api_rate_limit_per_endpoint = {
+  '/validators/validate' => { limit: 10, period: 1.minute }
+}
+```
+- Requires Redis. In production, use a shared Redis instance.
+
+### Example Initializer
+
+```ruby
+# config/initializers/rich_text_extraction.rb
+RichTextExtraction.configure do |config|
+  config.api_cors_origins = ['https://myfrontend.com']
+  config.api_cors_headers = ['Origin', 'Content-Type', 'Accept']
+  config.api_cors_methods = ['GET', 'POST', 'OPTIONS']
+  config.api_rate_limit = { limit: 60, period: 1.minute }
+  config.api_rate_limit_per_user = { limit: 100, period: 1.hour }
+  config.api_rate_limit_per_endpoint = {
+    '/validators/validate' => { limit: 10, period: 1.minute }
+  }
+end
+```
+
+### Notes
+- CORS and rate limiting are enforced on all validator API endpoints.
+- Per-user limits require a `current_user` method in your controller.
+- For distributed rate limiting, ensure Redis is available and configured.
+
+## DRY Metaprogramming for Extractors & Validators
+
+RichTextExtraction now uses metaprogramming to automatically generate extraction methods and validator classes for all pattern-based types. This means:
+
+- **No need to manually define extractors or validator classes** for simple regex-based types (e.g., UUID, MAC address, hashtag, mention, etc.).
+- **Custom logic types** (e.g., ISBN, VIN, ISSN, IBAN, Luhn, URL) are still implemented manually to preserve their advanced validation.
+- **Error messages** for pattern-based validators are centralized in `VALIDATOR_EXAMPLES` and can be overridden via I18n as before.
+- **Automatic registration**: All generated extractors are available in the extractor registry and API.
+
+### Adding a New Pattern-Based Extractor/Validator
+
+1. Add an entry to `VALIDATOR_EXAMPLES` in `lib/rich_text_extraction/constants.rb` with:
+   - `regex`: The name of the regex constant in `ExtractionPatterns` (as a string)
+   - `error_message`: The default error message
+   - (Optionally) `valid`, `invalid`, `schema_type`, etc.
+2. That's it! The extractor and validator will be available automatically.
+3. If you need custom logic (e.g., checksum), implement the extractor/validator manually and add the key to the skip list in the metaprogramming block.
+
+### Example: Adding a New Validator
+
+```ruby
+# In lib/rich_text_extraction/constants.rb
+VALIDATOR_EXAMPLES[:foo_code] = {
+  valid: ['FOO123'],
+  invalid: ['BAR456'],
+  regex: 'FOO_CODE_REGEX',
+  error_message: 'is not a valid FOO code',
+  schema_type: 'Thing',
+  schema_property: 'identifier',
+  description: 'FOO code (custom example)'
+}
+
+# In lib/rich_text_extraction/extraction_patterns.rb
+FOO_CODE_REGEX = /FOO\d{3}/
+```
+
+Now you can use:
+
+```ruby
+extract_foo_codes('My code is FOO123') # => ['FOO123']
+validates :foo, foo_code: true
+```
+
+### Custom Logic Validators
+
+For types like ISBN, VIN, ISSN, IBAN, Luhn, and URL, custom logic is preserved. These are not auto-generated and must be implemented manually as before.
+
+---
+
+## DRY Documentation for Validators & Extractors
+
+All validator and extractor documentation in RichTextExtraction is DRY and auto-generated from the `VALIDATOR_EXAMPLES` hash in `lib/rich_text_extraction/constants.rb`.
+
+- **Consistency:** The same source powers the code, API, and documentation.
+- **Easy to extend:** To add a new validator or extractor, just update the hash and (optionally) add a regex. The docs, API, and code will all reflect the change automatically.
+- **No duplication:** There is no need to manually update multiple places when adding or changing a validator/extractor.
+
+This approach ensures that your documentation is always up-to-date and matches the actual code and API behavior.
+
+## Doc-Driven Testing
+
+Validator specs are automatically generated from the `VALIDATOR_EXAMPLES` hash. This means:
+
+- All valid/invalid examples in the documentation are tested against the actual validator classes.
+- To run these tests, use:
+
+```sh
+rake test:scenarios_from_docs
+```
+
+This ensures your code, documentation, and tests are always DRY and in sync.
+
+## Universal Caching Proxy & Multi-Interface Validation
+
+All validation requests—whether from Ruby, HTTP, or JavaScript—are automatically cached for maximum efficiency and scalability.
+
+- **Ruby:**
+  ```ruby
+  RichTextExtraction::ValidatorAPI.validate(:isbn, value, cache: Rails.cache, cache_options: { expires_in: 1.hour })
+  RichTextExtraction::ValidatorAPI.batch_validate(:isbn, ["978-3-16-148410-0", "123"], cache: Rails.cache)
+  ```
+
+- **HTTP API:**
+  All `/validate` and `/batch_validate` endpoints use server-side cache.
+  ```http
+  POST /validators/isbn/validate
+  { "value": "978-3-16-148410-0" }
+  
+  POST /validators/isbn/batch_validate
+  { "values": ["978-3-16-148410-0", "123"] }
+  ```
+
+- **JavaScript (Docs/Widget):**
+  Docs widgets and apps fetch from the API and cache results in the browser. See the live demo in the docs.
+
+- **CLI/Batch:**
+  Scripts and pipelines can use the same API and cache for efficient batch validation.
+
+**Configure cache backend and options in your initializer:**
+```ruby
+RichTextExtraction.configure do |config|
+  config.cache_options = { expires_in: 1.hour, compress: true }
+end
+```
+
+**Adding a new validator or scenario in `VALIDATOR_EXAMPLES` makes it available everywhere (Ruby, API, JS, CLI) with caching.**

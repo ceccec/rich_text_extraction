@@ -1,0 +1,16 @@
+{
+  "validation_success": "Válido",
+  "validation_error": "Inválido: {error}",
+  "offline": "Sin conexión: solicitud en cola.",
+  "online": "En línea",
+  "install_prompt": "¡Instala esta aplicación para una mejor experiencia!",
+  "home_title": "Inicio",
+  "home_welcome": "Bienvenido a Rich Text Extraction (Español)",
+  "home_desc": "Esta es la página de inicio en español para la plataforma universal, DRY, impulsada por documentación y optimizada para caché.",
+  "optout": "No participar en analíticas",
+  "add_input": "Agregar entrada",
+  "remove": "Eliminar",
+  "queued": "Solicitud en cola.",
+  "error": "Error: {error}",
+  "skip_to_main": "Saltar al contenido principal"
+}
