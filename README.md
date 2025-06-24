@@ -236,6 +236,166 @@ Each generated file (initializer, configuration, model, controller, view, job, r
 
 This structure makes it easy to maintain and extend generator tests as the gem evolves.
 
+## Static Analysis Exclusions
+
+Generator templates in `lib/generators/rich_text_extraction/install/templates/` are excluded from RuboCop and YARD checks because they are ERB templates, not valid Ruby until rendered. This prevents false syntax and style errors in lint and documentation tools.
+
+- See `.rubocop.yml` and `.yardopts` for exclusion rules.
+
+## Universal Extraction API
+
+RichTextExtraction provides a universal extraction API for all document types (plain, Markdown, HTML/ActionText) and elements (links, emails, phones, hashtags, mentions, images, attachments, dates, and more).
+
+### Usage Examples
+
+```ruby
+# Extract by type
+text = "Contact me at alice@example.com or visit https://example.com #rails @alice"
+text.extract(:links)      # => ["https://example.com"]
+text.extract(:emails)     # => ["alice@example.com"]
+text.extract(:hashtags)   # => ["#rails"]
+text.extract(:mentions)   # => ["@alice"]
+
+# Extract all known types
+text.extract(:all)
+# => { links: [...], emails: [...], phones: [...], hashtags: [...], mentions: [...], ... }
+
+# Extract with a custom pattern
+text.extract(/ID-\d{6}/) # => ["ID-123456"]
+
+# In ActionText::RichText
+post.content.extract(:links)
+```
+
+### Extraction by Type, Element, and Standard
+
+| Type         | Method/Key      | Pattern/Standard      | Example Output                |
+|--------------|-----------------|-----------------------|-------------------------------|
+| Links        | `:links`        | RFC 3986, Markdown    | `["https://...", ...]`        |
+| Emails       | `:emails`       | RFC 5322              | `["foo@bar.com", ...]        |
+| Phones       | `:phones`       | E.164                 | `["+1234567890", ...]        |
+| Hashtags     | `:hashtags`     | `#\w+`                | `["#rails", ...]             |
+| Mentions     | `:mentions`     | `@\w+`                | `[@alice, ...]`               |
+| Images       | `:images`       | Markdown/HTML         | `["https://img...", ...]`     |
+| Attachments  | `:attachments`  | ActionText            | `[ActiveStorage::Attachment]` |
+| Dates        | `:dates`        | ISO 8601, RFC, NLP    | `[Time, ...]`                 |
+| Custom       | `:custom_id`    | User regex            | `["ID-123456", ...]          |
+
+### Custom Extractor Registration (DSL)
+
+You can register your own extractors:
+
+```ruby
+RichTextExtraction.register_extractor(:custom_id) do |text|
+  text.scan(/ID-\d{6}/)
+end
+
+"Order ID-123456 and ID-654321".extract(:custom_id)
+# => ["ID-123456", "ID-654321"]
+```
+
+### Extending Extraction
+
+- Add new extractors for any pattern or document element.
+- Use the universal `extract` method on String, ActionText, or directly via `RichTextExtraction.extract`.
+
+### More Built-in Extractors
+
+| Type             | Method/Key         | Pattern/Standard         | Example Output                |
+|------------------|--------------------|--------------------------|-------------------------------|
+| UUIDs            | `:uuids`           | RFC 4122                 | `["123e4567-e89b-12d3-a456-426614174000"]` |
+| Hex Colors       | `:hex_colors`      | CSS                      | `["#fff", "#123abc"]`         |
+| IP Addresses     | `:ips`             | IPv4                     | `["192.168.1.1"]`             |
+| Credit Cards     | `:credit_cards`    | Luhn (basic)             | `["4111 1111 1111 1111"]`     |
+| Markdown Tables  | `:markdown_tables` | Markdown                 | `["| a | b | c | ..."]`        |
+| Markdown Code    | `:markdown_code`   | Markdown                 | `["`code`", "```block```"]`    |
+| Twitter Handles  | `:twitter_handles` | Twitter                  | `["@alice"]`                  |
+| Instagram Handles| `:instagram_handles`| Instagram                | `["@insta.user"]`             |
+
+### Advanced DSL Features
+
+**Post-processing:**
+```ruby
+RichTextExtraction.register_extractor(:downcase_emails, postprocess: ->(arr) { arr.map(&:downcase) }) do |text|
+  text.scan(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/)
+end
+"Alice@Example.com".extract(:downcase_emails) # => ["alice@example.com"]
+```
+
+**Composition:**
+```ruby
+RichTextExtraction.register_extractor(:emails_in_links, compose: [:links, :emails])
+"Contact: https://foo.com?email=alice@example.com".extract(:emails_in_links)
+```
+
+### Advanced Use Cases
+
+- **Extract all social handles:**
+  ```ruby
+  text.extract(:twitter_handles) + text.extract(:instagram_handles)
+  ```
+- **Extract and normalize all emails:**
+  ```ruby
+  text.extract(:emails).map(&:downcase).uniq
+  ```
+- **Extract all code blocks from Markdown:**
+  ```ruby
+  markdown.extract(:markdown_code)
+  ```
+- **Extract all UUIDs and validate:**
+  ```ruby
+  text.extract(:uuids).select { |uuid| uuid.match?(/[0-9a-fA-F\-]{36}/) }
+  ```
+- **Batch extraction in background jobs:**
+  ```ruby
+  class ExtractJob < ApplicationJob
+    def perform(text)
+      results = text.extract(:all)
+      # process results...
+    end
+  end
+  ```
+
+## Non-Rails Usage and Cache Compatibility
+
+This gem works in any Ruby environment. Rails is **not required**.
+
+### Example (Plain Ruby, No Rails)
+
+```ruby
+require 'rich_text_extraction'
+extractor = RichTextExtraction::Extractor.new("Check out https://example.com #ruby @alice")
+puts extractor.links      # => ["https://example.com"]
+puts extractor.tags       # => ["ruby"]
+puts extractor.mentions   # => ["alice"]
+
+# Caching with a hash
+cache = {}
+RichTextExtraction.extract_opengraph('https://example.com', cache: cache)
+
+# Passing cache: :rails (no Rails loaded) is safe and does nothing
+RichTextExtraction.extract_opengraph('https://example.com', cache: :rails)
+
+# Passing an invalid cache object (string, nil, or object without []=) is safe and bypasses caching
+RichTextExtraction.extract_opengraph('https://example.com', cache: "not_a_cache")
+```
+
+### Cache Behavior Table
+
+| Cache Param      | Rails Present? | Behavior                        |
+|------------------|---------------|---------------------------------|
+| `nil`            | Any           | No caching                      |
+| Ruby Hash        | Any           | Uses the hash for caching       |
+| `:rails`         | Yes           | Uses Rails.cache                |
+| `:rails`         | No            | No caching, no error            |
+| Not hash/rails   | Any           | No caching, no error            |
+
+> **Note:** The gem will attempt to use any cache object you provide (anything that responds to `[]=`), but if an error occurs (e.g., the object is not actually usable as a cache), it will handle the error gracefully and bypass caching. This ensures maximum compatibility and safety in all Ruby environments.
+
+---
+
+If you want to use advanced caching, pass any object that responds to `[]` and `[]=` (e.g., a custom cache, Redis, etc.).
+
 ---
 
 **RichTextExtraction** – Professional rich text extraction for Ruby and Rails applications. 🚀
