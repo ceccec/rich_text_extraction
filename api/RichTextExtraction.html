@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: RichTextExtraction
+  
+    &mdash; Documentation by YARD 0.9.37
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "RichTextExtraction";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index (R)</a> &raquo;
+    
+    
+    <span class="title">RichTextExtraction</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: RichTextExtraction
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  <dl>
+      <dt>Extended by:</dt>
+      <dd><span class='object_link'><a href="RichTextExtraction/MarkdownHelpers.html" title="RichTextExtraction::MarkdownHelpers (module)">MarkdownHelpers</a></span>, <span class='object_link'><a href="RichTextExtraction/OpenGraphHelpers.html" title="RichTextExtraction::OpenGraphHelpers (module)">OpenGraphHelpers</a></span></dd>
+  </dl>
+  
+  
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="RichTextExtraction/InstanceHelpers.html" title="RichTextExtraction::InstanceHelpers (module)">InstanceHelpers</a></span></dd>
+  </dl>
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/rich_text_extraction.rb<span class="defines">,<br />
+  lib/rich_text_extraction/error.rb,<br /> lib/rich_text_extraction/helpers.rb,<br /> lib/rich_text_extraction/railtie.rb,<br /> lib/rich_text_extraction/version.rb,<br /> lib/rich_text_extraction/extractor.rb,<br /> lib/rich_text_extraction/instance_helpers.rb,<br /> lib/rich_text_extraction/markdown_helpers.rb,<br /> lib/rich_text_extraction/opengraph_helpers.rb,<br /> lib/rich_text_extraction/extraction_helpers.rb,<br /> lib/rich_text_extraction/extracts_rich_text.rb</span>
+</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>RichTextExtraction::ExtractsRichText is a concern for automatic cache invalidation in Rails models.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="RichTextExtraction/ExtractionHelpers.html" title="RichTextExtraction::ExtractionHelpers (module)">ExtractionHelpers</a></span>, <span class='object_link'><a href="RichTextExtraction/ExtractsRichText.html" title="RichTextExtraction::ExtractsRichText (module)">ExtractsRichText</a></span>, <span class='object_link'><a href="RichTextExtraction/Helpers.html" title="RichTextExtraction::Helpers (module)">Helpers</a></span>, <span class='object_link'><a href="RichTextExtraction/InstanceHelpers.html" title="RichTextExtraction::InstanceHelpers (module)">InstanceHelpers</a></span>, <span class='object_link'><a href="RichTextExtraction/MarkdownHelpers.html" title="RichTextExtraction::MarkdownHelpers (module)">MarkdownHelpers</a></span>, <span class='object_link'><a href="RichTextExtraction/OpenGraphHelpers.html" title="RichTextExtraction::OpenGraphHelpers (module)">OpenGraphHelpers</a></span>
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="RichTextExtraction/Error.html" title="RichTextExtraction::Error (class)">Error</a></span>, <span class='object_link'><a href="RichTextExtraction/Extractor.html" title="RichTextExtraction::Extractor (class)">Extractor</a></span>, <span class='object_link'><a href="RichTextExtraction/Railtie.html" title="RichTextExtraction::Railtie (class)">Railtie</a></span>
+    
+  
+</p>
+
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="VERSION-constant" class="">VERSION =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>0.1.0</span><span class='tstring_end'>&#39;</span></span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#opengraph_preview-class_method" title="opengraph_preview (class method)">.<strong>opengraph_preview</strong>(og_data, format: :html)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#render_markdown-class_method" title="render_markdown (class method)">.<strong>render_markdown</strong>(text)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Public API.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#clear_link_cache-instance_method" title="#clear_link_cache (instance method)">#<strong>clear_link_cache</strong>(cache: nil, cache_options: {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Clears OpenGraph cache entries for all links in the plain text.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="RichTextExtraction/OpenGraphHelpers.html" title="RichTextExtraction::OpenGraphHelpers (module)">OpenGraphHelpers</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="RichTextExtraction/OpenGraphHelpers.html#opengraph_preview-instance_method" title="RichTextExtraction::OpenGraphHelpers#opengraph_preview (method)">opengraph_preview</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="RichTextExtraction/MarkdownHelpers.html" title="RichTextExtraction::MarkdownHelpers (module)">MarkdownHelpers</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="RichTextExtraction/MarkdownHelpers.html#render_markdown_html-class_method" title="RichTextExtraction::MarkdownHelpers.render_markdown_html (method)">render_markdown_html</a></span>, <span class='object_link'><a href="RichTextExtraction/MarkdownHelpers.html#render_with_action_controller-class_method" title="RichTextExtraction::MarkdownHelpers.render_with_action_controller (method)">render_with_action_controller</a></span>, <span class='object_link'><a href="RichTextExtraction/MarkdownHelpers.html#render_with_commonmarker-class_method" title="RichTextExtraction::MarkdownHelpers.render_with_commonmarker (method)">render_with_commonmarker</a></span>, <span class='object_link'><a href="RichTextExtraction/MarkdownHelpers.html#render_with_kramdown-class_method" title="RichTextExtraction::MarkdownHelpers.render_with_kramdown (method)">render_with_kramdown</a></span>, <span class='object_link'><a href="RichTextExtraction/MarkdownHelpers.html#render_with_redcarpet-class_method" title="RichTextExtraction::MarkdownHelpers.render_with_redcarpet (method)">render_with_redcarpet</a></span></p>
+
+  
+  
+  
+  
+  
+  
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="opengraph_preview-class_method">
+  
+    .<strong>opengraph_preview</strong>(og_data, format: :html)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+43
+44
+45</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction.rb', line 43</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_opengraph_preview'>opengraph_preview</span><span class='lparen'>(</span><span class='id identifier rubyid_og_data'>og_data</span><span class='comma'>,</span> <span class='label'>format:</span> <span class='symbol'>:html</span><span class='rparen'>)</span>
+  <span class='kw'>super</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="render_markdown-class_method">
+  
+    .<strong>render_markdown</strong>(text)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Public API</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction.rb', line 39</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_render_markdown'>render_markdown</span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="RichTextExtraction/MarkdownHelpers.html" title="RichTextExtraction::MarkdownHelpers (module)">MarkdownHelpers</a></span></span><span class='period'>.</span><span class='id identifier rubyid_render_markdown_html'><span class='object_link'><a href="RichTextExtraction/MarkdownHelpers.html#render_markdown_html-class_method" title="RichTextExtraction::MarkdownHelpers.render_markdown_html (method)">render_markdown_html</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_text'>text</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="clear_link_cache-instance_method">
+  
+    #<strong>clear_link_cache</strong>(cache: nil, cache_options: {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Clears OpenGraph cache entries for all links in the plain text.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>cache</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>, <tt>Symbol</tt>, <tt>nil</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Optional cache object or :rails</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cache_options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Options for cache (e.g., :expires_in, :key_prefix)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+50
+51
+52
+53
+54
+55
+56</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/rich_text_extraction.rb', line 50</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_clear_link_cache'>clear_link_cache</span><span class='lparen'>(</span><span class='label'>cache:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cache_options:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_key_prefix'>key_prefix</span> <span class='op'>=</span> <span class='id identifier rubyid_resolve_opengraph_key_prefix'>resolve_opengraph_key_prefix</span><span class='lparen'>(</span><span class='id identifier rubyid_cache_options'>cache_options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_links'>links</span> <span class='op'>=</span> <span class='id identifier rubyid_resolve_links'>resolve_links</span>
+  <span class='id identifier rubyid_links'>links</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_url'>url</span><span class='op'>|</span>
+    <span class='id identifier rubyid_delete_opengraph_cache_entry'>delete_opengraph_cache_entry</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='comma'>,</span> <span class='id identifier rubyid_cache'>cache</span><span class='comma'>,</span> <span class='id identifier rubyid_cache_options'>cache_options</span><span class='comma'>,</span> <span class='id identifier rubyid_key_prefix'>key_prefix</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Tue Jun 24 01:40:32 2025 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.37 (ruby-3.3.6).
+</div>
+
+    </div>
+  </body>
+</html>

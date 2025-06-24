@@ -1,0 +1,1789 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://ceccec.github.io/rich_text_extraction/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ceccec.github.io/rich_text_extraction/" rel="alternate" type="text/html" /><updated>2025-06-24T00:13:45+00:00</updated><id>https://ceccec.github.io/rich_text_extraction/feed.xml</id><title type="html">RichTextExtraction: Ruby &amp;amp; Rails Gem for Rich Text, Markdown, and OpenGraph Extraction</title><subtitle>Extract links, tags, mentions, emails, phone numbers, and OpenGraph metadata from rich text, Markdown, or ActionText in Ruby and Rails. Safe Markdown rendering, link previews, and structured data extraction.</subtitle><entry><title type="html">ActionText Integration with RichTextExtraction</title><link href="https://ceccec.github.io/rich_text_extraction/tutorials/actiontext/rails/2025/06/24/actiontext-integration.html" rel="alternate" type="text/html" title="ActionText Integration with RichTextExtraction" /><published>2025-06-24T00:00:00+00:00</published><updated>2025-06-24T00:00:00+00:00</updated><id>https://ceccec.github.io/rich_text_extraction/tutorials/actiontext/rails/2025/06/24/actiontext-integration</id><content type="html" xml:base="https://ceccec.github.io/rich_text_extraction/tutorials/actiontext/rails/2025/06/24/actiontext-integration.html"><![CDATA[<h1 id="actiontext-integration-with-richtextextraction">ActionText Integration with RichTextExtraction</h1>
+
+<p>RichTextExtraction seamlessly integrates with Rails ActionText, providing powerful content extraction capabilities for your rich text fields. This guide shows you how to set up and use the integration.</p>
+
+<h2 id="setup">Setup</h2>
+
+<h3 id="1-include-the-concern">1. Include the Concern</h3>
+
+<p>Add the <code class="language-plaintext highlighter-rouge">ExtractsRichText</code> concern to your models:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Post</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="kp">include</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">ExtractsRichText</span>
+  
+  <span class="n">has_rich_text</span> <span class="ss">:body</span>
+  <span class="n">has_rich_text</span> <span class="ss">:summary</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h3 id="2-available-methods">2. Available Methods</h3>
+
+<p>Once included, your ActionText fields gain these methods:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">extract_links</code> - Extract URLs from the content</li>
+  <li><code class="language-plaintext highlighter-rouge">extract_tags</code> - Extract hashtags (#tag)</li>
+  <li><code class="language-plaintext highlighter-rouge">extract_mentions</code> - Extract mentions (@user)</li>
+  <li><code class="language-plaintext highlighter-rouge">link_objects</code> - Get rich link objects with OpenGraph data</li>
+  <li><code class="language-plaintext highlighter-rouge">clear_link_cache</code> - Clear cached OpenGraph data</li>
+</ul>
+
+<h2 id="basic-usage">Basic Usage</h2>
+
+<h3 id="extracting-content">Extracting Content</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># In your controller</span>
+<span class="k">def</span> <span class="nf">show</span>
+  <span class="vi">@post</span> <span class="o">=</span> <span class="no">Post</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+  
+  <span class="c1"># Extract different types of content</span>
+  <span class="vi">@links</span> <span class="o">=</span> <span class="vi">@post</span><span class="p">.</span><span class="nf">body</span><span class="p">.</span><span class="nf">extract_links</span>
+  <span class="vi">@tags</span> <span class="o">=</span> <span class="vi">@post</span><span class="p">.</span><span class="nf">body</span><span class="p">.</span><span class="nf">extract_tags</span>
+  <span class="vi">@mentions</span> <span class="o">=</span> <span class="vi">@post</span><span class="p">.</span><span class="nf">body</span><span class="p">.</span><span class="nf">extract_mentions</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h3 id="getting-rich-link-data">Getting Rich Link Data</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Get detailed link information with OpenGraph metadata</span>
+<span class="n">link_objects</span> <span class="o">=</span> <span class="vi">@post</span><span class="p">.</span><span class="nf">body</span><span class="p">.</span><span class="nf">link_objects</span><span class="p">(</span><span class="ss">with_opengraph: </span><span class="kp">true</span><span class="p">)</span>
+
+<span class="n">link_objects</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">link</span><span class="o">|</span>
+  <span class="nb">puts</span> <span class="s2">"URL: </span><span class="si">#{</span><span class="n">link</span><span class="p">[</span><span class="ss">:url</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+  <span class="nb">puts</span> <span class="s2">"Title: </span><span class="si">#{</span><span class="n">link</span><span class="p">[</span><span class="ss">:opengraph</span><span class="p">][</span><span class="ss">:title</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+  <span class="nb">puts</span> <span class="s2">"Description: </span><span class="si">#{</span><span class="n">link</span><span class="p">[</span><span class="ss">:opengraph</span><span class="p">][</span><span class="ss">:description</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+  <span class="nb">puts</span> <span class="s2">"Image: </span><span class="si">#{</span><span class="n">link</span><span class="p">[</span><span class="ss">:opengraph</span><span class="p">][</span><span class="ss">:image</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h2 id="view-helpers">View Helpers</h2>
+
+<h3 id="rendering-opengraph-previews">Rendering OpenGraph Previews</h3>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- In your view --&gt;</span>
+<span class="cp">&lt;%</span> <span class="vi">@post</span><span class="p">.</span><span class="nf">body</span><span class="p">.</span><span class="nf">link_objects</span><span class="p">(</span><span class="ss">with_opengraph: </span><span class="kp">true</span><span class="p">).</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">link</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">render_opengraph_preview</span><span class="p">(</span><span class="n">link</span><span class="p">[</span><span class="ss">:opengraph</span><span class="p">])</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<h3 id="custom-preview-rendering">Custom Preview Rendering</h3>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- Custom preview with different formats --&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">render_opengraph_preview</span><span class="p">(</span><span class="vi">@post</span><span class="p">.</span><span class="nf">body</span><span class="p">,</span> <span class="ss">format: :markdown</span><span class="p">)</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">render_opengraph_preview</span><span class="p">(</span><span class="vi">@post</span><span class="p">.</span><span class="nf">body</span><span class="p">,</span> <span class="ss">format: :text</span><span class="p">)</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<h2 id="background-jobs">Background Jobs</h2>
+
+<p>For better performance, process OpenGraph data in background jobs:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># app/jobs/extract_links_job.rb</span>
+<span class="k">class</span> <span class="nc">ExtractLinksJob</span> <span class="o">&lt;</span> <span class="no">ApplicationJob</span>
+  <span class="n">queue_as</span> <span class="ss">:default</span>
+
+  <span class="k">def</span> <span class="nf">perform</span><span class="p">(</span><span class="n">post_id</span><span class="p">)</span>
+    <span class="n">post</span> <span class="o">=</span> <span class="no">Post</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">post_id</span><span class="p">)</span>
+    <span class="n">links</span> <span class="o">=</span> <span class="n">post</span><span class="p">.</span><span class="nf">body</span><span class="p">.</span><span class="nf">link_objects</span><span class="p">(</span><span class="ss">with_opengraph: </span><span class="kp">true</span><span class="p">)</span>
+    
+    <span class="c1"># Store or process the links</span>
+    <span class="n">post</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">extracted_links: </span><span class="n">links</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># In your controller</span>
+<span class="k">def</span> <span class="nf">create</span>
+  <span class="vi">@post</span> <span class="o">=</span> <span class="no">Post</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span><span class="n">post_params</span><span class="p">)</span>
+  <span class="no">ExtractLinksJob</span><span class="p">.</span><span class="nf">perform_later</span><span class="p">(</span><span class="vi">@post</span><span class="p">.</span><span class="nf">id</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h2 id="caching">Caching</h2>
+
+<p>OpenGraph data is automatically cached for performance:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Configure caching in your initializer</span>
+<span class="no">RichTextExtraction</span><span class="p">.</span><span class="nf">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">cache_enabled</span> <span class="o">=</span> <span class="kp">true</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">cache_prefix</span> <span class="o">=</span> <span class="s1">'rte'</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">cache_ttl</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="nf">hour</span>
+<span class="k">end</span>
+
+<span class="c1"># Clear cache for specific content</span>
+<span class="vi">@post</span><span class="p">.</span><span class="nf">body</span><span class="p">.</span><span class="nf">clear_link_cache</span>
+</code></pre></div></div>
+
+<h2 id="advanced-usage">Advanced Usage</h2>
+
+<h3 id="custom-cache-options">Custom Cache Options</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Use custom cache options per extraction</span>
+<span class="n">links</span> <span class="o">=</span> <span class="vi">@post</span><span class="p">.</span><span class="nf">body</span><span class="p">.</span><span class="nf">link_objects</span><span class="p">(</span>
+  <span class="ss">with_opengraph: </span><span class="kp">true</span><span class="p">,</span>
+  <span class="ss">cache: :rails</span><span class="p">,</span>
+  <span class="ss">cache_options: </span><span class="p">{</span> <span class="ss">expires_in: </span><span class="mi">10</span><span class="p">.</span><span class="nf">minutes</span><span class="p">,</span> <span class="ss">key_prefix: </span><span class="s1">'myapp'</span> <span class="p">}</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="error-handling">Error Handling</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">begin</span>
+  <span class="n">links</span> <span class="o">=</span> <span class="vi">@post</span><span class="p">.</span><span class="nf">body</span><span class="p">.</span><span class="nf">link_objects</span><span class="p">(</span><span class="ss">with_opengraph: </span><span class="kp">true</span><span class="p">)</span>
+<span class="k">rescue</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">Error</span> <span class="o">=&gt;</span> <span class="n">e</span>
+  <span class="no">Rails</span><span class="p">.</span><span class="nf">logger</span><span class="p">.</span><span class="nf">error</span> <span class="s2">"Failed to extract links: </span><span class="si">#{</span><span class="n">e</span><span class="p">.</span><span class="nf">message</span><span class="si">}</span><span class="s2">"</span>
+  <span class="n">links</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h2 id="performance-tips">Performance Tips</h2>
+
+<ol>
+  <li><strong>Use background jobs</strong> for OpenGraph extraction</li>
+  <li><strong>Configure appropriate cache TTL</strong> based on your needs</li>
+  <li><strong>Batch process</strong> multiple posts when possible</li>
+  <li><strong>Monitor cache hit rates</strong> to optimize performance</li>
+</ol>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<h3 id="common-issues">Common Issues</h3>
+
+<ul>
+  <li><strong>Slow extraction</strong>: Enable caching and use background jobs</li>
+  <li><strong>Missing OpenGraph data</strong>: Check network connectivity and URL accessibility</li>
+  <li><strong>Cache not working</strong>: Verify cache configuration and Rails cache setup</li>
+</ul>
+
+<h3 id="debug-mode">Debug Mode</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Enable debug logging</span>
+<span class="no">RichTextExtraction</span><span class="p">.</span><span class="nf">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">debug</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<ul>
+  <li>Explore <a href="/rich_text_extraction/blog/2025-06-24-advanced-usage.html">Advanced Usage</a> for more customization options</li>
+  <li>Learn about <a href="/rich_text_extraction/blog/2025-06-24-markdown-rendering.html">Safe Markdown Rendering</a></li>
+  <li>Check the <a href="/rich_text_extraction/api-reference/">API Reference</a> for complete documentation</li>
+</ul>
+
+<hr />
+
+<p><strong>RichTextExtraction</strong> - Professional rich text extraction for Ruby and Rails applications. 🚀</p>]]></content><author><name>RichTextExtraction Team</name></author><category term="tutorials" /><category term="actiontext" /><category term="rails" /><category term="actiontext" /><category term="rails" /><category term="integration" /><category term="background-jobs" /><summary type="html"><![CDATA[ActionText Integration with RichTextExtraction]]></summary></entry><entry><title type="html">Advanced Usage of RichTextExtraction</title><link href="https://ceccec.github.io/rich_text_extraction/tutorials/advanced/customization/2025/06/24/advanced-usage.html" rel="alternate" type="text/html" title="Advanced Usage of RichTextExtraction" /><published>2025-06-24T00:00:00+00:00</published><updated>2025-06-24T00:00:00+00:00</updated><id>https://ceccec.github.io/rich_text_extraction/tutorials/advanced/customization/2025/06/24/advanced-usage</id><content type="html" xml:base="https://ceccec.github.io/rich_text_extraction/tutorials/advanced/customization/2025/06/24/advanced-usage.html"><![CDATA[<h1 id="advanced-usage-of-richtextextraction">Advanced Usage of RichTextExtraction</h1>
+
+<p>RichTextExtraction offers extensive customization and advanced features for power users. This guide covers advanced configuration, performance optimization, and custom implementations.</p>
+
+<h2 id="advanced-configuration">Advanced Configuration</h2>
+
+<h3 id="comprehensive-configuration">Comprehensive Configuration</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># config/initializers/rich_text_extraction.rb</span>
+<span class="no">RichTextExtraction</span><span class="p">.</span><span class="nf">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="c1"># Caching configuration</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">cache_enabled</span> <span class="o">=</span> <span class="kp">true</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">cache_prefix</span> <span class="o">=</span> <span class="s1">'rte'</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">cache_ttl</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="nf">hour</span>
+  
+  <span class="c1"># OpenGraph configuration</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">opengraph_timeout</span> <span class="o">=</span> <span class="mi">5</span><span class="p">.</span><span class="nf">seconds</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">opengraph_user_agent</span> <span class="o">=</span> <span class="s1">'RichTextExtraction/1.0'</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">opengraph_max_redirects</span> <span class="o">=</span> <span class="mi">3</span>
+  
+  <span class="c1"># Markdown configuration</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">markdown_renderer</span> <span class="o">=</span> <span class="ss">:redcarpet</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">markdown_options</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">hard_wrap: </span><span class="kp">true</span><span class="p">,</span>
+    <span class="ss">link_attributes: </span><span class="p">{</span> <span class="ss">target: </span><span class="s1">'_blank'</span><span class="p">,</span> <span class="ss">rel: </span><span class="s1">'noopener noreferrer'</span> <span class="p">},</span>
+    <span class="ss">autolink: </span><span class="kp">true</span><span class="p">,</span>
+    <span class="ss">tables: </span><span class="kp">true</span><span class="p">,</span>
+    <span class="ss">fenced_code_blocks: </span><span class="kp">true</span>
+  <span class="p">}</span>
+  
+  <span class="c1"># Debug mode</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">debug</span> <span class="o">=</span> <span class="kp">false</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h3 id="environment-specific-configuration">Environment-Specific Configuration</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># config/environments/production.rb</span>
+<span class="no">RichTextExtraction</span><span class="p">.</span><span class="nf">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">cache_ttl</span> <span class="o">=</span> <span class="mi">24</span><span class="p">.</span><span class="nf">hours</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">opengraph_timeout</span> <span class="o">=</span> <span class="mi">10</span><span class="p">.</span><span class="nf">seconds</span>
+<span class="k">end</span>
+
+<span class="c1"># config/environments/development.rb</span>
+<span class="no">RichTextExtraction</span><span class="p">.</span><span class="nf">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">cache_ttl</span> <span class="o">=</span> <span class="mi">5</span><span class="p">.</span><span class="nf">minutes</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">debug</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h2 id="custom-extractors">Custom Extractors</h2>
+
+<h3 id="creating-custom-extractors">Creating Custom Extractors</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># lib/extractors/custom_extractor.rb</span>
+<span class="k">module</span> <span class="nn">RichTextExtraction</span>
+  <span class="k">module</span> <span class="nn">CustomExtractor</span>
+    <span class="k">def</span> <span class="nf">extract_custom_patterns</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+      <span class="c1"># Extract custom patterns from text</span>
+      <span class="n">text</span><span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/\[\[([^\]]+)\]\]/</span><span class="p">).</span><span class="nf">flatten</span>
+    <span class="k">end</span>
+    
+    <span class="k">def</span> <span class="nf">extract_emails</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+      <span class="c1"># Extract email addresses</span>
+      <span class="n">text</span><span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/</span><span class="p">)</span>
+    <span class="k">end</span>
+    
+    <span class="k">def</span> <span class="nf">extract_phone_numbers</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+      <span class="c1"># Extract phone numbers</span>
+      <span class="n">text</span><span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/\b\d{3}[-.]?\d{3}[-.]?\d{4}\b/</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># Include in your extractor</span>
+<span class="k">class</span> <span class="nc">RichTextExtraction::Extractor</span>
+  <span class="kp">include</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">CustomExtractor</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h3 id="using-custom-extractors">Using Custom Extractors</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">extractor</span> <span class="o">=</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">Extractor</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Contact [[John]] at john@example.com or call 555-123-4567"</span><span class="p">)</span>
+
+<span class="n">extractor</span><span class="p">.</span><span class="nf">extract_custom_patterns</span>  <span class="c1"># =&gt; ["John"]</span>
+<span class="n">extractor</span><span class="p">.</span><span class="nf">extract_emails</span>           <span class="c1"># =&gt; ["john@example.com"]</span>
+<span class="n">extractor</span><span class="p">.</span><span class="nf">extract_phone_numbers</span>    <span class="c1"># =&gt; ["555-123-4567"]</span>
+</code></pre></div></div>
+
+<h2 id="advanced-caching-strategies">Advanced Caching Strategies</h2>
+
+<h3 id="custom-cache-backends">Custom Cache Backends</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Custom Redis cache implementation</span>
+<span class="k">class</span> <span class="nc">RedisCache</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">redis_client</span><span class="p">)</span>
+    <span class="vi">@redis</span> <span class="o">=</span> <span class="n">redis_client</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="vi">@redis</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{})</span>
+    <span class="n">ttl</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="ss">:expires_in</span><span class="p">]</span> <span class="o">||</span> <span class="mi">3600</span>
+    <span class="vi">@redis</span><span class="p">.</span><span class="nf">setex</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">ttl</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="vi">@redis</span><span class="p">.</span><span class="nf">del</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># Use custom cache</span>
+<span class="n">redis_cache</span> <span class="o">=</span> <span class="no">RedisCache</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">Redis</span><span class="p">.</span><span class="nf">new</span><span class="p">)</span>
+<span class="n">og_service</span> <span class="o">=</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">OpenGraphService</span><span class="p">.</span><span class="nf">new</span>
+<span class="n">metadata</span> <span class="o">=</span> <span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="s1">'https://example.com'</span><span class="p">,</span> <span class="ss">cache: </span><span class="n">redis_cache</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="cache-key-strategies">Cache Key Strategies</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Custom cache key generation</span>
+<span class="k">class</span> <span class="nc">CustomCacheKey</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">generate</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{})</span>
+    <span class="n">digest</span> <span class="o">=</span> <span class="no">Digest</span><span class="o">::</span><span class="no">MD5</span><span class="p">.</span><span class="nf">hexdigest</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">prefix</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="ss">:prefix</span><span class="p">]</span> <span class="o">||</span> <span class="s1">'rte'</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="ss">:version</span><span class="p">]</span> <span class="o">||</span> <span class="s1">'v1'</span>
+    
+    <span class="s2">"</span><span class="si">#{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">:</span><span class="si">#{</span><span class="n">version</span><span class="si">}</span><span class="s2">:</span><span class="si">#{</span><span class="n">digest</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># Use custom cache keys</span>
+<span class="n">metadata</span> <span class="o">=</span> <span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="s1">'https://example.com'</span><span class="p">,</span>
+  <span class="ss">cache: :rails</span><span class="p">,</span>
+  <span class="ss">cache_options: </span><span class="p">{</span>
+    <span class="ss">key_generator: </span><span class="no">CustomCacheKey</span><span class="p">.</span><span class="nf">method</span><span class="p">(</span><span class="ss">:generate</span><span class="p">),</span>
+    <span class="ss">prefix: </span><span class="s1">'myapp'</span><span class="p">,</span>
+    <span class="ss">version: </span><span class="s1">'v2'</span>
+  <span class="p">}</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="performance-optimization">Performance Optimization</h2>
+
+<h3 id="batch-processing">Batch Processing</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Process multiple URLs efficiently</span>
+<span class="k">class</span> <span class="nc">BatchOpenGraphProcessor</span>
+  <span class="k">def</span> <span class="nf">initialize</span>
+    <span class="vi">@og_service</span> <span class="o">=</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">OpenGraphService</span><span class="p">.</span><span class="nf">new</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">process_urls</span><span class="p">(</span><span class="n">urls</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{})</span>
+    <span class="n">urls</span><span class="p">.</span><span class="nf">map</span> <span class="k">do</span> <span class="o">|</span><span class="n">url</span><span class="o">|</span>
+      <span class="k">begin</span>
+        <span class="vi">@og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+      <span class="k">rescue</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">Error</span> <span class="o">=&gt;</span> <span class="n">e</span>
+        <span class="no">Rails</span><span class="p">.</span><span class="nf">logger</span><span class="p">.</span><span class="nf">error</span> <span class="s2">"Failed to extract </span><span class="si">#{</span><span class="n">url</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">e</span><span class="p">.</span><span class="nf">message</span><span class="si">}</span><span class="s2">"</span>
+        <span class="kp">nil</span>
+      <span class="k">end</span>
+    <span class="k">end</span><span class="p">.</span><span class="nf">compact</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">process_in_parallel</span><span class="p">(</span><span class="n">urls</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{})</span>
+    <span class="n">urls</span><span class="p">.</span><span class="nf">map</span> <span class="k">do</span> <span class="o">|</span><span class="n">url</span><span class="o">|</span>
+      <span class="no">Thread</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+        <span class="k">begin</span>
+          <span class="vi">@og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+        <span class="k">rescue</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">Error</span> <span class="o">=&gt;</span> <span class="n">e</span>
+          <span class="no">Rails</span><span class="p">.</span><span class="nf">logger</span><span class="p">.</span><span class="nf">error</span> <span class="s2">"Failed to extract </span><span class="si">#{</span><span class="n">url</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">e</span><span class="p">.</span><span class="nf">message</span><span class="si">}</span><span class="s2">"</span>
+          <span class="kp">nil</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+    <span class="k">end</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:value</span><span class="p">).</span><span class="nf">compact</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># Usage</span>
+<span class="n">processor</span> <span class="o">=</span> <span class="no">BatchOpenGraphProcessor</span><span class="p">.</span><span class="nf">new</span>
+<span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'https://example1.com'</span><span class="p">,</span> <span class="s1">'https://example2.com'</span><span class="p">,</span> <span class="s1">'https://example3.com'</span><span class="p">]</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">processor</span><span class="p">.</span><span class="nf">process_urls</span><span class="p">(</span><span class="n">urls</span><span class="p">,</span> <span class="ss">cache: :rails</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="memory-optimization">Memory Optimization</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Stream processing for large datasets</span>
+<span class="k">class</span> <span class="nc">StreamProcessor</span>
+  <span class="k">def</span> <span class="nf">process_large_dataset</span><span class="p">(</span><span class="n">posts</span><span class="p">,</span> <span class="ss">batch_size: </span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">posts</span><span class="p">.</span><span class="nf">find_in_batches</span><span class="p">(</span><span class="ss">batch_size: </span><span class="n">batch_size</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">batch</span><span class="o">|</span>
+      <span class="n">batch</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">post</span><span class="o">|</span>
+        <span class="n">process_post</span><span class="p">(</span><span class="n">post</span><span class="p">)</span>
+        <span class="no">GC</span><span class="p">.</span><span class="nf">start</span> <span class="k">if</span> <span class="n">batch</span><span class="p">.</span><span class="nf">index</span><span class="p">(</span><span class="n">post</span><span class="p">)</span> <span class="o">%</span> <span class="mi">50</span> <span class="o">==</span> <span class="mi">0</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  
+  <span class="kp">private</span>
+  
+  <span class="k">def</span> <span class="nf">process_post</span><span class="p">(</span><span class="n">post</span><span class="p">)</span>
+    <span class="n">links</span> <span class="o">=</span> <span class="n">post</span><span class="p">.</span><span class="nf">body</span><span class="p">.</span><span class="nf">extract_links</span>
+    <span class="n">links</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">url</span><span class="o">|</span>
+      <span class="n">metadata</span> <span class="o">=</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">OpenGraphService</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="ss">cache: :rails</span><span class="p">)</span>
+      <span class="c1"># Process metadata</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h2 id="advanced-background-jobs">Advanced Background Jobs</h2>
+
+<h3 id="sophisticated-job-implementation">Sophisticated Job Implementation</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># app/jobs/advanced_opengraph_job.rb</span>
+<span class="k">class</span> <span class="nc">AdvancedOpenGraphJob</span> <span class="o">&lt;</span> <span class="no">ApplicationJob</span>
+  <span class="n">queue_as</span> <span class="ss">:opengraph</span>
+  <span class="n">retry_on</span> <span class="no">StandardError</span><span class="p">,</span> <span class="ss">wait: :exponentially_longer</span><span class="p">,</span> <span class="ss">attempts: </span><span class="mi">3</span>
+  
+  <span class="k">def</span> <span class="nf">perform</span><span class="p">(</span><span class="n">post_id</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{})</span>
+    <span class="n">post</span> <span class="o">=</span> <span class="no">Post</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">post_id</span><span class="p">)</span>
+    <span class="n">og_service</span> <span class="o">=</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">OpenGraphService</span><span class="p">.</span><span class="nf">new</span>
+    
+    <span class="c1"># Extract links with custom options</span>
+    <span class="n">links</span> <span class="o">=</span> <span class="n">post</span><span class="p">.</span><span class="nf">body</span><span class="p">.</span><span class="nf">extract_links</span>
+    <span class="n">metadata_batch</span> <span class="o">=</span> <span class="n">process_links</span><span class="p">(</span><span class="n">links</span><span class="p">,</span> <span class="n">og_service</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+    
+    <span class="c1"># Store results</span>
+    <span class="n">post</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span>
+      <span class="ss">opengraph_metadata: </span><span class="n">metadata_batch</span><span class="p">,</span>
+      <span class="ss">processed_at: </span><span class="no">Time</span><span class="p">.</span><span class="nf">current</span>
+    <span class="p">)</span>
+    
+    <span class="c1"># Trigger follow-up jobs if needed</span>
+    <span class="n">trigger_follow_up_jobs</span><span class="p">(</span><span class="n">post</span><span class="p">,</span> <span class="n">metadata_batch</span><span class="p">)</span>
+  <span class="k">end</span>
+  
+  <span class="kp">private</span>
+  
+  <span class="k">def</span> <span class="nf">process_links</span><span class="p">(</span><span class="n">links</span><span class="p">,</span> <span class="n">og_service</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+    <span class="n">links</span><span class="p">.</span><span class="nf">map</span> <span class="k">do</span> <span class="o">|</span><span class="n">url</span><span class="o">|</span>
+      <span class="k">begin</span>
+        <span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">options</span><span class="p">.</span><span class="nf">merge</span><span class="p">(</span><span class="ss">cache: :rails</span><span class="p">))</span>
+      <span class="k">rescue</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">Error</span> <span class="o">=&gt;</span> <span class="n">e</span>
+        <span class="no">Rails</span><span class="p">.</span><span class="nf">logger</span><span class="p">.</span><span class="nf">error</span> <span class="s2">"Failed to extract </span><span class="si">#{</span><span class="n">url</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">e</span><span class="p">.</span><span class="nf">message</span><span class="si">}</span><span class="s2">"</span>
+        <span class="p">{</span> <span class="ss">url: </span><span class="n">url</span><span class="p">,</span> <span class="ss">error: </span><span class="n">e</span><span class="p">.</span><span class="nf">message</span> <span class="p">}</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">trigger_follow_up_jobs</span><span class="p">(</span><span class="n">post</span><span class="p">,</span> <span class="n">metadata_batch</span><span class="p">)</span>
+    <span class="c1"># Trigger image processing jobs</span>
+    <span class="n">metadata_batch</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">metadata</span><span class="o">|</span>
+      <span class="k">next</span> <span class="k">unless</span> <span class="n">metadata</span><span class="p">[</span><span class="ss">:image</span><span class="p">]</span>
+      <span class="no">ProcessImageJob</span><span class="p">.</span><span class="nf">perform_later</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="ss">:image</span><span class="p">],</span> <span class="n">post</span><span class="p">.</span><span class="nf">id</span><span class="p">)</span>
+    <span class="k">end</span>
+    
+    <span class="c1"># Trigger notification jobs</span>
+    <span class="no">NotifyOpengraphCompleteJob</span><span class="p">.</span><span class="nf">perform_later</span><span class="p">(</span><span class="n">post</span><span class="p">.</span><span class="nf">id</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h3 id="job-scheduling-and-monitoring">Job Scheduling and Monitoring</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># app/jobs/scheduled_opengraph_job.rb</span>
+<span class="k">class</span> <span class="nc">ScheduledOpenGraphJob</span> <span class="o">&lt;</span> <span class="no">ApplicationJob</span>
+  <span class="n">queue_as</span> <span class="ss">:scheduled</span>
+  
+  <span class="k">def</span> <span class="nf">perform</span>
+    <span class="c1"># Process posts that haven't been updated recently</span>
+    <span class="n">posts</span> <span class="o">=</span> <span class="no">Post</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="s1">'updated_at &lt; ?'</span><span class="p">,</span> <span class="mi">1</span><span class="p">.</span><span class="nf">day</span><span class="p">.</span><span class="nf">ago</span><span class="p">)</span>
+                <span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="ss">opengraph_metadata: </span><span class="kp">nil</span><span class="p">)</span>
+                <span class="p">.</span><span class="nf">limit</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+    
+    <span class="n">posts</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">post</span><span class="o">|</span>
+      <span class="no">AdvancedOpenGraphJob</span><span class="p">.</span><span class="nf">perform_later</span><span class="p">(</span><span class="n">post</span><span class="p">.</span><span class="nf">id</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># Schedule with cron or whenever gem</span>
+<span class="c1"># config/schedule.rb</span>
+<span class="n">every</span> <span class="mi">1</span><span class="p">.</span><span class="nf">hour</span> <span class="k">do</span>
+  <span class="n">runner</span> <span class="s2">"ScheduledOpenGraphJob.perform_later"</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h2 id="custom-view-helpers">Custom View Helpers</h2>
+
+<h3 id="advanced-view-helpers">Advanced View Helpers</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># app/helpers/advanced_opengraph_helper.rb</span>
+<span class="k">module</span> <span class="nn">AdvancedOpengraphHelper</span>
+  <span class="k">def</span> <span class="nf">render_enhanced_preview</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{})</span>
+    <span class="k">return</span> <span class="k">unless</span> <span class="n">content</span><span class="p">.</span><span class="nf">present?</span>
+    
+    <span class="n">links</span> <span class="o">=</span> <span class="n">content</span><span class="p">.</span><span class="nf">link_objects</span><span class="p">(</span><span class="ss">with_opengraph: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">cache: :rails</span><span class="p">)</span>
+    <span class="k">return</span> <span class="k">if</span> <span class="n">links</span><span class="p">.</span><span class="nf">empty?</span>
+    
+    <span class="n">render</span> <span class="ss">partial: </span><span class="s1">'shared/enhanced_preview'</span><span class="p">,</span>
+           <span class="ss">locals: </span><span class="p">{</span> <span class="ss">links: </span><span class="n">links</span><span class="p">,</span> <span class="ss">options: </span><span class="n">options</span> <span class="p">}</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">render_preview_grid</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="ss">columns: </span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">links</span> <span class="o">=</span> <span class="n">content</span><span class="p">.</span><span class="nf">link_objects</span><span class="p">(</span><span class="ss">with_opengraph: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">cache: :rails</span><span class="p">)</span>
+    <span class="k">return</span> <span class="k">if</span> <span class="n">links</span><span class="p">.</span><span class="nf">empty?</span>
+    
+    <span class="n">render</span> <span class="ss">partial: </span><span class="s1">'shared/preview_grid'</span><span class="p">,</span>
+           <span class="ss">locals: </span><span class="p">{</span> <span class="ss">links: </span><span class="n">links</span><span class="p">,</span> <span class="ss">columns: </span><span class="n">columns</span> <span class="p">}</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">render_preview_carousel</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+    <span class="n">links</span> <span class="o">=</span> <span class="n">content</span><span class="p">.</span><span class="nf">link_objects</span><span class="p">(</span><span class="ss">with_opengraph: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">cache: :rails</span><span class="p">)</span>
+    <span class="k">return</span> <span class="k">if</span> <span class="n">links</span><span class="p">.</span><span class="nf">empty?</span>
+    
+    <span class="n">render</span> <span class="ss">partial: </span><span class="s1">'shared/preview_carousel'</span><span class="p">,</span>
+           <span class="ss">locals: </span><span class="p">{</span> <span class="ss">links: </span><span class="n">links</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h3 id="custom-preview-templates">Custom Preview Templates</h3>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- app/views/shared/_enhanced_preview.html.erb --&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"enhanced-preview"</span><span class="nt">&gt;</span>
+  <span class="cp">&lt;%</span> <span class="n">links</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">link</span><span class="o">|</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"preview-item"</span> <span class="na">data-url=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">link</span><span class="p">[</span><span class="ss">:url</span><span class="p">]</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>
+      <span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">link</span><span class="p">[</span><span class="ss">:opengraph</span><span class="p">][</span><span class="ss">:image</span><span class="p">].</span><span class="nf">present?</span> <span class="cp">%&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"preview-image"</span><span class="nt">&gt;</span>
+          <span class="cp">&lt;%=</span> <span class="n">image_tag</span> <span class="n">link</span><span class="p">[</span><span class="ss">:opengraph</span><span class="p">][</span><span class="ss">:image</span><span class="p">],</span> 
+                        <span class="ss">alt: </span><span class="n">link</span><span class="p">[</span><span class="ss">:opengraph</span><span class="p">][</span><span class="ss">:title</span><span class="p">],</span>
+                        <span class="ss">loading: </span><span class="s1">'lazy'</span><span class="p">,</span>
+                        <span class="ss">class: </span><span class="s1">'preview-img'</span> <span class="cp">%&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+      <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+      
+      <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"preview-content"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;h4</span> <span class="na">class=</span><span class="s">"preview-title"</span><span class="nt">&gt;</span>
+          <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="n">link</span><span class="p">[</span><span class="ss">:opengraph</span><span class="p">][</span><span class="ss">:title</span><span class="p">],</span> 
+                      <span class="n">link</span><span class="p">[</span><span class="ss">:url</span><span class="p">],</span> 
+                      <span class="ss">target: </span><span class="s1">'_blank'</span><span class="p">,</span>
+                      <span class="ss">rel: </span><span class="s1">'noopener noreferrer'</span> <span class="cp">%&gt;</span>
+        <span class="nt">&lt;/h4&gt;</span>
+        
+        <span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">link</span><span class="p">[</span><span class="ss">:opengraph</span><span class="p">][</span><span class="ss">:description</span><span class="p">].</span><span class="nf">present?</span> <span class="cp">%&gt;</span>
+          <span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"preview-description"</span><span class="nt">&gt;</span>
+            <span class="cp">&lt;%=</span> <span class="n">truncate</span><span class="p">(</span><span class="n">link</span><span class="p">[</span><span class="ss">:opengraph</span><span class="p">][</span><span class="ss">:description</span><span class="p">],</span> <span class="ss">length: </span><span class="mi">150</span><span class="p">)</span> <span class="cp">%&gt;</span>
+          <span class="nt">&lt;/p&gt;</span>
+        <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+        
+        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"preview-meta"</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"preview-domain"</span><span class="nt">&gt;</span><span class="cp">&lt;%=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">link</span><span class="p">[</span><span class="ss">:url</span><span class="p">]).</span><span class="nf">host</span> <span class="cp">%&gt;</span><span class="nt">&lt;/span&gt;</span>
+          <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"preview-timestamp"</span><span class="nt">&gt;</span><span class="cp">&lt;%=</span> <span class="n">time_ago_in_words</span><span class="p">(</span><span class="n">link</span><span class="p">[</span><span class="ss">:cached_at</span><span class="p">])</span> <span class="cp">%&gt;</span> ago<span class="nt">&lt;/span&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+      <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre></div></div>
+
+<h2 id="error-handling-and-monitoring">Error Handling and Monitoring</h2>
+
+<h3 id="comprehensive-error-handling">Comprehensive Error Handling</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># app/services/opengraph_monitor.rb</span>
+<span class="k">class</span> <span class="nc">OpengraphMonitor</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">track_extraction</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">error</span>
+      <span class="no">Rails</span><span class="p">.</span><span class="nf">logger</span><span class="p">.</span><span class="nf">error</span> <span class="s2">"OpenGraph extraction failed for </span><span class="si">#{</span><span class="n">url</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">error</span><span class="p">.</span><span class="nf">message</span><span class="si">}</span><span class="s2">"</span>
+      <span class="n">increment_failure_count</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+      <span class="n">notify_team</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">if</span> <span class="n">should_notify?</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">else</span>
+      <span class="no">Rails</span><span class="p">.</span><span class="nf">logger</span><span class="p">.</span><span class="nf">info</span> <span class="s2">"OpenGraph extraction successful for </span><span class="si">#{</span><span class="n">url</span><span class="si">}</span><span class="s2">"</span>
+      <span class="n">increment_success_count</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  
+  <span class="kp">private</span>
+  
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">increment_failure_count</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="no">Rails</span><span class="p">.</span><span class="nf">cache</span><span class="p">.</span><span class="nf">increment</span><span class="p">(</span><span class="s2">"opengraph_failures:</span><span class="si">#{</span><span class="no">Digest</span><span class="o">::</span><span class="no">MD5</span><span class="p">.</span><span class="nf">hexdigest</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">expires_in: </span><span class="mi">1</span><span class="p">.</span><span class="nf">hour</span><span class="p">)</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">increment_success_count</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="no">Rails</span><span class="p">.</span><span class="nf">cache</span><span class="p">.</span><span class="nf">increment</span><span class="p">(</span><span class="s2">"opengraph_successes:</span><span class="si">#{</span><span class="no">Digest</span><span class="o">::</span><span class="no">MD5</span><span class="p">.</span><span class="nf">hexdigest</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">expires_in: </span><span class="mi">1</span><span class="p">.</span><span class="nf">hour</span><span class="p">)</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">should_notify?</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">failures</span> <span class="o">=</span> <span class="no">Rails</span><span class="p">.</span><span class="nf">cache</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="s2">"opengraph_failures:</span><span class="si">#{</span><span class="no">Digest</span><span class="o">::</span><span class="no">MD5</span><span class="p">.</span><span class="nf">hexdigest</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="o">||</span> <span class="mi">0</span>
+    <span class="n">failures</span> <span class="o">&gt;=</span> <span class="mi">3</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">notify_team</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
+    <span class="c1"># Send notification to team (Slack, email, etc.)</span>
+    <span class="no">NotificationService</span><span class="p">.</span><span class="nf">notify</span><span class="p">(</span>
+      <span class="ss">channel: </span><span class="s1">'#alerts'</span><span class="p">,</span>
+      <span class="ss">message: </span><span class="s2">"OpenGraph extraction failing for </span><span class="si">#{</span><span class="n">url</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">error</span><span class="p">.</span><span class="nf">message</span><span class="si">}</span><span class="s2">"</span>
+    <span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h3 id="health-checks">Health Checks</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># app/services/opengraph_health_check.rb</span>
+<span class="k">class</span> <span class="nc">OpengraphHealthCheck</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">run</span>
+    <span class="p">{</span>
+      <span class="ss">cache_status: </span><span class="n">check_cache_status</span><span class="p">,</span>
+      <span class="ss">service_status: </span><span class="n">check_service_status</span><span class="p">,</span>
+      <span class="ss">performance_metrics: </span><span class="n">collect_performance_metrics</span>
+    <span class="p">}</span>
+  <span class="k">end</span>
+  
+  <span class="kp">private</span>
+  
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">check_cache_status</span>
+    <span class="n">test_url</span> <span class="o">=</span> <span class="s1">'https://example.com'</span>
+    <span class="n">cache_key</span> <span class="o">=</span> <span class="s2">"rte:opengraph:</span><span class="si">#{</span><span class="no">Digest</span><span class="o">::</span><span class="no">MD5</span><span class="p">.</span><span class="nf">hexdigest</span><span class="p">(</span><span class="n">test_url</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+    
+    <span class="no">Rails</span><span class="p">.</span><span class="nf">cache</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="n">cache_key</span><span class="p">,</span> <span class="s1">'test'</span><span class="p">,</span> <span class="ss">expires_in: </span><span class="mi">1</span><span class="p">.</span><span class="nf">minute</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="no">Rails</span><span class="p">.</span><span class="nf">cache</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="n">cache_key</span><span class="p">)</span>
+    
+    <span class="p">{</span> <span class="ss">working: </span><span class="n">result</span> <span class="o">==</span> <span class="s1">'test'</span><span class="p">,</span> <span class="ss">key: </span><span class="n">cache_key</span> <span class="p">}</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">check_service_status</span>
+    <span class="k">begin</span>
+      <span class="n">og_service</span> <span class="o">=</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">OpenGraphService</span><span class="p">.</span><span class="nf">new</span>
+      <span class="n">metadata</span> <span class="o">=</span> <span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="s1">'https://httpbin.org/html'</span><span class="p">,</span> <span class="ss">timeout: </span><span class="mi">5</span><span class="p">.</span><span class="nf">seconds</span><span class="p">)</span>
+      <span class="p">{</span> <span class="ss">working: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">response_time: </span><span class="n">metadata</span><span class="p">[</span><span class="ss">:response_time</span><span class="p">]</span> <span class="p">}</span>
+    <span class="k">rescue</span> <span class="o">=&gt;</span> <span class="n">e</span>
+      <span class="p">{</span> <span class="ss">working: </span><span class="kp">false</span><span class="p">,</span> <span class="ss">error: </span><span class="n">e</span><span class="p">.</span><span class="nf">message</span> <span class="p">}</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">collect_performance_metrics</span>
+    <span class="p">{</span>
+      <span class="ss">cache_hit_rate: </span><span class="n">calculate_cache_hit_rate</span><span class="p">,</span>
+      <span class="ss">average_response_time: </span><span class="n">calculate_average_response_time</span><span class="p">,</span>
+      <span class="ss">error_rate: </span><span class="n">calculate_error_rate</span>
+    <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h2 id="testing-advanced-features">Testing Advanced Features</h2>
+
+<h3 id="comprehensive-test-suite">Comprehensive Test Suite</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># spec/services/advanced_opengraph_spec.rb</span>
+<span class="no">RSpec</span><span class="p">.</span><span class="nf">describe</span> <span class="s1">'Advanced OpenGraph Features'</span> <span class="k">do</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:og_service</span><span class="p">)</span> <span class="p">{</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">OpenGraphService</span><span class="p">.</span><span class="nf">new</span> <span class="p">}</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:test_url</span><span class="p">)</span> <span class="p">{</span> <span class="s1">'https://httpbin.org/html'</span> <span class="p">}</span>
+  
+  <span class="n">describe</span> <span class="s1">'custom cache backends'</span> <span class="k">do</span>
+    <span class="n">it</span> <span class="s1">'works with custom cache implementation'</span> <span class="k">do</span>
+      <span class="n">custom_cache</span> <span class="o">=</span> <span class="n">double</span><span class="p">(</span><span class="s1">'CustomCache'</span><span class="p">)</span>
+      <span class="n">allow</span><span class="p">(</span><span class="n">custom_cache</span><span class="p">).</span><span class="nf">to</span> <span class="n">receive</span><span class="p">(</span><span class="ss">:read</span><span class="p">).</span><span class="nf">and_return</span><span class="p">(</span><span class="kp">nil</span><span class="p">)</span>
+      <span class="n">allow</span><span class="p">(</span><span class="n">custom_cache</span><span class="p">).</span><span class="nf">to</span> <span class="n">receive</span><span class="p">(</span><span class="ss">:write</span><span class="p">)</span>
+      
+      <span class="n">metadata</span> <span class="o">=</span> <span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="n">test_url</span><span class="p">,</span> <span class="ss">cache: </span><span class="n">custom_cache</span><span class="p">)</span>
+      
+      <span class="n">expect</span><span class="p">(</span><span class="n">custom_cache</span><span class="p">).</span><span class="nf">to</span> <span class="n">have_received</span><span class="p">(</span><span class="ss">:write</span><span class="p">)</span>
+      <span class="n">expect</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="ss">:title</span><span class="p">]).</span><span class="nf">to</span> <span class="n">be_present</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  
+  <span class="n">describe</span> <span class="s1">'batch processing'</span> <span class="k">do</span>
+    <span class="n">it</span> <span class="s1">'processes multiple URLs efficiently'</span> <span class="k">do</span>
+      <span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="n">test_url</span><span class="p">,</span> <span class="s1">'https://httpbin.org/json'</span><span class="p">]</span>
+      <span class="n">processor</span> <span class="o">=</span> <span class="no">BatchOpenGraphProcessor</span><span class="p">.</span><span class="nf">new</span>
+      
+      <span class="n">results</span> <span class="o">=</span> <span class="n">processor</span><span class="p">.</span><span class="nf">process_urls</span><span class="p">(</span><span class="n">urls</span><span class="p">,</span> <span class="ss">cache: :rails</span><span class="p">)</span>
+      
+      <span class="n">expect</span><span class="p">(</span><span class="n">results</span><span class="p">.</span><span class="nf">length</span><span class="p">).</span><span class="nf">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+      <span class="n">expect</span><span class="p">(</span><span class="n">results</span><span class="p">.</span><span class="nf">first</span><span class="p">[</span><span class="ss">:title</span><span class="p">]).</span><span class="nf">to</span> <span class="n">be_present</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  
+  <span class="n">describe</span> <span class="s1">'error handling'</span> <span class="k">do</span>
+    <span class="n">it</span> <span class="s1">'handles network errors gracefully'</span> <span class="k">do</span>
+      <span class="n">allow</span><span class="p">(</span><span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">).</span><span class="nf">to</span> <span class="n">receive</span><span class="p">(</span><span class="ss">:get_response</span><span class="p">).</span><span class="nf">and_raise</span><span class="p">(</span><span class="no">Net</span><span class="o">::</span><span class="no">TimeoutError</span><span class="p">)</span>
+      
+      <span class="n">metadata</span> <span class="o">=</span> <span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="s1">'https://invalid-url.com'</span><span class="p">)</span>
+      
+      <span class="n">expect</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="ss">:error</span><span class="p">]).</span><span class="nf">to</span> <span class="n">be_present</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h2 id="deployment-considerations">Deployment Considerations</h2>
+
+<h3 id="production-configuration">Production Configuration</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># config/environments/production.rb</span>
+<span class="no">RichTextExtraction</span><span class="p">.</span><span class="nf">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="c1"># Optimize for production</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">cache_ttl</span> <span class="o">=</span> <span class="mi">24</span><span class="p">.</span><span class="nf">hours</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">opengraph_timeout</span> <span class="o">=</span> <span class="mi">10</span><span class="p">.</span><span class="nf">seconds</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">opengraph_max_redirects</span> <span class="o">=</span> <span class="mi">5</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">debug</span> <span class="o">=</span> <span class="kp">false</span>
+  
+  <span class="c1"># Use Redis for caching</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">cache_backend</span> <span class="o">=</span> <span class="ss">:redis</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">redis_url</span> <span class="o">=</span> <span class="no">ENV</span><span class="p">[</span><span class="s1">'REDIS_URL'</span><span class="p">]</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h3 id="monitoring-and-alerting">Monitoring and Alerting</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># config/initializers/opengraph_monitoring.rb</span>
+<span class="k">if</span> <span class="no">Rails</span><span class="p">.</span><span class="nf">env</span><span class="p">.</span><span class="nf">production?</span>
+  <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Notifications</span><span class="p">.</span><span class="nf">subscribe</span> <span class="s1">'opengraph.extract'</span> <span class="k">do</span> <span class="o">|*</span><span class="n">args</span><span class="o">|</span>
+    <span class="n">event</span> <span class="o">=</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Notifications</span><span class="o">::</span><span class="no">Event</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">event</span><span class="p">.</span><span class="nf">duration</span> <span class="o">&gt;</span> <span class="mi">5000</span> <span class="c1"># 5 seconds</span>
+      <span class="no">Rails</span><span class="p">.</span><span class="nf">logger</span><span class="p">.</span><span class="nf">warn</span> <span class="s2">"Slow OpenGraph extraction: </span><span class="si">#{</span><span class="n">event</span><span class="p">.</span><span class="nf">payload</span><span class="p">[</span><span class="ss">:url</span><span class="p">]</span><span class="si">}</span><span class="s2"> took </span><span class="si">#{</span><span class="n">event</span><span class="p">.</span><span class="nf">duration</span><span class="si">}</span><span class="s2">ms"</span>
+    <span class="k">end</span>
+    
+    <span class="k">if</span> <span class="n">event</span><span class="p">.</span><span class="nf">payload</span><span class="p">[</span><span class="ss">:error</span><span class="p">]</span>
+      <span class="no">Rails</span><span class="p">.</span><span class="nf">logger</span><span class="p">.</span><span class="nf">error</span> <span class="s2">"OpenGraph extraction failed: </span><span class="si">#{</span><span class="n">event</span><span class="p">.</span><span class="nf">payload</span><span class="p">[</span><span class="ss">:error</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<ul>
+  <li>Check out <a href="/rich_text_extraction/_posts/2025-06-24-troubleshooting.html">Troubleshooting</a> for common issues</li>
+  <li>Explore the <a href="/rich_text_extraction/api-reference/">API Reference</a> for complete documentation</li>
+  <li>Visit the <a href="https://github.com/ceccec/rich_text_extraction">GitHub Repository</a> for source code</li>
+</ul>
+
+<hr />
+
+<p><strong>RichTextExtraction</strong> - Professional rich text extraction for Ruby and Rails applications. 🚀</p>]]></content><author><name>RichTextExtraction Team</name></author><category term="tutorials" /><category term="advanced" /><category term="customization" /><category term="advanced-usage" /><category term="customization" /><category term="performance" /><category term="caching" /><category term="background-jobs" /><summary type="html"><![CDATA[Advanced Usage of RichTextExtraction]]></summary></entry><entry><title type="html">Getting Started with RichTextExtraction</title><link href="https://ceccec.github.io/rich_text_extraction/tutorials/getting-started/2025/06/24/getting-started.html" rel="alternate" type="text/html" title="Getting Started with RichTextExtraction" /><published>2025-06-24T00:00:00+00:00</published><updated>2025-06-24T00:00:00+00:00</updated><id>https://ceccec.github.io/rich_text_extraction/tutorials/getting-started/2025/06/24/getting-started</id><content type="html" xml:base="https://ceccec.github.io/rich_text_extraction/tutorials/getting-started/2025/06/24/getting-started.html"><![CDATA[<h1 id="getting-started-with-richtextextraction">Getting Started with RichTextExtraction</h1>
+
+<p>RichTextExtraction is a powerful Ruby gem designed to extract rich text, Markdown, and OpenGraph metadata from content in Ruby and Rails applications. This guide will walk you through the installation and basic usage.</p>
+
+<h2 id="installation">Installation</h2>
+
+<p>Add RichTextExtraction to your Gemfile:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gem</span> <span class="s1">'rich_text_extraction'</span>
+</code></pre></div></div>
+
+<p>Then run:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle <span class="nb">install</span>
+</code></pre></div></div>
+
+<h2 id="basic-usage">Basic Usage</h2>
+
+<h3 id="extracting-links">Extracting Links</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'rich_text_extraction'</span>
+
+<span class="c1"># Create an extractor instance</span>
+<span class="n">extractor</span> <span class="o">=</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">Extractor</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Visit https://example.com and check out #ruby"</span><span class="p">)</span>
+
+<span class="c1"># Extract different types of content</span>
+<span class="n">extractor</span><span class="p">.</span><span class="nf">links</span>      <span class="c1"># =&gt; ["https://example.com"]</span>
+<span class="n">extractor</span><span class="p">.</span><span class="nf">tags</span>       <span class="c1"># =&gt; ["ruby"]</span>
+<span class="n">extractor</span><span class="p">.</span><span class="nf">mentions</span>   <span class="c1"># =&gt; []</span>
+</code></pre></div></div>
+
+<h3 id="getting-rich-link-objects">Getting Rich Link Objects</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Get detailed link information with OpenGraph data</span>
+<span class="n">link_objects</span> <span class="o">=</span> <span class="n">extractor</span><span class="p">.</span><span class="nf">link_objects</span><span class="p">(</span><span class="ss">with_opengraph: </span><span class="kp">true</span><span class="p">)</span>
+<span class="c1"># =&gt; [{ url: "https://example.com", opengraph: { title: "Example Site", ... } }]</span>
+</code></pre></div></div>
+
+<h3 id="rendering-markdown">Rendering Markdown</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Render markdown to HTML</span>
+<span class="n">markdown_service</span> <span class="o">=</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">MarkdownService</span><span class="p">.</span><span class="nf">new</span>
+<span class="n">html</span> <span class="o">=</span> <span class="n">markdown_service</span><span class="p">.</span><span class="nf">render</span><span class="p">(</span><span class="s2">"**Bold text** and [links](https://example.com)"</span><span class="p">)</span>
+<span class="c1"># =&gt; "&lt;p&gt;&lt;strong&gt;Bold text&lt;/strong&gt; and &lt;a href=\"https://example.com\"&gt;links&lt;/a&gt;&lt;/p&gt;"</span>
+</code></pre></div></div>
+
+<h2 id="rails-integration">Rails Integration</h2>
+
+<h3 id="model-setup">Model Setup</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Post</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="kp">include</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">ExtractsRichText</span>
+  
+  <span class="n">has_rich_text</span> <span class="ss">:body</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h3 id="controller-usage">Controller Usage</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">show</span>
+  <span class="vi">@post</span> <span class="o">=</span> <span class="no">Post</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+  <span class="vi">@links</span> <span class="o">=</span> <span class="vi">@post</span><span class="p">.</span><span class="nf">body</span><span class="p">.</span><span class="nf">extract_links</span><span class="p">(</span><span class="ss">with_opengraph: </span><span class="kp">true</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h3 id="view-helpers">View Helpers</h3>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;%=</span> <span class="n">render_opengraph_preview</span><span class="p">(</span><span class="vi">@post</span><span class="p">.</span><span class="nf">body</span><span class="p">)</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<h2 id="configuration">Configuration</h2>
+
+<p>Create an initializer to customize behavior:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># config/initializers/rich_text_extraction.rb</span>
+<span class="no">RichTextExtraction</span><span class="p">.</span><span class="nf">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">cache_enabled</span> <span class="o">=</span> <span class="kp">true</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">cache_prefix</span> <span class="o">=</span> <span class="s1">'rte'</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">cache_ttl</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="nf">hour</span>
+  
+  <span class="n">config</span><span class="p">.</span><span class="nf">opengraph_timeout</span> <span class="o">=</span> <span class="mi">5</span><span class="p">.</span><span class="nf">seconds</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">opengraph_user_agent</span> <span class="o">=</span> <span class="s1">'RichTextExtraction/1.0'</span>
+  
+  <span class="n">config</span><span class="p">.</span><span class="nf">markdown_renderer</span> <span class="o">=</span> <span class="ss">:redcarpet</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">markdown_options</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">hard_wrap: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">link_attributes: </span><span class="p">{</span> <span class="ss">target: </span><span class="s1">'_blank'</span> <span class="p">}</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<ul>
+  <li>Learn about <a href="/rich_text_extraction/blog/2025-06-24-actiontext-integration.html">ActionText Integration</a></li>
+  <li>Explore <a href="/rich_text_extraction/blog/2025-06-24-advanced-usage.html">Advanced Usage</a></li>
+  <li>Check out the <a href="/rich_text_extraction/api-reference/">API Reference</a></li>
+</ul>
+
+<hr />
+
+<p><strong>RichTextExtraction</strong> - Professional rich text extraction for Ruby and Rails applications. 🚀</p>]]></content><author><name>RichTextExtraction Team</name></author><category term="tutorials" /><category term="getting-started" /><category term="installation" /><category term="basic-usage" /><category term="rails" /><summary type="html"><![CDATA[Getting Started with RichTextExtraction]]></summary></entry><entry><title type="html">Link Previews with RichTextExtraction</title><link href="https://ceccec.github.io/rich_text_extraction/tutorials/opengraph/link-previews/2025/06/24/link-previews.html" rel="alternate" type="text/html" title="Link Previews with RichTextExtraction" /><published>2025-06-24T00:00:00+00:00</published><updated>2025-06-24T00:00:00+00:00</updated><id>https://ceccec.github.io/rich_text_extraction/tutorials/opengraph/link-previews/2025/06/24/link-previews</id><content type="html" xml:base="https://ceccec.github.io/rich_text_extraction/tutorials/opengraph/link-previews/2025/06/24/link-previews.html"><![CDATA[<h1 id="link-previews-with-richtextextraction">Link Previews with RichTextExtraction</h1>
+
+<p>RichTextExtraction provides powerful link preview functionality by automatically fetching and caching OpenGraph metadata from URLs. This guide shows you how to implement beautiful link previews in your Rails applications.</p>
+
+<h2 id="opengraph-service-overview">OpenGraph Service Overview</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">OpenGraphService</code> handles fetching and caching OpenGraph metadata:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'rich_text_extraction'</span>
+
+<span class="n">og_service</span> <span class="o">=</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">OpenGraphService</span><span class="p">.</span><span class="nf">new</span>
+<span class="n">metadata</span> <span class="o">=</span> <span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="s1">'https://example.com'</span><span class="p">)</span>
+<span class="c1"># =&gt; { title: "Example Site", description: "...", image: "...", url: "..." }</span>
+</code></pre></div></div>
+
+<h2 id="basic-usage">Basic Usage</h2>
+
+<h3 id="fetching-opengraph-data">Fetching OpenGraph Data</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Basic OpenGraph extraction</span>
+<span class="n">og_service</span> <span class="o">=</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">OpenGraphService</span><span class="p">.</span><span class="nf">new</span>
+<span class="n">metadata</span> <span class="o">=</span> <span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="s1">'https://github.com/ceccec/rich_text_extraction'</span><span class="p">)</span>
+
+<span class="nb">puts</span> <span class="n">metadata</span><span class="p">[</span><span class="ss">:title</span><span class="p">]</span>        <span class="c1"># =&gt; "ceccec/rich_text_extraction"</span>
+<span class="nb">puts</span> <span class="n">metadata</span><span class="p">[</span><span class="ss">:description</span><span class="p">]</span>  <span class="c1"># =&gt; "Professional rich text extraction..."</span>
+<span class="nb">puts</span> <span class="n">metadata</span><span class="p">[</span><span class="ss">:image</span><span class="p">]</span>        <span class="c1"># =&gt; "https://opengraph.githubassets.com/..."</span>
+<span class="nb">puts</span> <span class="n">metadata</span><span class="p">[</span><span class="ss">:url</span><span class="p">]</span>          <span class="c1"># =&gt; "https://github.com/ceccec/rich_text_extraction"</span>
+</code></pre></div></div>
+
+<h3 id="with-caching">With Caching</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># OpenGraph data is automatically cached for performance</span>
+<span class="n">metadata</span> <span class="o">=</span> <span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="s1">'https://example.com'</span><span class="p">,</span> <span class="ss">cache: :rails</span><span class="p">)</span>
+<span class="c1"># Data is cached for 1 hour by default</span>
+</code></pre></div></div>
+
+<h2 id="view-helpers">View Helpers</h2>
+
+<h3 id="rendering-link-previews">Rendering Link Previews</h3>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- In your view --&gt;</span>
+<span class="cp">&lt;%</span> <span class="vi">@post</span><span class="p">.</span><span class="nf">body</span><span class="p">.</span><span class="nf">link_objects</span><span class="p">(</span><span class="ss">with_opengraph: </span><span class="kp">true</span><span class="p">).</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">link</span><span class="o">|</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">render_opengraph_preview</span><span class="p">(</span><span class="n">link</span><span class="p">[</span><span class="ss">:opengraph</span><span class="p">])</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<h3 id="custom-preview-formats">Custom Preview Formats</h3>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- Markdown format --&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">render_opengraph_preview</span><span class="p">(</span><span class="vi">@post</span><span class="p">.</span><span class="nf">body</span><span class="p">,</span> <span class="ss">format: :markdown</span><span class="p">)</span> <span class="cp">%&gt;</span>
+
+<span class="c">&lt;!-- Text format --&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">render_opengraph_preview</span><span class="p">(</span><span class="vi">@post</span><span class="p">.</span><span class="nf">body</span><span class="p">,</span> <span class="ss">format: :text</span><span class="p">)</span> <span class="cp">%&gt;</span>
+
+<span class="c">&lt;!-- Custom template --&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">render_opengraph_preview</span><span class="p">(</span><span class="vi">@post</span><span class="p">.</span><span class="nf">body</span><span class="p">,</span> <span class="ss">template: </span><span class="s1">'custom_preview'</span><span class="p">)</span> <span class="cp">%&gt;</span>
+</code></pre></div></div>
+
+<h2 id="custom-preview-templates">Custom Preview Templates</h2>
+
+<h3 id="default-template">Default Template</h3>
+
+<p>The default preview template includes:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- Default preview structure --&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"opengraph-preview"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"opengraph-image"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">metadata</span><span class="p">[</span><span class="ss">:image</span><span class="p">]</span> <span class="cp">%&gt;</span><span class="s">"</span> <span class="na">alt=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">metadata</span><span class="p">[</span><span class="ss">:title</span><span class="p">]</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"opengraph-content"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;h3</span> <span class="na">class=</span><span class="s">"opengraph-title"</span><span class="nt">&gt;</span><span class="cp">&lt;%=</span> <span class="n">metadata</span><span class="p">[</span><span class="ss">:title</span><span class="p">]</span> <span class="cp">%&gt;</span><span class="nt">&lt;/h3&gt;</span>
+    <span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"opengraph-description"</span><span class="nt">&gt;</span><span class="cp">&lt;%=</span> <span class="n">metadata</span><span class="p">[</span><span class="ss">:description</span><span class="p">]</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"opengraph-url"</span><span class="nt">&gt;</span><span class="cp">&lt;%=</span> <span class="n">metadata</span><span class="p">[</span><span class="ss">:url</span><span class="p">]</span> <span class="cp">%&gt;</span><span class="nt">&lt;/span&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre></div></div>
+
+<h3 id="custom-template">Custom Template</h3>
+
+<p>Create your own preview template:</p>
+
+<div class="language-erb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- app/views/rich_text_extraction/_custom_preview.html.erb --&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"link-preview"</span><span class="nt">&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">metadata</span><span class="p">[</span><span class="ss">:image</span><span class="p">].</span><span class="nf">present?</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"preview-image"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">metadata</span><span class="p">[</span><span class="ss">:image</span><span class="p">]</span> <span class="cp">%&gt;</span><span class="s">"</span> <span class="na">alt=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">metadata</span><span class="p">[</span><span class="ss">:title</span><span class="p">]</span> <span class="cp">%&gt;</span><span class="s">"</span> <span class="na">loading=</span><span class="s">"lazy"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"preview-content"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;h4&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="n">metadata</span><span class="p">[</span><span class="ss">:title</span><span class="p">],</span> <span class="n">metadata</span><span class="p">[</span><span class="ss">:url</span><span class="p">],</span> <span class="ss">target: </span><span class="s1">'_blank'</span> <span class="cp">%&gt;</span><span class="nt">&lt;/h4&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">metadata</span><span class="p">[</span><span class="ss">:description</span><span class="p">].</span><span class="nf">present?</span> <span class="cp">%&gt;</span>
+      <span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">truncate</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="ss">:description</span><span class="p">],</span> <span class="ss">length: </span><span class="mi">150</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+    <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;small</span> <span class="na">class=</span><span class="s">"preview-domain"</span><span class="nt">&gt;</span><span class="cp">&lt;%=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="ss">:url</span><span class="p">]).</span><span class="nf">host</span> <span class="cp">%&gt;</span><span class="nt">&lt;/small&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre></div></div>
+
+<h2 id="configuration">Configuration</h2>
+
+<h3 id="global-configuration">Global Configuration</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># config/initializers/rich_text_extraction.rb</span>
+<span class="no">RichTextExtraction</span><span class="p">.</span><span class="nf">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">opengraph_timeout</span> <span class="o">=</span> <span class="mi">5</span><span class="p">.</span><span class="nf">seconds</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">opengraph_user_agent</span> <span class="o">=</span> <span class="s1">'RichTextExtraction/1.0'</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">cache_enabled</span> <span class="o">=</span> <span class="kp">true</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">cache_prefix</span> <span class="o">=</span> <span class="s1">'rte'</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">cache_ttl</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="nf">hour</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h3 id="per-request-configuration">Per-Request Configuration</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Custom options for specific requests</span>
+<span class="n">metadata</span> <span class="o">=</span> <span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="s1">'https://example.com'</span><span class="p">,</span>
+  <span class="ss">cache: :rails</span><span class="p">,</span>
+  <span class="ss">cache_options: </span><span class="p">{</span> <span class="ss">expires_in: </span><span class="mi">10</span><span class="p">.</span><span class="nf">minutes</span><span class="p">,</span> <span class="ss">key_prefix: </span><span class="s1">'myapp'</span> <span class="p">},</span>
+  <span class="ss">timeout: </span><span class="mi">10</span><span class="p">.</span><span class="nf">seconds</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="background-jobs">Background Jobs</h2>
+
+<p>For better performance, process OpenGraph data in background jobs:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># app/jobs/fetch_opengraph_job.rb</span>
+<span class="k">class</span> <span class="nc">FetchOpenGraphJob</span> <span class="o">&lt;</span> <span class="no">ApplicationJob</span>
+  <span class="n">queue_as</span> <span class="ss">:default</span>
+
+  <span class="k">def</span> <span class="nf">perform</span><span class="p">(</span><span class="n">post_id</span><span class="p">)</span>
+    <span class="n">post</span> <span class="o">=</span> <span class="no">Post</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">post_id</span><span class="p">)</span>
+    <span class="n">og_service</span> <span class="o">=</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">OpenGraphService</span><span class="p">.</span><span class="nf">new</span>
+    
+    <span class="n">links</span> <span class="o">=</span> <span class="n">post</span><span class="p">.</span><span class="nf">body</span><span class="p">.</span><span class="nf">extract_links</span>
+    <span class="n">links</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">url</span><span class="o">|</span>
+      <span class="n">metadata</span> <span class="o">=</span> <span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="ss">cache: :rails</span><span class="p">)</span>
+      <span class="c1"># Store or process the metadata</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># In your controller</span>
+<span class="k">def</span> <span class="nf">create</span>
+  <span class="vi">@post</span> <span class="o">=</span> <span class="no">Post</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span><span class="n">post_params</span><span class="p">)</span>
+  <span class="no">FetchOpenGraphJob</span><span class="p">.</span><span class="nf">perform_later</span><span class="p">(</span><span class="vi">@post</span><span class="p">.</span><span class="nf">id</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h2 id="error-handling">Error Handling</h2>
+
+<h3 id="graceful-degradation">Graceful Degradation</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">begin</span>
+  <span class="n">metadata</span> <span class="o">=</span> <span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="s1">'https://example.com'</span><span class="p">)</span>
+<span class="k">rescue</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">Error</span> <span class="o">=&gt;</span> <span class="n">e</span>
+  <span class="no">Rails</span><span class="p">.</span><span class="nf">logger</span><span class="p">.</span><span class="nf">error</span> <span class="s2">"OpenGraph extraction failed: </span><span class="si">#{</span><span class="n">e</span><span class="p">.</span><span class="nf">message</span><span class="si">}</span><span class="s2">"</span>
+  <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">title: </span><span class="s1">'Link Preview Unavailable'</span><span class="p">,</span>
+    <span class="ss">description: </span><span class="s1">'Unable to fetch preview for this link'</span><span class="p">,</span>
+    <span class="ss">url: </span><span class="s1">'https://example.com'</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h3 id="custom-error-handling">Custom Error Handling</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Custom error handling in views</span>
+<span class="o">&lt;</span><span class="sx">% begin </span><span class="o">%&gt;</span>
+  <span class="o">&lt;</span><span class="sx">%= render_opengraph_preview(@post.body) %&gt;
+&lt;% rescue RichTextExtraction::Error =</span><span class="o">&gt;</span> <span class="n">e</span> <span class="sx">%&gt;
+  &lt;div class="preview-error"&gt;</span>
+    <span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="no">Preview</span> <span class="n">unavailable</span><span class="o">&lt;</span><span class="sr">/p&gt;
+    &lt;small&gt;Error: &lt;%= e.message %&gt;&lt;/sm</span><span class="n">all</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="sr">/div&gt;
+&lt;% end %&gt;
+</span></code></pre></div></div>
+
+<h2 id="performance-optimization">Performance Optimization</h2>
+
+<h3 id="caching-strategies">Caching Strategies</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Use different cache strategies</span>
+<span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="s1">'https://example.com'</span><span class="p">,</span> <span class="ss">cache: :rails</span><span class="p">)</span>           <span class="c1"># Rails cache</span>
+<span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="s1">'https://example.com'</span><span class="p">,</span> <span class="ss">cache: :redis</span><span class="p">)</span>           <span class="c1"># Redis cache</span>
+<span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="s1">'https://example.com'</span><span class="p">,</span> <span class="ss">cache: :memory</span><span class="p">)</span>          <span class="c1"># Memory cache</span>
+<span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="s1">'https://example.com'</span><span class="p">,</span> <span class="ss">cache: </span><span class="kp">false</span><span class="p">)</span>            <span class="c1"># No caching</span>
+</code></pre></div></div>
+
+<h3 id="batch-processing">Batch Processing</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Process multiple URLs efficiently</span>
+<span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'https://example1.com'</span><span class="p">,</span> <span class="s1">'https://example2.com'</span><span class="p">,</span> <span class="s1">'https://example3.com'</span><span class="p">]</span>
+<span class="n">metadata_batch</span> <span class="o">=</span> <span class="n">urls</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">url</span><span class="o">|</span> <span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="ss">cache: :rails</span><span class="p">)</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="styling-link-previews">Styling Link Previews</h2>
+
+<h3 id="css-example">CSS Example</h3>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">/* Basic preview styling */</span>
+<span class="nc">.opengraph-preview</span> <span class="p">{</span>
+  <span class="nl">border</span><span class="p">:</span> <span class="m">1px</span> <span class="nb">solid</span> <span class="nx">#e1e5e9</span><span class="p">;</span>
+  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">8px</span><span class="p">;</span>
+  <span class="nl">overflow</span><span class="p">:</span> <span class="nb">hidden</span><span class="p">;</span>
+  <span class="nl">margin</span><span class="p">:</span> <span class="m">1rem</span> <span class="m">0</span><span class="p">;</span>
+  <span class="nl">background</span><span class="p">:</span> <span class="nx">#fff</span><span class="p">;</span>
+  <span class="nl">box-shadow</span><span class="p">:</span> <span class="m">0</span> <span class="m">2px</span> <span class="m">4px</span> <span class="nf">rgba</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0.1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nc">.opengraph-image</span> <span class="nt">img</span> <span class="p">{</span>
+  <span class="nl">width</span><span class="p">:</span> <span class="m">100%</span><span class="p">;</span>
+  <span class="nl">height</span><span class="p">:</span> <span class="m">200px</span><span class="p">;</span>
+  <span class="nl">object-fit</span><span class="p">:</span> <span class="nb">cover</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.opengraph-content</span> <span class="p">{</span>
+  <span class="nl">padding</span><span class="p">:</span> <span class="m">1rem</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.opengraph-title</span> <span class="p">{</span>
+  <span class="nl">margin</span><span class="p">:</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0.5rem</span> <span class="m">0</span><span class="p">;</span>
+  <span class="nl">font-size</span><span class="p">:</span> <span class="m">1.1rem</span><span class="p">;</span>
+  <span class="nl">font-weight</span><span class="p">:</span> <span class="m">600</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.opengraph-description</span> <span class="p">{</span>
+  <span class="nl">margin</span><span class="p">:</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0.5rem</span> <span class="m">0</span><span class="p">;</span>
+  <span class="nl">color</span><span class="p">:</span> <span class="nx">#586069</span><span class="p">;</span>
+  <span class="nl">font-size</span><span class="p">:</span> <span class="m">0.9rem</span><span class="p">;</span>
+  <span class="nl">line-height</span><span class="p">:</span> <span class="m">1.4</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.opengraph-url</span> <span class="p">{</span>
+  <span class="nl">color</span><span class="p">:</span> <span class="nx">#0366d6</span><span class="p">;</span>
+  <span class="nl">font-size</span><span class="p">:</span> <span class="m">0.8rem</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="advanced-features">Advanced Features</h2>
+
+<h3 id="custom-user-agents">Custom User Agents</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Use custom user agent for specific requests</span>
+<span class="n">metadata</span> <span class="o">=</span> <span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="s1">'https://example.com'</span><span class="p">,</span>
+  <span class="ss">user_agent: </span><span class="s1">'MyApp/1.0 (https://myapp.com)'</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="timeout-configuration">Timeout Configuration</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Set custom timeout for slow sites</span>
+<span class="n">metadata</span> <span class="o">=</span> <span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="s1">'https://slow-site.com'</span><span class="p">,</span>
+  <span class="ss">timeout: </span><span class="mi">15</span><span class="p">.</span><span class="nf">seconds</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="fallback-content">Fallback Content</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Provide fallback content when OpenGraph data is unavailable</span>
+<span class="n">metadata</span> <span class="o">=</span> <span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="s1">'https://example.com'</span><span class="p">)</span> <span class="o">||</span> <span class="p">{</span>
+  <span class="ss">title: </span><span class="s1">'Example.com'</span><span class="p">,</span>
+  <span class="ss">description: </span><span class="s1">'Visit Example.com for more information'</span><span class="p">,</span>
+  <span class="ss">url: </span><span class="s1">'https://example.com'</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<h3 id="common-issues">Common Issues</h3>
+
+<ul>
+  <li><strong>Slow loading</strong>: Enable caching and use background jobs</li>
+  <li><strong>Missing images</strong>: Check if the site provides OpenGraph images</li>
+  <li><strong>Timeout errors</strong>: Increase timeout for slow sites</li>
+  <li><strong>Cache not working</strong>: Verify cache configuration</li>
+</ul>
+
+<h3 id="debug-mode">Debug Mode</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Enable debug logging</span>
+<span class="no">RichTextExtraction</span><span class="p">.</span><span class="nf">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">debug</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<ul>
+  <li>Learn about <a href="/rich_text_extraction/blog/2025-06-24-advanced-usage.html">Advanced Usage</a> for more customization</li>
+  <li>Explore <a href="/rich_text_extraction/blog/2025-06-24-actiontext-integration.html">ActionText Integration</a></li>
+  <li>Check the <a href="/rich_text_extraction/api-reference/">API Reference</a> for complete documentation</li>
+</ul>
+
+<hr />
+
+<p><strong>RichTextExtraction</strong> - Professional rich text extraction for Ruby and Rails applications. 🚀</p>]]></content><author><name>RichTextExtraction Team</name></author><category term="tutorials" /><category term="opengraph" /><category term="link-previews" /><category term="opengraph" /><category term="link-previews" /><category term="caching" /><category term="background-jobs" /><summary type="html"><![CDATA[Link Previews with RichTextExtraction]]></summary></entry><entry><title type="html">Safe Markdown Rendering with RichTextExtraction</title><link href="https://ceccec.github.io/rich_text_extraction/tutorials/markdown/security/2025/06/24/markdown-rendering.html" rel="alternate" type="text/html" title="Safe Markdown Rendering with RichTextExtraction" /><published>2025-06-24T00:00:00+00:00</published><updated>2025-06-24T00:00:00+00:00</updated><id>https://ceccec.github.io/rich_text_extraction/tutorials/markdown/security/2025/06/24/markdown-rendering</id><content type="html" xml:base="https://ceccec.github.io/rich_text_extraction/tutorials/markdown/security/2025/06/24/markdown-rendering.html"><![CDATA[<h1 id="safe-markdown-rendering-with-richtextextraction">Safe Markdown Rendering with RichTextExtraction</h1>
+
+<p>RichTextExtraction provides secure and customizable Markdown rendering capabilities, ensuring your content is both beautiful and safe. This guide covers the MarkdownService and security features.</p>
+
+<h2 id="markdownservice-overview">MarkdownService Overview</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">MarkdownService</code> class handles all Markdown rendering with built-in security features:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'rich_text_extraction'</span>
+
+<span class="n">service</span> <span class="o">=</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">MarkdownService</span><span class="p">.</span><span class="nf">new</span>
+<span class="n">html</span> <span class="o">=</span> <span class="n">service</span><span class="p">.</span><span class="nf">render</span><span class="p">(</span><span class="s2">"**Bold text** and [links](https://example.com)"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="basic-usage">Basic Usage</h2>
+
+<h3 id="simple-rendering">Simple Rendering</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Basic markdown rendering</span>
+<span class="n">markdown_service</span> <span class="o">=</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">MarkdownService</span><span class="p">.</span><span class="nf">new</span>
+<span class="n">html</span> <span class="o">=</span> <span class="n">markdown_service</span><span class="p">.</span><span class="nf">render</span><span class="p">(</span><span class="s2">"**Bold** and *italic* text"</span><span class="p">)</span>
+<span class="c1"># =&gt; "&lt;p&gt;&lt;strong&gt;Bold&lt;/strong&gt; and &lt;em&gt;italic&lt;/em&gt; text&lt;/p&gt;"</span>
+</code></pre></div></div>
+
+<h3 id="with-custom-options">With Custom Options</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Custom renderer options</span>
+<span class="n">service</span> <span class="o">=</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">MarkdownService</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>
+  <span class="ss">sanitize_html: </span><span class="kp">true</span><span class="p">,</span>
+  <span class="ss">renderer_options: </span><span class="p">{</span> <span class="ss">hard_wrap: </span><span class="kp">true</span> <span class="p">}</span>
+<span class="p">)</span>
+
+<span class="n">html</span> <span class="o">=</span> <span class="n">service</span><span class="p">.</span><span class="nf">render</span><span class="p">(</span><span class="s2">"Line 1</span><span class="se">\n</span><span class="s2">Line 2"</span><span class="p">)</span>
+<span class="c1"># =&gt; "&lt;p&gt;Line 1&lt;br&gt;\nLine 2&lt;/p&gt;"</span>
+</code></pre></div></div>
+
+<h2 id="security-features">Security Features</h2>
+
+<h3 id="html-sanitization">HTML Sanitization</h3>
+
+<p>By default, all rendered HTML is sanitized to prevent XSS attacks:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Dangerous content is automatically sanitized</span>
+<span class="n">dangerous_markdown</span> <span class="o">=</span> <span class="s2">"**Bold** &lt;script&gt;alert('xss')&lt;/script&gt;"</span>
+<span class="n">html</span> <span class="o">=</span> <span class="n">markdown_service</span><span class="p">.</span><span class="nf">render</span><span class="p">(</span><span class="n">dangerous_markdown</span><span class="p">)</span>
+<span class="c1"># =&gt; "&lt;p&gt;&lt;strong&gt;Bold&lt;/strong&gt; &lt;/p&gt;"</span>
+<span class="c1"># Script tags are removed</span>
+</code></pre></div></div>
+
+<h3 id="disabling-sanitization-use-with-caution">Disabling Sanitization (Use with Caution)</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Only disable sanitization if you trust the content source</span>
+<span class="n">service</span> <span class="o">=</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">MarkdownService</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">sanitize_html: </span><span class="kp">false</span><span class="p">)</span>
+<span class="n">html</span> <span class="o">=</span> <span class="n">service</span><span class="p">.</span><span class="nf">render</span><span class="p">(</span><span class="s2">"**Bold** &lt;span&gt;trusted content&lt;/span&gt;"</span><span class="p">)</span>
+<span class="c1"># =&gt; "&lt;p&gt;&lt;strong&gt;Bold&lt;/strong&gt; &lt;span&gt;trusted content&lt;/span&gt;&lt;/p&gt;"</span>
+</code></pre></div></div>
+
+<h2 id="supported-markdown-features">Supported Markdown Features</h2>
+
+<h3 id="text-formatting">Text Formatting</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">markdown</span> <span class="o">=</span> <span class="s2">"""
+# Heading 1
+## Heading 2
+
+**Bold text**
+*Italic text*
+~~Strikethrough~~
+
+`inline code`
+"""</span>
+
+<span class="n">html</span> <span class="o">=</span> <span class="n">markdown_service</span><span class="p">.</span><span class="nf">render</span><span class="p">(</span><span class="n">markdown</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="links-and-images">Links and Images</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">markdown</span> <span class="o">=</span> <span class="s2">"""
+[Link text](https://example.com)
+![Alt text](https://example.com/image.jpg)
+"""</span>
+
+<span class="n">html</span> <span class="o">=</span> <span class="n">markdown_service</span><span class="p">.</span><span class="nf">render</span><span class="p">(</span><span class="n">markdown</span><span class="p">)</span>
+<span class="c1"># Links get target="_blank" and rel="noopener noreferrer" for security</span>
+</code></pre></div></div>
+
+<h3 id="code-blocks">Code Blocks</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">markdown</span> <span class="o">=</span> <span class="s2">"""
+```ruby
+def hello_world
+  puts "</span><span class="no">Hello</span><span class="p">,</span> <span class="no">World</span><span class="o">!</span><span class="s2">"
+end
+</span></code></pre></div></div>
+<p>”””</p>
+
+<p>html = markdown_service.render(markdown)</p>
+<h1 id="code-is-properly-escaped-and-syntax-highlighting-classes-are-added">Code is properly escaped and syntax highlighting classes are added</h1>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+### Lists and Tables
+
+```ruby
+markdown = """
+- Item 1
+- Item 2
+  - Nested item
+
+| Header 1 | Header 2 |
+|----------|----------|
+| Cell 1   | Cell 2   |
+"""
+
+html = markdown_service.render(markdown)
+</code></pre></div></div>
+
+<h2 id="renderer-options">Renderer Options</h2>
+
+<h3 id="redcarpet-default">Redcarpet (Default)</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">service</span> <span class="o">=</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">MarkdownService</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>
+  <span class="ss">renderer_options: </span><span class="p">{</span>
+    <span class="ss">autolink: </span><span class="kp">true</span><span class="p">,</span>
+    <span class="ss">tables: </span><span class="kp">true</span><span class="p">,</span>
+    <span class="ss">fenced_code_blocks: </span><span class="kp">true</span><span class="p">,</span>
+    <span class="ss">strikethrough: </span><span class="kp">true</span><span class="p">,</span>
+    <span class="ss">superscript: </span><span class="kp">true</span><span class="p">,</span>
+    <span class="ss">underline: </span><span class="kp">true</span><span class="p">,</span>
+    <span class="ss">highlight: </span><span class="kp">true</span><span class="p">,</span>
+    <span class="ss">quote: </span><span class="kp">true</span><span class="p">,</span>
+    <span class="ss">footnotes: </span><span class="kp">true</span>
+  <span class="p">}</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="custom-link-attributes">Custom Link Attributes</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># All links get security attributes by default</span>
+<span class="n">html</span> <span class="o">=</span> <span class="n">markdown_service</span><span class="p">.</span><span class="nf">render</span><span class="p">(</span><span class="s2">"[Click here](https://example.com)"</span><span class="p">)</span>
+<span class="c1"># =&gt; "&lt;p&gt;&lt;a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\"&gt;Click here&lt;/a&gt;&lt;/p&gt;"</span>
+</code></pre></div></div>
+
+<h2 id="custom-markdown-renderer">Custom Markdown Renderer</h2>
+
+<p>For advanced customization, you can use the <code class="language-plaintext highlighter-rouge">CustomMarkdownRenderer</code>:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'redcarpet'</span>
+
+<span class="n">renderer</span> <span class="o">=</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">CustomMarkdownRenderer</span><span class="p">.</span><span class="nf">new</span>
+<span class="n">markdown</span> <span class="o">=</span> <span class="no">Redcarpet</span><span class="o">::</span><span class="no">Markdown</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="ss">fenced_code_blocks: </span><span class="kp">true</span><span class="p">)</span>
+
+<span class="n">html</span> <span class="o">=</span> <span class="n">markdown</span><span class="p">.</span><span class="nf">render</span><span class="p">(</span><span class="s2">"**Bold** and [link](https://example.com)"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="custom-renderer-features">Custom Renderer Features</h3>
+
+<ul>
+  <li><strong>Secure links</strong>: All links get <code class="language-plaintext highlighter-rouge">target="_blank"</code> and <code class="language-plaintext highlighter-rouge">rel="noopener noreferrer"</code></li>
+  <li><strong>Lazy loading images</strong>: Images get <code class="language-plaintext highlighter-rouge">loading="lazy"</code> attribute</li>
+  <li><strong>Code escaping</strong>: Code blocks are properly HTML-escaped</li>
+  <li><strong>Custom CSS classes</strong>: Images get <code class="language-plaintext highlighter-rouge">markdown-image</code> class</li>
+</ul>
+
+<h2 id="configuration">Configuration</h2>
+
+<h3 id="global-configuration">Global Configuration</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># config/initializers/rich_text_extraction.rb</span>
+<span class="no">RichTextExtraction</span><span class="p">.</span><span class="nf">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">markdown_renderer</span> <span class="o">=</span> <span class="ss">:redcarpet</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">markdown_options</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">hard_wrap: </span><span class="kp">true</span><span class="p">,</span>
+    <span class="ss">link_attributes: </span><span class="p">{</span> <span class="ss">target: </span><span class="s1">'_blank'</span><span class="p">,</span> <span class="ss">rel: </span><span class="s1">'noopener noreferrer'</span> <span class="p">}</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h3 id="per-instance-configuration">Per-Instance Configuration</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Override global settings for specific instances</span>
+<span class="n">service</span> <span class="o">=</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">MarkdownService</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>
+  <span class="ss">sanitize_html: </span><span class="kp">false</span><span class="p">,</span>
+  <span class="ss">renderer_options: </span><span class="p">{</span> <span class="ss">hard_wrap: </span><span class="kp">false</span> <span class="p">}</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="error-handling">Error Handling</h2>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">begin</span>
+  <span class="n">html</span> <span class="o">=</span> <span class="n">markdown_service</span><span class="p">.</span><span class="nf">render</span><span class="p">(</span><span class="n">markdown_content</span><span class="p">)</span>
+<span class="k">rescue</span> <span class="no">StandardError</span> <span class="o">=&gt;</span> <span class="n">e</span>
+  <span class="no">Rails</span><span class="p">.</span><span class="nf">logger</span><span class="p">.</span><span class="nf">error</span> <span class="s2">"Markdown rendering failed: </span><span class="si">#{</span><span class="n">e</span><span class="p">.</span><span class="nf">message</span><span class="si">}</span><span class="s2">"</span>
+  <span class="n">html</span> <span class="o">=</span> <span class="s2">"&lt;p&gt;Content could not be rendered&lt;/p&gt;"</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h2 id="performance-considerations">Performance Considerations</h2>
+
+<h3 id="caching-rendered-html">Caching Rendered HTML</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Cache rendered markdown for performance</span>
+<span class="n">cached_html</span> <span class="o">=</span> <span class="no">Rails</span><span class="p">.</span><span class="nf">cache</span><span class="p">.</span><span class="nf">fetch</span><span class="p">(</span><span class="s2">"markdown_</span><span class="si">#{</span><span class="no">Digest</span><span class="o">::</span><span class="no">MD5</span><span class="p">.</span><span class="nf">hexdigest</span><span class="p">(</span><span class="n">content</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span>
+  <span class="n">markdown_service</span><span class="p">.</span><span class="nf">render</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h3 id="batch-processing">Batch Processing</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Process multiple markdown contents efficiently</span>
+<span class="n">contents</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"**Bold**"</span><span class="p">,</span> <span class="s2">"*Italic*"</span><span class="p">,</span> <span class="s2">"`Code`"</span><span class="p">]</span>
+<span class="n">html_results</span> <span class="o">=</span> <span class="n">contents</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">content</span><span class="o">|</span> <span class="n">markdown_service</span><span class="p">.</span><span class="nf">render</span><span class="p">(</span><span class="n">content</span><span class="p">)</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="best-practices">Best Practices</h2>
+
+<ol>
+  <li><strong>Always sanitize HTML</strong> unless you completely trust the content source</li>
+  <li><strong>Use appropriate renderer options</strong> for your use case</li>
+  <li><strong>Cache rendered content</strong> for better performance</li>
+  <li><strong>Handle errors gracefully</strong> to prevent application crashes</li>
+  <li><strong>Test with various markdown inputs</strong> to ensure proper rendering</li>
+</ol>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<h3 id="common-issues">Common Issues</h3>
+
+<ul>
+  <li><strong>HTML not rendering</strong>: Check if sanitization is too strict</li>
+  <li><strong>Links not working</strong>: Verify link attributes are being added correctly</li>
+  <li><strong>Performance issues</strong>: Enable caching for frequently rendered content</li>
+</ul>
+
+<h3 id="debug-mode">Debug Mode</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Enable debug logging for troubleshooting</span>
+<span class="no">RichTextExtraction</span><span class="p">.</span><span class="nf">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">debug</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<ul>
+  <li>Learn about <a href="/rich_text_extraction/blog/2025-06-24-advanced-usage.html">Advanced Usage</a> for more customization</li>
+  <li>Explore <a href="/rich_text_extraction/blog/2025-06-24-actiontext-integration.html">ActionText Integration</a></li>
+  <li>Check the <a href="/rich_text_extraction/api-reference/">API Reference</a> for complete documentation</li>
+</ul>
+
+<hr />
+
+<p><strong>RichTextExtraction</strong> - Professional rich text extraction for Ruby and Rails applications. 🚀</p>]]></content><author><name>RichTextExtraction Team</name></author><category term="tutorials" /><category term="markdown" /><category term="security" /><category term="markdown" /><category term="html" /><category term="sanitization" /><category term="security" /><category term="rendering" /><summary type="html"><![CDATA[Safe Markdown Rendering with RichTextExtraction]]></summary></entry><entry><title type="html">Troubleshooting RichTextExtraction</title><link href="https://ceccec.github.io/rich_text_extraction/tutorials/troubleshooting/debugging/2025/06/24/troubleshooting.html" rel="alternate" type="text/html" title="Troubleshooting RichTextExtraction" /><published>2025-06-24T00:00:00+00:00</published><updated>2025-06-24T00:00:00+00:00</updated><id>https://ceccec.github.io/rich_text_extraction/tutorials/troubleshooting/debugging/2025/06/24/troubleshooting</id><content type="html" xml:base="https://ceccec.github.io/rich_text_extraction/tutorials/troubleshooting/debugging/2025/06/24/troubleshooting.html"><![CDATA[<h1 id="troubleshooting-richtextextraction">Troubleshooting RichTextExtraction</h1>
+
+<p>This guide helps you resolve common issues and debug problems with RichTextExtraction. From installation problems to performance issues, we’ve got you covered.</p>
+
+<h2 id="common-installation-issues">Common Installation Issues</h2>
+
+<h3 id="gem-installation-problems">Gem Installation Problems</h3>
+
+<p><strong>Problem</strong>: <code class="language-plaintext highlighter-rouge">gem install rich_text_extraction</code> fails</p>
+
+<p><strong>Solutions</strong>:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Update RubyGems</span>
+gem update <span class="nt">--system</span>
+
+<span class="c"># Install with specific Ruby version</span>
+rbenv <span class="nb">exec </span>gem <span class="nb">install </span>rich_text_extraction
+
+<span class="c"># Install with bundler</span>
+bundle add rich_text_extraction
+</code></pre></div></div>
+
+<p><strong>Problem</strong>: Dependency conflicts</p>
+
+<p><strong>Solutions</strong>:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check for conflicts</span>
+bundle check
+
+<span class="c"># Update dependencies</span>
+bundle update
+
+<span class="c"># Install with specific version</span>
+gem <span class="s1">'rich_text_extraction'</span>, <span class="s1">'~&gt; 0.1.0'</span>
+</code></pre></div></div>
+
+<h3 id="rails-integration-issues">Rails Integration Issues</h3>
+
+<p><strong>Problem</strong>: ActionText not working</p>
+
+<p><strong>Solutions</strong>:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Ensure ActionText is installed</span>
+<span class="n">rails</span> <span class="n">action_text</span><span class="ss">:install</span>
+
+<span class="c1"># Check if ActionText is properly configured</span>
+<span class="c1"># config/application.rb</span>
+<span class="nb">require</span> <span class="s2">"action_text/engine"</span>
+</code></pre></div></div>
+
+<p><strong>Problem</strong>: View helpers not available</p>
+
+<p><strong>Solutions</strong>:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Ensure the gem is properly required</span>
+<span class="nb">require</span> <span class="s1">'rich_text_extraction'</span>
+
+<span class="c1"># Check if helpers are included</span>
+<span class="c1"># app/helpers/application_helper.rb</span>
+<span class="kp">include</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">Helpers</span>
+</code></pre></div></div>
+
+<h2 id="opengraph-extraction-issues">OpenGraph Extraction Issues</h2>
+
+<h3 id="network-and-timeout-problems">Network and Timeout Problems</h3>
+
+<p><strong>Problem</strong>: OpenGraph extraction times out</p>
+
+<p><strong>Solutions</strong>:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Increase timeout</span>
+<span class="no">RichTextExtraction</span><span class="p">.</span><span class="nf">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">opengraph_timeout</span> <span class="o">=</span> <span class="mi">15</span><span class="p">.</span><span class="nf">seconds</span>
+<span class="k">end</span>
+
+<span class="c1"># Or per-request</span>
+<span class="n">metadata</span> <span class="o">=</span> <span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="s1">'https://example.com'</span><span class="p">,</span> <span class="ss">timeout: </span><span class="mi">15</span><span class="p">.</span><span class="nf">seconds</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><strong>Problem</strong>: SSL certificate errors</p>
+
+<p><strong>Solutions</strong>:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Configure SSL verification</span>
+<span class="no">RichTextExtraction</span><span class="p">.</span><span class="nf">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">opengraph_ssl_verify</span> <span class="o">=</span> <span class="kp">false</span>  <span class="c1"># Use with caution</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p><strong>Problem</strong>: Rate limiting</p>
+
+<p><strong>Solutions</strong>:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Add delays between requests</span>
+<span class="k">def</span> <span class="nf">extract_with_delay</span><span class="p">(</span><span class="n">urls</span><span class="p">)</span>
+  <span class="n">urls</span><span class="p">.</span><span class="nf">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">url</span><span class="p">,</span> <span class="n">index</span><span class="o">|</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="nb">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">urls</span><span class="p">.</span><span class="nf">length</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># 1 second delay</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h3 id="missing-or-incorrect-opengraph-data">Missing or Incorrect OpenGraph Data</h3>
+
+<p><strong>Problem</strong>: No OpenGraph data returned</p>
+
+<p><strong>Debugging</strong>:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Enable debug mode</span>
+<span class="no">RichTextExtraction</span><span class="p">.</span><span class="nf">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">debug</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="k">end</span>
+
+<span class="c1"># Check raw HTML response</span>
+<span class="n">og_service</span> <span class="o">=</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">OpenGraphService</span><span class="p">.</span><span class="nf">new</span>
+<span class="n">html</span> <span class="o">=</span> <span class="n">og_service</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="ss">:fetch_html</span><span class="p">,</span> <span class="s1">'https://example.com'</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="n">html</span>
+</code></pre></div></div>
+
+<p><strong>Problem</strong>: Incorrect metadata</p>
+
+<p><strong>Solutions</strong>:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Verify the URL is accessible</span>
+<span class="nb">require</span> <span class="s1">'net/http'</span>
+<span class="n">response</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">get_response</span><span class="p">(</span><span class="no">URI</span><span class="p">(</span><span class="s1">'https://example.com'</span><span class="p">))</span>
+<span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">code</span>  <span class="c1"># Should be 200</span>
+
+<span class="c1"># Check if the site has OpenGraph tags</span>
+<span class="n">html</span> <span class="o">=</span> <span class="n">og_service</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="ss">:fetch_html</span><span class="p">,</span> <span class="s1">'https://example.com'</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="n">html</span><span class="p">.</span><span class="nf">scan</span><span class="p">(</span><span class="sr">/&lt;meta property="og:.*?&gt;/</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="caching-issues">Caching Issues</h2>
+
+<h3 id="cache-not-working">Cache Not Working</h3>
+
+<p><strong>Problem</strong>: OpenGraph data not being cached</p>
+
+<p><strong>Debugging</strong>:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Check cache configuration</span>
+<span class="nb">puts</span> <span class="no">RichTextExtraction</span><span class="p">.</span><span class="nf">configuration</span><span class="p">.</span><span class="nf">cache_enabled</span>
+<span class="nb">puts</span> <span class="no">RichTextExtraction</span><span class="p">.</span><span class="nf">configuration</span><span class="p">.</span><span class="nf">cache_ttl</span>
+
+<span class="c1"># Test cache manually</span>
+<span class="n">cache_key</span> <span class="o">=</span> <span class="s2">"rte:opengraph:</span><span class="si">#{</span><span class="no">Digest</span><span class="o">::</span><span class="no">MD5</span><span class="p">.</span><span class="nf">hexdigest</span><span class="p">(</span><span class="s1">'https://example.com'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+<span class="no">Rails</span><span class="p">.</span><span class="nf">cache</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="n">cache_key</span><span class="p">,</span> <span class="s1">'test'</span><span class="p">,</span> <span class="ss">expires_in: </span><span class="mi">1</span><span class="p">.</span><span class="nf">hour</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="no">Rails</span><span class="p">.</span><span class="nf">cache</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="n">cache_key</span><span class="p">)</span>  <span class="c1"># Should return 'test'</span>
+</code></pre></div></div>
+
+<p><strong>Problem</strong>: Cache keys not matching</p>
+
+<p><strong>Solutions</strong>:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Use consistent cache options</span>
+<span class="n">metadata</span> <span class="o">=</span> <span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="s1">'https://example.com'</span><span class="p">,</span>
+  <span class="ss">cache: :rails</span><span class="p">,</span>
+  <span class="ss">cache_options: </span><span class="p">{</span> <span class="ss">key_prefix: </span><span class="s1">'myapp'</span> <span class="p">}</span>
+<span class="p">)</span>
+
+<span class="c1"># Clear specific cache</span>
+<span class="n">og_service</span><span class="p">.</span><span class="nf">clear_cache</span><span class="p">(</span><span class="s1">'https://example.com'</span><span class="p">,</span> <span class="ss">cache: :rails</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="cache-performance-issues">Cache Performance Issues</h3>
+
+<p><strong>Problem</strong>: Slow cache operations</p>
+
+<p><strong>Solutions</strong>:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Use Redis for better performance</span>
+<span class="no">RichTextExtraction</span><span class="p">.</span><span class="nf">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">cache_backend</span> <span class="o">=</span> <span class="ss">:redis</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">redis_url</span> <span class="o">=</span> <span class="no">ENV</span><span class="p">[</span><span class="s1">'REDIS_URL'</span><span class="p">]</span>
+<span class="k">end</span>
+
+<span class="c1"># Optimize cache TTL</span>
+<span class="no">RichTextExtraction</span><span class="p">.</span><span class="nf">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">cache_ttl</span> <span class="o">=</span> <span class="mi">24</span><span class="p">.</span><span class="nf">hours</span>  <span class="c1"># Longer TTL for better performance</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h2 id="markdown-rendering-issues">Markdown Rendering Issues</h2>
+
+<h3 id="html-sanitization-problems">HTML Sanitization Problems</h3>
+
+<p><strong>Problem</strong>: Content not rendering properly</p>
+
+<p><strong>Debugging</strong>:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Check if sanitization is too strict</span>
+<span class="n">service</span> <span class="o">=</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">MarkdownService</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">sanitize_html: </span><span class="kp">false</span><span class="p">)</span>
+<span class="n">html</span> <span class="o">=</span> <span class="n">service</span><span class="p">.</span><span class="nf">render</span><span class="p">(</span><span class="s1">'**Bold** &lt;span&gt;content&lt;/span&gt;'</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="n">html</span>
+</code></pre></div></div>
+
+<p><strong>Problem</strong>: Links not working</p>
+
+<p><strong>Solutions</strong>:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Check link attributes</span>
+<span class="n">service</span> <span class="o">=</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">MarkdownService</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>
+  <span class="ss">renderer_options: </span><span class="p">{</span> <span class="ss">link_attributes: </span><span class="p">{</span> <span class="ss">target: </span><span class="s1">'_blank'</span> <span class="p">}</span> <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">html</span> <span class="o">=</span> <span class="n">service</span><span class="p">.</span><span class="nf">render</span><span class="p">(</span><span class="s1">'[Link](https://example.com)'</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="n">html</span>
+</code></pre></div></div>
+
+<h3 id="renderer-compatibility">Renderer Compatibility</h3>
+
+<p><strong>Problem</strong>: Markdown renderer not available</p>
+
+<p><strong>Solutions</strong>:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Install required gems</span>
+<span class="n">gem</span> <span class="s1">'redcarpet'</span>
+<span class="n">gem</span> <span class="s1">'kramdown'</span>
+<span class="n">gem</span> <span class="s1">'commonmarker'</span>
+
+<span class="c1"># Or use fallback renderer</span>
+<span class="n">service</span> <span class="o">=</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">MarkdownService</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>
+  <span class="ss">renderer_options: </span><span class="p">{</span> <span class="ss">fallback: </span><span class="kp">true</span> <span class="p">}</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="performance-issues">Performance Issues</h2>
+
+<h3 id="slow-extraction">Slow Extraction</h3>
+
+<p><strong>Problem</strong>: OpenGraph extraction is slow</p>
+
+<p><strong>Solutions</strong>:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Use background jobs</span>
+<span class="k">class</span> <span class="nc">ExtractLinksJob</span> <span class="o">&lt;</span> <span class="no">ApplicationJob</span>
+  <span class="k">def</span> <span class="nf">perform</span><span class="p">(</span><span class="n">post_id</span><span class="p">)</span>
+    <span class="n">post</span> <span class="o">=</span> <span class="no">Post</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">post_id</span><span class="p">)</span>
+    <span class="n">post</span><span class="p">.</span><span class="nf">body</span><span class="p">.</span><span class="nf">link_objects</span><span class="p">(</span><span class="ss">with_opengraph: </span><span class="kp">true</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># Batch processing</span>
+<span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'https://example1.com'</span><span class="p">,</span> <span class="s1">'https://example2.com'</span><span class="p">]</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">urls</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">url</span><span class="o">|</span> <span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="ss">cache: :rails</span><span class="p">)</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>Problem</strong>: Memory usage is high</p>
+
+<p><strong>Solutions</strong>:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Process in batches</span>
+<span class="n">posts</span><span class="p">.</span><span class="nf">find_in_batches</span><span class="p">(</span><span class="ss">batch_size: </span><span class="mi">50</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">batch</span><span class="o">|</span>
+  <span class="n">batch</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">post</span><span class="o">|</span>
+    <span class="n">post</span><span class="p">.</span><span class="nf">body</span><span class="p">.</span><span class="nf">extract_links</span>
+  <span class="k">end</span>
+  <span class="no">GC</span><span class="p">.</span><span class="nf">start</span>  <span class="c1"># Force garbage collection</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h3 id="database-performance">Database Performance</h3>
+
+<p><strong>Problem</strong>: Database queries are slow</p>
+
+<p><strong>Solutions</strong>:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Add database indexes</span>
+<span class="n">add_index</span> <span class="ss">:posts</span><span class="p">,</span> <span class="ss">:updated_at</span>
+<span class="n">add_index</span> <span class="ss">:posts</span><span class="p">,</span> <span class="ss">:opengraph_metadata</span>
+
+<span class="c1"># Use counter cache</span>
+<span class="n">add_column</span> <span class="ss">:posts</span><span class="p">,</span> <span class="ss">:links_count</span><span class="p">,</span> <span class="ss">:integer</span><span class="p">,</span> <span class="ss">default: </span><span class="mi">0</span>
+</code></pre></div></div>
+
+<h2 id="error-handling">Error Handling</h2>
+
+<h3 id="common-error-messages">Common Error Messages</h3>
+
+<p><strong>Error</strong>: <code class="language-plaintext highlighter-rouge">RichTextExtraction::Error: Failed to extract OpenGraph data</code></p>
+
+<p><strong>Solutions</strong>:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Add error handling</span>
+<span class="k">begin</span>
+  <span class="n">metadata</span> <span class="o">=</span> <span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="s1">'https://example.com'</span><span class="p">)</span>
+<span class="k">rescue</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">Error</span> <span class="o">=&gt;</span> <span class="n">e</span>
+  <span class="no">Rails</span><span class="p">.</span><span class="nf">logger</span><span class="p">.</span><span class="nf">error</span> <span class="s2">"OpenGraph extraction failed: </span><span class="si">#{</span><span class="n">e</span><span class="p">.</span><span class="nf">message</span><span class="si">}</span><span class="s2">"</span>
+  <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">title: </span><span class="s1">'Link Preview Unavailable'</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p><strong>Error</strong>: <code class="language-plaintext highlighter-rouge">Net::TimeoutError</code></p>
+
+<p><strong>Solutions</strong>:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Increase timeout</span>
+<span class="n">metadata</span> <span class="o">=</span> <span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="s1">'https://example.com'</span><span class="p">,</span> <span class="ss">timeout: </span><span class="mi">30</span><span class="p">.</span><span class="nf">seconds</span><span class="p">)</span>
+
+<span class="c1"># Use background job for slow sites</span>
+<span class="no">ExtractLinksJob</span><span class="p">.</span><span class="nf">perform_later</span><span class="p">(</span><span class="n">post</span><span class="p">.</span><span class="nf">id</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><strong>Error</strong>: <code class="language-plaintext highlighter-rouge">ActionView::Template::Error: undefined method 'extract_links'</code></p>
+
+<p><strong>Solutions</strong>:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Ensure the concern is included</span>
+<span class="k">class</span> <span class="nc">Post</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="kp">include</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">ExtractsRichText</span>
+  <span class="n">has_rich_text</span> <span class="ss">:body</span>
+<span class="k">end</span>
+
+<span class="c1"># Check if ActionText is properly set up</span>
+<span class="n">rails</span> <span class="n">action_text</span><span class="ss">:install:migrations</span>
+<span class="n">rails</span> <span class="n">db</span><span class="ss">:migrate</span>
+</code></pre></div></div>
+
+<h2 id="debugging-tools">Debugging Tools</h2>
+
+<h3 id="debug-mode">Debug Mode</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Enable debug logging</span>
+<span class="no">RichTextExtraction</span><span class="p">.</span><span class="nf">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">debug</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="k">end</span>
+
+<span class="c1"># Check logs for detailed information</span>
+<span class="n">tail</span> <span class="o">-</span><span class="n">f</span> <span class="n">log</span><span class="o">/</span><span class="n">development</span><span class="p">.</span><span class="nf">log</span>
+</code></pre></div></div>
+
+<h3 id="health-checks">Health Checks</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Create a health check endpoint</span>
+<span class="k">class</span> <span class="nc">HealthController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">opengraph</span>
+    <span class="n">og_service</span> <span class="o">=</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">OpenGraphService</span><span class="p">.</span><span class="nf">new</span>
+    
+    <span class="k">begin</span>
+      <span class="n">metadata</span> <span class="o">=</span> <span class="n">og_service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="s1">'https://httpbin.org/html'</span><span class="p">)</span>
+      <span class="n">render</span> <span class="ss">json: </span><span class="p">{</span> <span class="ss">status: </span><span class="s1">'healthy'</span><span class="p">,</span> <span class="ss">metadata: </span><span class="n">metadata</span> <span class="p">}</span>
+    <span class="k">rescue</span> <span class="o">=&gt;</span> <span class="n">e</span>
+      <span class="n">render</span> <span class="ss">json: </span><span class="p">{</span> <span class="ss">status: </span><span class="s1">'unhealthy'</span><span class="p">,</span> <span class="ss">error: </span><span class="n">e</span><span class="p">.</span><span class="nf">message</span> <span class="p">},</span> <span class="ss">status: </span><span class="mi">500</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h3 id="performance-monitoring">Performance Monitoring</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Add performance monitoring</span>
+<span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Notifications</span><span class="p">.</span><span class="nf">subscribe</span> <span class="s1">'opengraph.extract'</span> <span class="k">do</span> <span class="o">|*</span><span class="n">args</span><span class="o">|</span>
+  <span class="n">event</span> <span class="o">=</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Notifications</span><span class="o">::</span><span class="no">Event</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+  
+  <span class="k">if</span> <span class="n">event</span><span class="p">.</span><span class="nf">duration</span> <span class="o">&gt;</span> <span class="mi">5000</span>  <span class="c1"># 5 seconds</span>
+    <span class="no">Rails</span><span class="p">.</span><span class="nf">logger</span><span class="p">.</span><span class="nf">warn</span> <span class="s2">"Slow OpenGraph extraction: </span><span class="si">#{</span><span class="n">event</span><span class="p">.</span><span class="nf">payload</span><span class="p">[</span><span class="ss">:url</span><span class="p">]</span><span class="si">}</span><span class="s2"> took </span><span class="si">#{</span><span class="n">event</span><span class="p">.</span><span class="nf">duration</span><span class="si">}</span><span class="s2">ms"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h2 id="testing-issues">Testing Issues</h2>
+
+<h3 id="test-failures">Test Failures</h3>
+
+<p><strong>Problem</strong>: Tests failing due to network dependencies</p>
+
+<p><strong>Solutions</strong>:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Mock external requests in tests</span>
+<span class="no">RSpec</span><span class="p">.</span><span class="nf">describe</span> <span class="no">RichTextExtraction</span><span class="o">::</span><span class="no">OpenGraphService</span> <span class="k">do</span>
+  <span class="n">before</span> <span class="k">do</span>
+    <span class="n">allow</span><span class="p">(</span><span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">).</span><span class="nf">to</span> <span class="n">receive</span><span class="p">(</span><span class="ss">:get_response</span><span class="p">).</span><span class="nf">and_return</span><span class="p">(</span>
+      <span class="n">double</span><span class="p">(</span><span class="s1">'response'</span><span class="p">,</span> <span class="ss">body: </span><span class="s1">'&lt;html&gt;&lt;title&gt;Test&lt;/title&gt;&lt;/html&gt;'</span><span class="p">)</span>
+    <span class="p">)</span>
+  <span class="k">end</span>
+  
+  <span class="n">it</span> <span class="s1">'extracts OpenGraph data'</span> <span class="k">do</span>
+    <span class="n">service</span> <span class="o">=</span> <span class="n">described_class</span><span class="p">.</span><span class="nf">new</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="n">service</span><span class="p">.</span><span class="nf">extract</span><span class="p">(</span><span class="s1">'https://example.com'</span><span class="p">)</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="ss">:title</span><span class="p">]).</span><span class="nf">to</span> <span class="n">eq</span><span class="p">(</span><span class="s1">'Test'</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p><strong>Problem</strong>: Cache interfering with tests</p>
+
+<p><strong>Solutions</strong>:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Clear cache in test setup</span>
+<span class="no">RSpec</span><span class="p">.</span><span class="nf">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">before</span><span class="p">(</span><span class="ss">:each</span><span class="p">)</span> <span class="k">do</span>
+    <span class="no">Rails</span><span class="p">.</span><span class="nf">cache</span><span class="p">.</span><span class="nf">clear</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h2 id="getting-help">Getting Help</h2>
+
+<h3 id="logs-and-debugging">Logs and Debugging</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Enable verbose logging</span>
+<span class="no">Rails</span><span class="p">.</span><span class="nf">logger</span><span class="p">.</span><span class="nf">level</span> <span class="o">=</span> <span class="no">Logger</span><span class="o">::</span><span class="no">DEBUG</span>
+
+<span class="c1"># Add custom logging</span>
+<span class="no">Rails</span><span class="p">.</span><span class="nf">logger</span><span class="p">.</span><span class="nf">info</span> <span class="s2">"Extracting links from post </span><span class="si">#{</span><span class="n">post</span><span class="p">.</span><span class="nf">id</span><span class="si">}</span><span class="s2">"</span>
+<span class="no">Rails</span><span class="p">.</span><span class="nf">logger</span><span class="p">.</span><span class="nf">error</span> <span class="s2">"Failed to extract: </span><span class="si">#{</span><span class="n">e</span><span class="p">.</span><span class="nf">message</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">e</span>
+</code></pre></div></div>
+
+<h3 id="community-support">Community Support</h3>
+
+<ul>
+  <li><strong>GitHub Issues</strong>: <a href="https://github.com/ceccec/rich_text_extraction/issues">Report bugs and request features</a></li>
+  <li><strong>GitHub Discussions</strong>: <a href="https://github.com/ceccec/rich_text_extraction/discussions">Ask questions and share solutions</a></li>
+  <li><strong>Documentation</strong>: <a href="https://ceccec.github.io/rich_text_extraction/">Complete API reference</a></li>
+</ul>
+
+<h3 id="creating-bug-reports">Creating Bug Reports</h3>
+
+<p>When reporting issues, include:</p>
+
+<ol>
+  <li><strong>Ruby version</strong>: <code class="language-plaintext highlighter-rouge">ruby -v</code></li>
+  <li><strong>Rails version</strong>: <code class="language-plaintext highlighter-rouge">rails -v</code></li>
+  <li><strong>Gem version</strong>: <code class="language-plaintext highlighter-rouge">bundle list | grep rich_text_extraction</code></li>
+  <li><strong>Error message</strong>: Complete error stack trace</li>
+  <li><strong>Reproduction steps</strong>: How to reproduce the issue</li>
+  <li><strong>Expected behavior</strong>: What you expected to happen</li>
+  <li><strong>Actual behavior</strong>: What actually happened</li>
+</ol>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<ul>
+  <li>Learn about <a href="/rich_text_extraction/blog/2025-06-24-advanced-usage.html">Advanced Usage</a> for more customization</li>
+  <li>Explore <a href="/rich_text_extraction/blog/2025-06-24-actiontext-integration.html">ActionText Integration</a></li>
+  <li>Check the <a href="/rich_text_extraction/api-reference/">API Reference</a> for complete documentation</li>
+</ul>
+
+<hr />
+
+<p><strong>RichTextExtraction</strong> - Professional rich text extraction for Ruby and Rails applications. 🚀</p>]]></content><author><name>RichTextExtraction Team</name></author><category term="tutorials" /><category term="troubleshooting" /><category term="debugging" /><category term="troubleshooting" /><category term="debugging" /><category term="common-issues" /><category term="error-handling" /><summary type="html"><![CDATA[Troubleshooting RichTextExtraction]]></summary></entry><entry><title type="html">Welcome to Jekyll!</title><link href="https://ceccec.github.io/rich_text_extraction/jekyll/update/2025/06/23/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2025-06-23T20:05:06+00:00</published><updated>2025-06-23T20:05:06+00:00</updated><id>https://ceccec.github.io/rich_text_extraction/jekyll/update/2025/06/23/welcome-to-jekyll</id><content type="html" xml:base="https://ceccec.github.io/rich_text_extraction/jekyll/update/2025/06/23/welcome-to-jekyll.html"><![CDATA[<p>You’ll find this post in your <code class="language-plaintext highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="language-plaintext highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
+
+<p>Jekyll requires blog post files to be named according to the following format:</p>
+
+<p><code class="language-plaintext highlighter-rouge">YEAR-MONTH-DAY-title.MARKUP</code></p>
+
+<p>Where <code class="language-plaintext highlighter-rouge">YEAR</code> is a four-digit number, <code class="language-plaintext highlighter-rouge">MONTH</code> and <code class="language-plaintext highlighter-rouge">DAY</code> are both two-digit numbers, and <code class="language-plaintext highlighter-rouge">MARKUP</code> is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.</p>
+
+<p>Jekyll also offers powerful support for code snippets:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="n">print_hi</span><span class="p">(</span><span class="s1">'Tom'</span><span class="p">)</span>
+<span class="c1">#=&gt; prints 'Hi, Tom' to STDOUT.</span></code></pre></figure>
+
+<p>Check out the <a href="https://jekyllrb.com/docs/home">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>. If you have questions, you can ask them on <a href="https://talk.jekyllrb.com/">Jekyll Talk</a>.</p>]]></content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.]]></summary></entry></feed>
