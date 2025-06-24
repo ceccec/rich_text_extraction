@@ -4,5 +4,9 @@ IFS=$'\n\t'
 set -vx
 
 bundle install
+npm install
+bin/generate_validator_docs.rb
+bin/generate_scenario_tests.rb
+echo "Setup complete! Run 'bundle exec rspec' to test. Edit only YAML/JSON or constants, then re-run this script to update docs/tests."
 
 # Do any other automated setup that you need to do here

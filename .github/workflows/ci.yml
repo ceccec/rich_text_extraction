@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: |
+          bundle install --jobs 4 --retry 3
+          npm install
+      - name: Generate validator docs
+        run: bin/generate_validator_docs.rb
+      - name: Generate scenario tests
+        run: bin/generate_scenario_tests.rb
+      - name: Check for drift
+        run: git diff --exit-code
+      - name: Run tests
+        run: bundle exec rspec 
