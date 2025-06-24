@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/services/markdown_service_spec.rb
 # Tests for RichTextExtraction::MarkdownService (see lib/rich_text_extraction/services/markdown_service.rb)
 
@@ -15,4 +17,4 @@ RSpec.describe RichTextExtraction::MarkdownService do
     html = service.render('<script>alert(1)</script>')
     expect(html).not_to include('<script>')
   end
-end 
+end

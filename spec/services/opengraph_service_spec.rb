@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/services/opengraph_service_spec.rb
 # Tests for RichTextExtraction::OpenGraphService (see lib/rich_text_extraction/services/opengraph_service.rb)
 
@@ -13,8 +15,9 @@ RSpec.describe RichTextExtraction::OpenGraphService do
   end
 
   it 'fetches OpenGraph data (stubbed)' do
-    allow(HTTParty).to receive(:get).and_return(double(success?: true, body: '<meta property="og:title" content="Test">'))
+    allow(HTTParty).to receive(:get).and_return(double(success?: true,
+                                                       body: '<meta property="og:title" content="Test">'))
     result = service.extract('https://example.com', cache: nil)
     expect(result['title']).to eq('Test')
   end
-end 
+end

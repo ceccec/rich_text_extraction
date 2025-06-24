@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/extractors/link_extractor_spec.rb
 # Tests for RichTextExtraction::LinkExtractor (see lib/rich_text_extraction/extractors/link_extractor.rb)
 
@@ -16,4 +18,4 @@ RSpec.describe RichTextExtraction::LinkExtractor do
     expect(dummy.valid_url?('https://example.com')).to be true
     expect(dummy.valid_url?('not_a_url')).to be false
   end
-end 
+end

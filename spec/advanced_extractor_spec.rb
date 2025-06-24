@@ -20,7 +20,8 @@ RSpec.describe 'Advanced extractor usage' do
     end
 
     it 'returns the correct OpenGraph title' do
-      allow(HTTParty).to receive(:get).and_return(double(success?: true, body: '<meta property="og:title" content="Test Title">'))
+      allow(HTTParty).to receive(:get).and_return(double(success?: true,
+                                                         body: '<meta property="og:title" content="Test Title">'))
       result = extractor.link_objects(with_opengraph: true).first
       expect(result[:opengraph]['title']).to eq('Test Title')
     end

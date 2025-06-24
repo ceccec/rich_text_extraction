@@ -3,6 +3,7 @@
 require 'redcarpet'
 require_relative 'rich_text_extraction/version'
 require_relative 'rich_text_extraction/configuration'
+require_relative 'rich_text_extraction/cache_configuration'
 require_relative 'rich_text_extraction/services/opengraph_service'
 require_relative 'rich_text_extraction/services/markdown_service'
 require_relative 'rich_text_extraction/extractors/link_extractor'

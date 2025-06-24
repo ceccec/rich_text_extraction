@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/extractors/social_extractor_spec.rb
 # Tests for RichTextExtraction::SocialExtractor (see lib/rich_text_extraction/extractors/social_extractor.rb)
 
@@ -16,4 +18,4 @@ RSpec.describe RichTextExtraction::SocialExtractor do
     text = 'Hello @alice and @bob!'
     expect(dummy.extract_mentions(text)).to include('alice', 'bob')
   end
-end 
+end
