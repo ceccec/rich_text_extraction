@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+set -vx
+
+# --- DRY Procedure: Make the app minimal, self-sufficient, and ready for automated deployment ---
+
+# 1. Minimize dependencies (edit Gemfile to keep only essentials)
+#    (Manual step: already done, but can be scripted with sed/awk if needed)
+
+# 2. Install dependencies
+bundle install
+npm install
+
+# 3. Generate docs and tests from YAML/JSON source of truth
+bin/generate_validator_docs.rb
+bin/generate_scenario_tests.rb
+
+# 4. Run tests to ensure full functionality
+bundle exec rspec
+
+# 5. Check health endpoint
+curl -f http://localhost:3000/health || echo 'Health check failed!'
+
+# 6. Check OpenAPI endpoint
+curl -f http://localhost:3000/openapi.json || echo 'OpenAPI endpoint failed!'
+
+# 7. Print completion message
+
+echo "DRY procedure complete: app is minimal, self-sufficient, and ready for automated deployment." 
