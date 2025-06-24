@@ -54,7 +54,9 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'sanitize', '>= 6.0', '< 7.0'
 
   # Development dependencies
+  spec.add_development_dependency 'rails', '>= 6.0', '< 8.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
+  spec.add_development_dependency 'rspec-rails', '~> 6.0'
   spec.add_development_dependency 'rubocop', '~> 1.0'
   spec.add_development_dependency 'rubocop-rspec', '~> 3.0'
   spec.add_development_dependency 'yard', '~> 0.9'

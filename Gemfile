@@ -22,6 +22,9 @@ group :development, :test do
   gem 'rubocop', require: false
   gem 'rubocop-rspec', require: false
   gem 'yard', require: false
+  gem 'rails', '>= 6.0', '< 8.0'
+  gem 'appraisal', require: false
+  gem 'minitest'
 end
 
 ruby '>= 3.1.0', '< 4.0'

@@ -110,3 +110,40 @@ jobs:
         run: gem push rich_text_extraction-*.gem
         env:
           RUBYGEMS_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
+
+  rails-matrix:
+    name: Rails Compatibility Matrix
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby-version: ['3.1', '3.2', '3.3']
+        rails-version: ['6.0', '6.1', '7.0', '7.1', '7.2']
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+      - name: Add Rails version
+        run: |
+          bundle remove rails || true
+          bundle add rails --version "~> ${{ matrix.rails-version }}"
+      - name: Install dependencies
+        run: bundle install
+      - name: Run tests
+        run: bundle exec rspec
+
+  appraisal:
+    name: Appraisal (Rails multi-version)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install
+          bundle exec appraisal install
+      - name: Run tests (Appraisal)
+        run: bundle exec appraisal rspec

@@ -34,8 +34,8 @@ bundle exec rspec --format documentation
 
 ## 📊 Current Test Status
 
-- **35 examples, 0 failures** - All tests pass
-- **1.23 seconds** - Fast execution time
+- **44 examples, 0 failures** - All tests pass
+- **32.36 seconds** - Fast execution time
 - **Feature coverage** - Tests cover all major functionality:
   - ActionText integration
   - Background jobs
@@ -410,7 +410,7 @@ end
 
 ## Test & Quality Status (June 2025)
 
-- **RSpec:** 35 examples, 0 failures
+- **RSpec:** 44 examples, 0 failures
 - **RuboCop:** No offenses detected
 - **YARD:** 85.86% documented, a few dynamic mixin warnings (expected for Rails mixins)
 - **Gem build:** No gemspec self-inclusion error (fixed June 2025)

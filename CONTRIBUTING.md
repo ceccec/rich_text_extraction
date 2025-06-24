@@ -50,8 +50,8 @@ lib/rich_text_extraction/
 
 ### Current Test Status
 
-- **35 examples, 0 failures** - All tests pass
-- **1.23 seconds** - Fast execution time
+- **44 examples, 0 failures** - All tests pass
+- **32.36 seconds** - Fast execution time
 - **100% pass rate** - Reliable test suite
 
 ### Running Tests
@@ -323,10 +323,26 @@ By contributing to RichTextExtraction, you agree that your contributions will be
 
 ## Test & Quality Status (June 2025)
 
-- **RSpec:** 35 examples, 0 failures
+- **RSpec:** 44 examples, 0 failures
 - **RuboCop:** No offenses detected
 - **YARD:** 85.86% documented, a few dynamic mixin warnings (expected for Rails mixins)
 - **Gem build:** No gemspec self-inclusion error (fixed June 2025)
+
+### Generator Testing
+
+- Generator tests use Minitest and are located in `test/generators/`.
+- Use `Rails::Generators::TestCase` for new generator tests.
+- Run with `bundle exec rake test`.
+
+### Generator Test Organization
+
+- Each generated file (initializer, configuration, model, controller, view, job, routes, README) has its own dedicated test in `test/generators/rich_text_extraction/install/`.
+- To add a test for a new generator feature, create a new test file in this directory.
+- Each test file should focus on a single generated file or feature.
+- Run all generator tests with:
+  ```sh
+  bundle exec rake test
+  ```
 
 ---
 

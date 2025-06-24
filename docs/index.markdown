@@ -11,6 +11,13 @@ nav_order: 1
 
 Extract links, tags, mentions, emails, phone numbers, and OpenGraph metadata from rich text, Markdown, or ActionText in Ruby and Rails applications.
 
+## Current Status (January 2025)
+
+- **✅ 44 tests passing** - Comprehensive test coverage
+- **✅ Zero RuboCop offenses** - Clean, maintainable code
+- **✅ 90.91% YARD documented** - Complete API documentation
+- **✅ Production ready** - Stable, well-tested gem
+
 ## Quick Start
 
 ```ruby

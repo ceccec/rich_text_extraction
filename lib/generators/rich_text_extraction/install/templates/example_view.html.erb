@@ -1,0 +1,140 @@
+<!-- Example view demonstrating RichTextExtraction usage -->
+<!-- This is a sample view - you can delete it or use it as a reference -->
+
+<div class="example-post">
+  <h1><%= @example_post.title %></h1>
+  
+  <!-- Display excerpt -->
+  <div class="excerpt">
+    <p><%= @excerpt %></p>
+  </div>
+
+  <!-- Display main content -->
+  <div class="content">
+    <%= @example_post.content %>
+  </div>
+
+  <!-- Display extracted links -->
+  <% if @links.any? %>
+    <div class="links-section">
+      <h3>Links Found (<%= @links.count %>)</h3>
+      <ul>
+        <% @links.each do |link| %>
+          <li><%= link_to link, link, target: '_blank', rel: 'noopener' %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <!-- Display OpenGraph previews -->
+  <% if @opengraph_data.any? %>
+    <div class="opengraph-section">
+      <h3>Link Previews</h3>
+      <% @opengraph_data.each do |link_data| %>
+        <div class="link-preview">
+          <% if link_data[:opengraph][:error] %>
+            <div class="error">
+              Error loading preview for <%= link_data[:url] %>: <%= link_data[:opengraph][:error] %>
+            </div>
+          <% else %>
+            <%= opengraph_preview_for(link_data[:opengraph]) %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <!-- Display social content -->
+  <% if @social_content[:tags].any? || @social_content[:mentions].any? %>
+    <div class="social-section">
+      <% if @social_content[:tags].any? %>
+        <div class="tags">
+          <h4>Tags</h4>
+          <% @social_content[:tags].each do |tag| %>
+            <span class="tag">#<%= tag %></span>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if @social_content[:mentions].any? %>
+        <div class="mentions">
+          <h4>Mentions</h4>
+          <% @social_content[:mentions].each do |mention| %>
+            <span class="mention">@<%= mention %></span>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if @social_content[:emails].any? %>
+        <div class="emails">
+          <h4>Email Addresses</h4>
+          <% @social_content[:emails].each do |email| %>
+            <span class="email"><%= mail_to email %></span>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if @social_content[:phone_numbers].any? %>
+        <div class="phones">
+          <h4>Phone Numbers</h4>
+          <% @social_content[:phone_numbers].each do |phone| %>
+            <span class="phone"><%= phone %></span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <!-- Display processing status -->
+  <div class="processing-status">
+    <% if @example_post.has_links? %>
+      <p>Links are being processed in the background...</p>
+    <% else %>
+      <p>No links found in this post.</p>
+    <% end %>
+  </div>
+</div>
+
+<style>
+.example-post {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.links-section, .opengraph-section, .social-section {
+  margin: 20px 0;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.tag, .mention {
+  display: inline-block;
+  margin: 2px;
+  padding: 4px 8px;
+  background: #f0f0f0;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+.link-preview {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 3px;
+}
+
+.error {
+  color: #d32f2f;
+  font-style: italic;
+}
+
+.processing-status {
+  margin-top: 20px;
+  padding: 10px;
+  background: #f5f5f5;
+  border-radius: 3px;
+  text-align: center;
+}
+</style> 

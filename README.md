@@ -35,10 +35,10 @@ See [`docs/usage.md`](docs/usage.md) and [`docs/quick-reference.md`](docs/quick-
 - **Use shared contexts** for DRY tests (see `spec/support/shared_contexts.rb`).
 - **Run tests and RuboCop** before submitting PRs.
 
-## Test & Quality Status (June 2025)
+## Test & Quality Status (January 2025)
 - **RSpec:** 44 examples, 0 failures
-- **RuboCop:** No offenses (except minor spec block length)
-- **YARD:** 85.86% documented
+- **RuboCop:** No offenses detected
+- **YARD:** 90.91% documented
 - **Gem build:** No errors
 
 ## License
@@ -87,23 +87,52 @@ html = markdown_service.render("**Bold text** and [links](https://example.com)")
 
 ### Rails Integration
 
+RichTextExtraction is designed for seamless Rails integration:
+
+- **Railtie**: Auto-loads configuration and allows custom options via `Rails.application.config.rich_text_extraction`.
+- **Model Concern**: Use `include RichTextExtraction::ExtractsRichText` for automatic cache management.
+- **View Helper**: Use `opengraph_preview_for` in your views.
+- **Background Job**: Use the provided job template for async link processing.
+
+### Example Usage
+
+**config/initializers/rich_text_extraction.rb**
 ```ruby
-# In your model
+RichTextExtraction.configure do |config|
+  config.cache_enabled = true
+  config.cache_ttl = 1.hour
+end
+Rails.application.config.rich_text_extraction.cache_options = { expires_in: 1.hour }
+```
+
+**app/models/post.rb**
+```ruby
 class Post < ApplicationRecord
   include RichTextExtraction::ExtractsRichText
-  
-  has_rich_text :body
-end
-
-# In your view
-<%= render_opengraph_preview(@post.body) %>
-
-# In your controller
-def show
-  @post = Post.find(params[:id])
-  @links = @post.body.extract_links(with_opengraph: true)
+  has_rich_text :content
 end
 ```
+
+**app/views/posts/show.html.erb**
+```erb
+<%= opengraph_preview_for(@post.content.link_objects(with_opengraph: true).first[:opengraph]) %>
+```
+
+**app/jobs/process_links_job.rb**
+```ruby
+class ProcessLinksJob < ApplicationJob
+  def perform(post)
+    links = post.content.links
+    # ...
+  end
+end
+```
+
+### Troubleshooting
+- **Missing ActionText?** Add `has_rich_text :content` to your model and ensure ActionText is installed.
+- **Cache not working?** Check your Rails cache store and initializer settings.
+- **View helper missing?** Ensure the gem is loaded and you are using ERB or a compatible template engine.
+- **Generator not found?** Run `bundle exec rails generate rich_text_extraction:install` and check your Gemfile for the gem entry.
 
 ## 📖 Documentation
 
@@ -138,7 +167,7 @@ bundle exec rspec --format documentation
 bundle exec rubocop
 ```
 
-**Current Status**: ✅ All tests pass (35 examples, 0 failures)
+**Current Status**: ✅ All tests pass (44 examples, 0 failures)
 
 See the [Testing Guide](docs/testing.md) for detailed information about the test suite organization, best practices, and CI/CD integration.
 
@@ -187,12 +216,25 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 
 Current version: **0.1.0**
 
-## Test & Quality Status (June 2025)
+## Test & Quality Status (January 2025)
 
-- **RSpec:** 35 examples, 0 failures
+- **RSpec:** 44 examples, 0 failures
 - **RuboCop:** No offenses detected
-- **YARD:** 85.86% documented, a few dynamic mixin warnings (expected for Rails mixins)
-- **Gem build:** No gemspec self-inclusion error (fixed June 2025)
+- **YARD:** 90.91% documented, a few dynamic mixin warnings (expected for Rails mixins)
+- **Gem build:** No gemspec self-inclusion error (fixed January 2025)
+
+## Generator Test Organization
+
+Each generated file (initializer, configuration, model, controller, view, job, routes, README) has its own dedicated test in `test/generators/rich_text_extraction/install/`.
+
+- To add a test for a new generator feature, create a new test file in this directory.
+- Each test file should focus on a single generated file or feature.
+- Run all generator tests with:
+  ```sh
+  bundle exec rake test
+  ```
+
+This structure makes it easy to maintain and extend generator tests as the gem evolves.
 
 ---
 

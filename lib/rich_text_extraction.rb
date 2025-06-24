@@ -42,7 +42,19 @@ module RichTextExtraction
   include CacheOperations
 
   # Make all instance methods from InstanceHelpers publicly accessible
-  # @!visibility public
+  # @!method plain_text
+  # @!method links
+  # @!method tags
+  # @!method mentions
+  # @!method emails
+  # @!method excerpt
+  # @!method attachments
+  # @!method phone_numbers
+  # @!method dates
+  # @!method markdown_links
+  # @!method image_urls
+  # @!method twitter_handles
+  # @!method link_objects
   public(*InstanceHelpers.instance_methods(false))
 
   # Public API
@@ -147,4 +159,6 @@ class CustomMarkdownRenderer < Redcarpet::Render::HTML
 end
 
 # Auto-include in ActionText::RichText if Rails and ActionText are loaded
+# @!parse
+#   ActionText::RichText.include(RichTextExtraction) if defined?(ActionText::RichText)
 ActionText::RichText.include(RichTextExtraction) if defined?(ActionText::RichText)
