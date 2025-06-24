@@ -897,3 +897,23 @@ end
 ```
 
 **Adding a new validator or scenario in `VALIDATOR_EXAMPLES` makes it available everywhere (Ruby, API, JS, CLI) with caching.**
+
+## 🚦 Getting Started (Onboarding)
+
+1. **Install dependencies and generate docs/tests:**
+   ```sh
+   bin/setup
+   ```
+2. **Run tests:**
+   ```sh
+   bundle exec rspec
+   ```
+3. **Edit only YAML/JSON or constants** (e.g., `lib/rich_text_extraction/constants.rb`, `docs/_data/test_scenarios.yml`).
+   - Do **not** edit generated files directly.
+   - After changes, re-run `bin/setup` to update docs/tests.
+4. **Health check:**
+   - Visit [http://localhost:3000/health](http://localhost:3000/health) to verify the app is running.
+5. **OpenAPI spec for self-updating UI:**
+   - Visit [http://localhost:3000/openapi.json](http://localhost:3000/openapi.json) for the latest API schema.
+6. **Error reporting:**
+   - Set the `SENTRY_DSN` environment variable to enable Sentry error reporting.

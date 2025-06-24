@@ -11,5 +11,6 @@ gem 'httparty'
 gem 'redis'
 gem 'rspec', '~> 3.0'
 gem 'rspec-rails', '~> 6.0'
+gem 'sentry-ruby'
 
 ruby '>= 3.1.0', '< 4.0'
