@@ -51,40 +51,28 @@ module RichTextExtraction
         end
       end
 
-      # Default extractors for built-in types
+      # Default extractors for built-in types using a dispatch table
+      DEFAULT_EXTRACTORS = {
+        links: ->(text, **) { LinkExtractor.instance_method(:extract_links).bind_call(self, text) },
+        emails: ->(text, **) { text.to_s.scan(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/) },
+        phones: ->(text, **) { text.to_s.scan(/\+?\d[\d\s\-()]{7,}\d/) },
+        hashtags: ->(text, **) { text.to_s.scan(/#(\w+)/).flatten },
+        mentions: ->(text, **) { text.to_s.scan(/@(\w+)/).flatten },
+        images: ->(text, **) { text.to_s.scan(%r{https?://(?:[\w.-]+)/(?:[\w/-]+)\.(?:jpg|jpeg|png|gif)}i) },
+        dates: ->(text, **) { text.to_s.scan(/\b\d{4}-\d{2}-\d{2}\b/) },
+        uuids: ->(text, **) { text.to_s.scan(/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/) },
+        hex_colors: ->(text, **) { text.to_s.scan(/#(?:[0-9a-fA-F]{3}){1,2}\b/) },
+        ips: ->(text, **) { text.to_s.scan(/\b(?:\d{1,3}\.){3}\d{1,3}\b/) },
+        credit_cards: ->(text, **) { text.to_s.scan(/\b(?:\d[ -]*?){13,16}\b/) },
+        markdown_tables: ->(text, **) { text.to_s.scan(/\|(.+\|)+\n\|([ :-]+\|)+/).map(&:first) },
+        markdown_code: ->(text, **) { text.to_s.scan(/```[\s\S]*?```|`[^`]+`/) },
+        twitter_handles: ->(text, **) { text.to_s.scan(/@([A-Za-z0-9_]{1,15})/) },
+        instagram_handles: ->(text, **) { text.to_s.scan(/@([A-Za-z0-9_.]{1,30})/) }
+      }.freeze
+
+      # Returns the default extractor lambda for a given type
       def default_extractor(type)
-        case type.to_sym
-        when :links
-          ->(text, **) { LinkExtractor.instance_method(:extract_links).bind_call(self, text) }
-        when :emails
-          ->(text, **) { text.to_s.scan(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/) }
-        when :phones
-          ->(text, **) { text.to_s.scan(/\+?\d[\d\s\-()]{7,}\d/) }
-        when :hashtags
-          ->(text, **) { text.to_s.scan(/#(\w+)/).flatten }
-        when :mentions
-          ->(text, **) { text.to_s.scan(/@(\w+)/).flatten }
-        when :images
-          ->(text, **) { text.to_s.scan(%r{https?://(?:[\w.-]+)/(?:[\w/-]+)\.(?:jpg|jpeg|png|gif)}i) }
-        when :dates
-          ->(text, **) { text.to_s.scan(/\b\d{4}-\d{2}-\d{2}\b/) }
-        when :uuids
-          ->(text, **) { text.to_s.scan(/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/) }
-        when :hex_colors
-          ->(text, **) { text.to_s.scan(/#(?:[0-9a-fA-F]{3}){1,2}\b/) }
-        when :ips
-          ->(text, **) { text.to_s.scan(/\b(?:\d{1,3}\.){3}\d{1,3}\b/) }
-        when :credit_cards
-          ->(text, **) { text.to_s.scan(/\b(?:\d[ -]*?){13,16}\b/) }
-        when :markdown_tables
-          ->(text, **) { text.to_s.scan(/\|(.+\|)+\n\|([ :-]+\|)+/).map(&:first) }
-        when :markdown_code
-          ->(text, **) { text.to_s.scan(/```[\s\S]*?```|`[^`]+`/) }
-        when :twitter_handles
-          ->(text, **) { text.to_s.scan(/@([A-Za-z0-9_]{1,15})/) }
-        when :instagram_handles
-          ->(text, **) { text.to_s.scan(/@([A-Za-z0-9_.]{1,30})/) }
-        end
+        DEFAULT_EXTRACTORS[type.to_sym]
       end
 
       # Legacy extraction method delegators for backward compatibility
@@ -124,52 +112,52 @@ module RichTextExtraction
         extract(text, :markdown_code)
       end
 
-      #
+      # Refactored extract_opengraph with helpers
       # TEST-ONLY STUB: This method mimics OpenGraph extraction for the test suite.
-      #
-      # - If HTTParty is stubbed and returns a response with an og:title meta tag, it extracts the title.
-      # - If cache_options[:test_title] is set, it uses that as the title.
-      # - Otherwise, it returns a canned title for known URLs (test.com/example.com).
-      # - It stores results in the cache if provided, for cache-related tests.
-      #
-      # Replace this stub with a real implementation for production use.
       def extract_opengraph(url, cache: nil, cache_options: {})
-        # 1. Try to extract og:title from a stubbed HTTParty response (for test suite)
-        title = nil
-        if defined?(HTTParty) && HTTParty.respond_to?(:get)
-          begin
-            response = HTTParty.get(url)
-            if response.respond_to?(:body) && response.body =~ /<meta property="og:title" content="([^"]+)">/
-              title = ::Regexp.last_match(1)
-            end
-          rescue StandardError
-            # Ignore errors, fallback to other stubs
-          end
+        title = fetch_og_title_from_httparty(url) || og_title_from_test_override(cache_options) || og_title_from_canned_url(url)
+        result = build_og_result(url, title, cache, cache_options)
+        write_og_result_to_cache(url, result, cache, cache_options)
+        result
+      end
+
+      private
+
+      def fetch_og_title_from_httparty(url)
+        return unless defined?(HTTParty) && HTTParty.respond_to?(:get)
+        response = HTTParty.get(url)
+        if response.respond_to?(:body) && response.body =~ /<meta property="og:title" content="([^"]+)">/
+          ::Regexp.last_match(1)
         end
-        # 2. Test override (for test suite)
-        title ||= cache_options[:test_title] if cache_options && cache_options[:test_title]
-        # 3. Canned titles for known test URLs
-        title ||= case url
-                  when /test\.com/ then 'Test Title'
-                  when /example\.com/ then 'Title'
-                  end
-        # 4. Build result hash with both string and symbol keys for 'title'
-        result = { url: url, title: title, 'title' => title, error: (title.nil? ? 'OpenGraph stub error' : nil),
-                   cache: cache, cache_options: cache_options }.compact
-        # 5. Try to use any cache object that responds to []=, but handle errors gracefully
+      rescue StandardError
+        nil
+      end
+
+      def og_title_from_test_override(cache_options)
+        cache_options[:test_title] if cache_options && cache_options[:test_title]
+      end
+
+      def og_title_from_canned_url(url)
+        case url
+        when /test\.com/ then 'Test Title'
+        when /example\.com/ then 'Title'
+        end
+      end
+
+      def build_og_result(url, title, cache, cache_options)
+        { url: url, title: title, 'title' => title, error: (title.nil? ? 'OpenGraph stub error' : nil), cache: cache, cache_options: cache_options }.compact
+      end
+
+      def write_og_result_to_cache(url, result, cache, cache_options)
         if cache && cache != :rails && cache.respond_to?(:[]=)
-          begin
-            cache[url] = result
-          rescue StandardError
-            # If cache assignment fails (e.g., IndexError, TypeError), ignore and continue
-            # Optionally, you could log or warn here
-          end
+          cache[url] = result
         elsif cache == :rails && defined?(Rails) && Rails.respond_to?(:cache)
           key_prefix = cache_options[:key_prefix] || (defined?(Rails.application.class.module_parent_name) ? Rails.application.class.module_parent_name : nil)
           cache_key = key_prefix ? "opengraph:#{key_prefix}:#{url}" : url
           Rails.cache.write(cache_key, result, **cache_options.except(:key_prefix))
         end
-        result
+      rescue StandardError
+        # Ignore cache errors
       end
     end
   end

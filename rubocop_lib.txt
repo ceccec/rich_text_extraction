@@ -1,0 +1,12 @@
+
+21  Style/Documentation
+13  Metrics/AbcSize
+13  Metrics/MethodLength
+10  Layout/LineLength[33m [Safe Correctable][0m
+4   Metrics/CyclomaticComplexity
+3   Metrics/ModuleLength
+3   Metrics/PerceivedComplexity
+2   Metrics/ClassLength
+--
+69  Total in 24 files
+

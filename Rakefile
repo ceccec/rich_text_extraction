@@ -72,9 +72,9 @@ task test: :quality do
 end
 
 desc 'Extract test scenarios from documentation and run doc-driven tests and doc generation (drift detection)'
-task 'test:scenarios_from_docs' do
-  puts 'Running doc-driven validator tests from VALIDATOR_EXAMPLES...'
+task 'test:scenarios_from_docs' => :environment do
+  Rails.logger.debug 'Running doc-driven validator tests from VALIDATOR_EXAMPLES...'
   sh 'ruby bin/doc_driven_validator_spec.rb'
-  puts 'Generating validator documentation from VALIDATOR_EXAMPLES...'
+  Rails.logger.debug 'Generating validator documentation from VALIDATOR_EXAMPLES...'
   sh 'ruby bin/generate_validator_docs.rb'
 end

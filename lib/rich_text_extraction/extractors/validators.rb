@@ -5,83 +5,110 @@ module RichTextExtraction
   module Extractors
     module Validators
       # ISBN checksum validation (ISBN-10/13, ISO 2108)
+      # @param isbn [String]
+      # @return [Boolean]
       def self.valid_isbn?(isbn)
-        digits = isbn.gsub(/[^0-9Xx]/, '').upcase
-        result = if digits.length == 10
-                   sum = digits.chars.each_with_index.sum { |d, i| (d == 'X' ? 10 : d.to_i) * (10 - i) }
-                   (sum % 11).zero?
-                 elsif digits.length == 13
-                   sum = digits.chars.each_with_index.sum { |d, i| d.to_i * (i.even? ? 1 : 3) }
-                   (sum % 10).zero?
-                 else
-                   false
-                 end
-        Rails.logger.debug { "[DEBUG] valid_isbn?(#{isbn.inspect}) => #{result}" }
+        digits = extract_digits(isbn, /[^0-9Xx]/)
+        return false unless [10, 13].include?(digits.length)
+        result = digits.length == 10 ? valid_isbn10?(digits) : valid_isbn13?(digits)
+        log_result('valid_isbn?', isbn, result)
         result
       end
 
       # VIN check digit validation (ISO 3779)
+      # @param vin [String]
+      # @return [Boolean]
       def self.valid_vin?(vin)
-        map = ('A'..'Z').to_a.zip([1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 2, 3, 4, 5, 6, 7]).to_h
-        weights = [8, 7, 6, 5, 4, 3, 2, 10, 0, 9, 8, 7, 6, 5, 4, 3, 2]
         vin = vin.upcase
-        result = if vin.length == 17
-                   sum = vin.chars.each_with_index.sum do |char, i|
-                     value = /\d/.match?(char) ? char.to_i : map[char] || 0
-                     value * weights[i]
-                   end
-                   check = sum % 11
-                   check_char = check == 10 ? 'X' : check.to_s
-                   vin[8] == check_char
-                 else
-                   false
-                 end
-        Rails.logger.debug { "[DEBUG] valid_vin?(#{vin.inspect}) => #{result}" }
+        return false unless vin.length == 17
+        result = valid_vin_core?(vin)
+        log_result('valid_vin?', vin, result)
         result
       end
 
       # ISSN checksum validation (mod-11, ISO 3297)
+      # @param issn [String]
+      # @return [Boolean]
       def self.valid_issn?(issn)
         digits = issn.delete('-').upcase.chars
-        result = if digits.length == 8
-                   sum = digits[0..6].each_with_index.sum { |d, i| d.to_i * (8 - i) }
-                   check = (11 - (sum % 11)) % 11
-                   check_char = check == 10 ? 'X' : check.to_s
-                   digits[7] == check_char
-                 else
-                   false
-                 end
-        Rails.logger.debug { "[DEBUG] valid_issn?(#{issn.inspect}) => #{result}" }
+        return false unless digits.length == 8
+        result = valid_issn_core?(digits)
+        log_result('valid_issn?', issn, result)
         result
       end
 
       # IBAN mod-97 validation (ISO 13616)
+      # @param iban [String]
+      # @return [Boolean]
       def self.valid_iban?(iban)
         iban = iban.gsub(/\s+/, '').upcase
-        result = begin
-          rearranged = iban.drop(4) + iban[0..3]
-          numeric = rearranged.chars.map { |c| /[A-Z]/.match?(c) ? (c.ord - 'A'.ord + 10).to_s : c }.join
-          numeric.to_i % 97 == 1
-        rescue StandardError
-          false
-        end
-        Rails.logger.debug { "[DEBUG] valid_iban?(#{iban.inspect}) => #{result}" }
+        result = valid_iban_core?(iban)
+        log_result('valid_iban?', iban, result)
         result
       end
 
       # Luhn algorithm for credit cards, IMEI, etc. (ISO/IEC 7812)
+      # @param number [String]
+      # @return [Boolean]
       def self.luhn_valid?(number)
         digits = number.gsub(/\D/, '').chars.map(&:to_i)
-        sum = digits.reverse.each_slice(2).sum do |odd, even|
-          [odd, (if even
-                   even * 2 > 9 ? even * 2 - 9 : even * 2
-                 else
-                   0
-                 end)].sum
-        end
-        result = (sum % 10).zero?
-        Rails.logger.debug { "[DEBUG] luhn_valid?(#{number.inspect}) => #{result}" }
+        result = luhn_valid_core?(digits)
+        log_result('luhn_valid?', number, result)
         result
+      end
+
+      private
+
+      def self.extract_digits(str, regex)
+        str.gsub(regex, '').upcase
+      end
+
+      def self.valid_isbn10?(digits)
+        sum = digits.chars.each_with_index.sum { |d, i| (d == 'X' ? 10 : d.to_i) * (10 - i) }
+        (sum % 11).zero?
+      end
+
+      def self.valid_isbn13?(digits)
+        sum = digits.chars.each_with_index.sum { |d, i| d.to_i * (i.even? ? 1 : 3) }
+        (sum % 10).zero?
+      end
+
+      def self.valid_vin_core?(vin)
+        map = ('A'..'Z').to_a.zip([1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 2, 3, 4, 5, 6, 7]).to_h
+        weights = [8, 7, 6, 5, 4, 3, 2, 10, 0, 9, 8, 7, 6, 5, 4, 3, 2]
+        sum = vin.chars.each_with_index.sum do |char, i|
+          value = /\d/.match?(char) ? char.to_i : map[char] || 0
+          value * weights[i]
+        end
+        check = sum % 11
+        check_char = check == 10 ? 'X' : check.to_s
+        vin[8] == check_char
+      end
+
+      def self.valid_issn_core?(digits)
+        sum = digits[0..6].each_with_index.sum { |d, i| d.to_i * (8 - i) }
+        check = (11 - (sum % 11)) % 11
+        check_char = check == 10 ? 'X' : check.to_s
+        digits[7] == check_char
+      end
+
+      def self.valid_iban_core?(iban)
+        rearranged = iban[4..] + iban[0..3]
+        numeric = rearranged.chars.map { |c| /[A-Z]/.match?(c) ? (c.ord - 'A'.ord + 10).to_s : c }.join
+        numeric.to_i % 97 == 1
+      rescue StandardError
+        false
+      end
+
+      def self.luhn_valid_core?(digits)
+        sum = digits.reverse.each_slice(2).sum do |odd, even|
+          [odd, (even ? (even * 2 > 9 ? even * 2 - 9 : even * 2) : 0)].sum
+        end
+        (sum % 10).zero?
+      end
+
+      def self.log_result(method, value, result)
+        Rails.logger.debug { "[DEBUG] #{method}(#{value.inspect}) => #{result}" } if defined?(Rails)
       end
     end
   end

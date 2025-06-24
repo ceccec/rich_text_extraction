@@ -234,6 +234,9 @@ GEM
       actionpack (>= 5.2, < 8.1)
       railties (>= 5.2, < 8.1)
     securerandom (0.4.1)
+    sentry-ruby (5.25.0)
+      bigdecimal
+      concurrent-ruby (~> 1.0, >= 1.0.2)
     sqlite3 (2.7.0-aarch64-linux-gnu)
     sqlite3 (2.7.0-aarch64-linux-musl)
     sqlite3 (2.7.0-arm64-darwin)
@@ -271,6 +274,7 @@ DEPENDENCIES
   rspec (~> 3.0)
   rspec-rails (~> 6.0)
   rswag (~> 2.16.0)
+  sentry-ruby
   sqlite3
 
 RUBY VERSION
