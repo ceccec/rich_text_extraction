@@ -15,8 +15,10 @@ RSpec.describe 'Rails integration' do
   context 'when clearing cache for links in the body via the concern' do
     include_context 'when using a dummy body class'
     include_context 'when using a dummy class'
+    include_context 'with Rails stubs'
 
     it 'removes the cache entry' do
+      rails_stub
       dummy_instance = dummy_class.new(dummy_body_class)
       expect { dummy_instance.clear_rich_text_link_cache }.not_to raise_error
     end

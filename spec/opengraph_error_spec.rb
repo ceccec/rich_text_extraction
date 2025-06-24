@@ -24,4 +24,4 @@ RSpec.describe 'OpenGraph Error Handling' do
       end
     end
   end
-end 
+end

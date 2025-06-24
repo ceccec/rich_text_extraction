@@ -22,4 +22,4 @@ RSpec.describe 'OpenGraph Cache' do
       expect(cache).not_to be_empty
     end
   end
-end 
+end

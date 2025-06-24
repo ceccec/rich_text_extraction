@@ -13,6 +13,8 @@ module RichTextExtraction
   #   mentions = extract_mentions("Hello @alice @bob")
   #
   module SocialExtractor
+    include Constants
+
     ##
     # Extracts #tags from text.
     #
@@ -22,7 +24,7 @@ module RichTextExtraction
     def extract_tags(text)
       return [] unless text.is_a?(String)
 
-      text.scan(/#(\w+)/).flatten.uniq
+      text.scan(HASHTAG_REGEX).flatten.uniq
     end
 
     ##
@@ -34,7 +36,7 @@ module RichTextExtraction
     def extract_mentions(text)
       return [] unless text.is_a?(String)
 
-      text.scan(/@(\w+)/).flatten.uniq
+      text.scan(MENTION_REGEX).flatten.uniq
     end
 
     ##
@@ -46,7 +48,7 @@ module RichTextExtraction
     def extract_twitter_handles(text)
       return [] unless text.is_a?(String)
 
-      text.scan(/@(\w+)/).flatten.uniq
+      text.scan(TWITTER_REGEX).flatten.uniq
     end
 
     ##
@@ -58,7 +60,7 @@ module RichTextExtraction
     def extract_instagram_handles(text)
       return [] unless text.is_a?(String)
 
-      text.scan(/@(\w+)/).flatten.uniq
+      text.scan(TWITTER_REGEX).flatten.uniq
     end
 
     ##
@@ -71,7 +73,7 @@ module RichTextExtraction
     def extract_tags_with_context(text, context_length = 50)
       return [] unless text.is_a?(String)
 
-      text.scan(/#(\w+)/).flatten.uniq.map do |tag|
+      text.scan(HASHTAG_REGEX).flatten.uniq.map do |tag|
         {
           tag: tag,
           context: extract_context_for_tag(text, tag, context_length)
@@ -89,7 +91,7 @@ module RichTextExtraction
     def extract_mentions_with_context(text, context_length = 50)
       return [] unless text.is_a?(String)
 
-      text.scan(/@(\w+)/).flatten.uniq.map do |mention|
+      text.scan(MENTION_REGEX).flatten.uniq.map do |mention|
         {
           mention: mention,
           context: extract_context_for_mention(text, mention, context_length)

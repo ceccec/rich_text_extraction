@@ -13,6 +13,8 @@ module RichTextExtraction
   #
   # See spec/extractors/link_extractor_spec.rb for tests of this module
   module LinkExtractor
+    include Constants
+
     ##
     # Extracts URLs from text and strips trailing punctuation.
     #
@@ -20,6 +22,8 @@ module RichTextExtraction
     # @return [Array<String>] Array of URLs
     #
     def extract_links(text)
+      return [] unless text.is_a?(String)
+
       URI.extract(text, %w[http https]).map { |url| url.sub(/[.,!?:;]+$/, '') }
     end
 
@@ -30,8 +34,9 @@ module RichTextExtraction
     # @return [Array<Hash>] Array of hashes with :text and :url keys
     #
     def extract_markdown_links(text)
-      md_link_regex = %r{\[([^\]]+)\]\((https?://[^)]+)\)}
-      text.scan(md_link_regex).map { |text, url| { text: text, url: url } }
+      return [] unless text.is_a?(String)
+
+      text.scan(MARKDOWN_LINK_REGEX).map { |text, url| { text: text, url: url } }
     end
 
     ##
@@ -41,8 +46,9 @@ module RichTextExtraction
     # @return [Array<String>] Array of image URLs
     #
     def extract_image_urls(text)
-      image_regex = %r{https?://[^\s]+?\.(jpg|jpeg|png|gif|svg|webp)}
-      text.scan(image_regex).map { |match| match.is_a?(Array) ? match[0] : match }
+      return [] unless text.is_a?(String)
+
+      text.scan(IMAGE_REGEX).map { |match| match.is_a?(Array) ? match[0] : match }
     end
 
     ##
@@ -52,8 +58,9 @@ module RichTextExtraction
     # @return [Array<String>] Array of attachment URLs
     #
     def extract_attachment_urls(text)
-      attachment_regex = %r{https?://[\w\-.?,'/\\+&%$#_=:()~]+\.(pdf|docx?|xlsx?|pptx?|txt|csv|zip|rar|7z)}i
-      text.scan(attachment_regex).map { |match| match.is_a?(Array) ? match[0] : match }
+      return [] unless text.is_a?(String)
+
+      text.scan(ATTACHMENT_REGEX).map { |match| match.is_a?(Array) ? match[0] : match }
     end
 
     ##
@@ -63,8 +70,9 @@ module RichTextExtraction
     # @return [Boolean] True if valid URL, false otherwise
     #
     def valid_url?(url)
-      uri = URI.parse(url)
-      uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
+      return false unless url.is_a?(String)
+
+      URI::DEFAULT_PARSER.make_regexp(%w[http https]).match?(url)
     rescue URI::InvalidURIError
       false
     end

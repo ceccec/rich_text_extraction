@@ -108,4 +108,4 @@ module RichTextExtraction
       end
     end
   end
-end 
+end

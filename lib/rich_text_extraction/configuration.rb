@@ -37,6 +37,7 @@ module RichTextExtraction
   #   end
   class Configuration
     include CacheConfiguration
+    include Constants
 
     ##
     # Whether caching is enabled globally.
@@ -177,25 +178,25 @@ module RichTextExtraction
     #
     def initialize_caching_config
       @cache_enabled = true
-      @cache_store = :memory_store
-      @cache_prefix = 'rte'
-      @cache_ttl = 3600 # 1 hour
+      @cache_store = DEFAULT_CACHE_STORE
+      @cache_prefix = DEFAULT_CACHE_PREFIX
+      @cache_ttl = DEFAULT_CACHE_TTL
       @cache_compression = false
       @cache_key_strategy = :url
       @cache_key_generator = nil
-      @default_cache_options = { expires_in: 3600 } # 1 hour
+      @default_cache_options = { expires_in: DEFAULT_CACHE_TTL }
     end
 
     ##
     # Initialize general configuration options.
     #
     def initialize_general_config
-      @opengraph_timeout = 15
+      @opengraph_timeout = DEFAULT_OPENGRAPH_TIMEOUT
       @sanitize_html = true
-      @default_excerpt_length = 300
+      @default_excerpt_length = DEFAULT_EXCERPT_LENGTH
       @debug = false
-      @user_agent = 'RichTextExtraction/1.0'
-      @max_redirects = 3
+      @user_agent = DEFAULT_USER_AGENT
+      @max_redirects = DEFAULT_MAX_REDIRECTS
     end
 
     ##

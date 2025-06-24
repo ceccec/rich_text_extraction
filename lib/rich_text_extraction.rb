@@ -2,6 +2,9 @@
 
 require 'redcarpet'
 require_relative 'rich_text_extraction/version'
+require_relative 'rich_text_extraction/constants'
+require_relative 'rich_text_extraction/extraction_patterns'
+require_relative 'rich_text_extraction/cache_operations'
 require_relative 'rich_text_extraction/cache_configuration'
 require_relative 'rich_text_extraction/configuration'
 require_relative 'rich_text_extraction/services/opengraph_service'
@@ -35,6 +38,8 @@ module RichTextExtraction
   include InstanceHelpers
   include LinkExtractor
   include SocialExtractor
+  include ExtractionPatterns
+  include CacheOperations
 
   # Make all instance methods from InstanceHelpers publicly accessible
   # @!visibility public
@@ -54,11 +59,8 @@ module RichTextExtraction
   # @param cache [Hash, Symbol, nil] Optional cache object or :rails
   # @param cache_options [Hash] Options for cache (e.g., :expires_in, :key_prefix)
   def clear_link_cache(cache: nil, cache_options: {})
-    key_prefix = resolve_opengraph_key_prefix(cache_options)
-    links = resolve_links
-    links.each do |url|
-      delete_opengraph_cache_entry(url, cache, cache_options, key_prefix)
-    end
+    links = extract_links(plain_text)
+    clear_cache_for_urls(links, cache, cache_options)
   end
 
   public :links, :tags, :mentions, :emails, :excerpt, :attachments, :phone_numbers, :dates, :markdown_links,
@@ -76,7 +78,7 @@ module RichTextExtraction
   end
 
   def tags
-    extract_tags(plain_text)
+    extract_hashtags(plain_text)
   end
 
   def mentions
@@ -84,14 +86,12 @@ module RichTextExtraction
   end
 
   def emails
-    email_regex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z]{2,}\b/i
-    plain_text.scan(email_regex)
+    extract_emails(plain_text)
   end
 
   def excerpt(length = nil)
     length ||= RichTextExtraction.configuration.default_excerpt_length
-    text = plain_text
-    text.length > length ? "#{text[0...length].rstrip}…" : text
+    create_excerpt(plain_text, length)
   end
 
   def attachments
@@ -99,13 +99,11 @@ module RichTextExtraction
   end
 
   def phone_numbers
-    phone_regex = /\b\+?\d[\d\s\-()]{7,}\b/
-    plain_text.scan(phone_regex)
+    extract_phone_numbers(plain_text)
   end
 
   def dates
-    date_regex = %r{\b\d{4}-\d{2}-\d{2}\b|\b\d{2}/\d{2}/\d{4}\b}
-    plain_text.scan(date_regex)
+    extract_dates(plain_text)
   end
 
   def markdown_links
@@ -127,35 +125,6 @@ module RichTextExtraction
       end
     else
       extract_links(plain_text).map { |url| { url: url } }
-    end
-  end
-
-  def build_opengraph_cache_key(url, key_prefix)
-    key_prefix ? "opengraph:#{key_prefix}:#{url}" : url
-  end
-
-  def delete_opengraph_cache_entry(url, cache, cache_options, key_prefix)
-    if cache == :rails && defined?(Rails) && Rails.respond_to?(:cache)
-      cache_key = build_opengraph_cache_key(url, key_prefix)
-      Rails.cache.delete(cache_key, **cache_options.except(:key_prefix))
-    elsif cache && cache != :rails
-      cache.delete(url)
-    end
-  end
-
-  def resolve_opengraph_key_prefix(cache_options)
-    if respond_to?(:opengraph_key_prefix)
-      opengraph_key_prefix(cache_options)
-    else
-      RichTextExtraction.send(:opengraph_key_prefix, cache_options)
-    end
-  end
-
-  def resolve_links
-    if respond_to?(:extract_links)
-      extract_links(plain_text)
-    else
-      RichTextExtraction.send(:extract_links, plain_text)
     end
   end
 end

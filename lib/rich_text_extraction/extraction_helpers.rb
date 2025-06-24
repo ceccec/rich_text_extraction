@@ -9,10 +9,14 @@ module RichTextExtraction
   # @see RichTextExtraction
   #
   module ExtractionHelpers
+    include CacheOperations
+
     # Extracts URLs from text and strips trailing punctuation.
     # @param text [String]
     # @return [Array<String>] Array of URLs
     def extract_links(text)
+      return [] unless text.is_a?(String)
+
       URI.extract(text, %w[http https]).map { |url| url.sub(/[.,!?:;]+$/, '') }
     end
 
@@ -20,6 +24,8 @@ module RichTextExtraction
     # @param text [String]
     # @return [Array<String>] Array of mentions (without @)
     def extract_mentions(text)
+      return [] unless text.is_a?(String)
+
       text.scan(/@(\w+)/).flatten
     end
 
@@ -27,6 +33,8 @@ module RichTextExtraction
     # @param text [String]
     # @return [Array<String>] Array of tags (without #)
     def extract_tags(text)
+      return [] unless text.is_a?(String)
+
       text.scan(/#(\w+)/).flatten
     end
 
@@ -37,11 +45,11 @@ module RichTextExtraction
     # @return [Hash] OpenGraph metadata or error
     def extract_opengraph(url, cache: nil, cache_options: {})
       key_prefix = opengraph_key_prefix(cache_options)
-      cached = opengraph_read_cache(url, cache, cache_options, key_prefix)
+      cached = read_cache(opengraph_cache_key(url, key_prefix), cache, cache_options)
       return cached if cached
 
       og_data = fetch_opengraph_data(url)
-      opengraph_write_cache(url, og_data, cache, cache_options, key_prefix)
+      write_cache(opengraph_cache_key(url, key_prefix), og_data, cache, cache_options)
       og_data
     rescue StandardError => e
       { error: e.message }
@@ -61,42 +69,75 @@ module RichTextExtraction
       key_prefix
     end
 
-    def opengraph_read_cache(url, cache, cache_options, key_prefix)
-      return opengraph_rails_cache_read(url, cache_options, key_prefix) if opengraph_use_rails_cache?(cache)
-
-      cache[url] if cache && cache != :rails && cache[url]
-    end
-
-    def opengraph_use_rails_cache?(cache)
-      cache == :rails && defined?(Rails) && Rails.respond_to?(:cache)
-    end
-
-    def opengraph_rails_cache_read(url, cache_options, key_prefix)
-      cache_key = key_prefix ? "opengraph:#{key_prefix}:#{url}" : url
-      Rails.cache.read(cache_key, **cache_options.except(:key_prefix))
-    end
-
-    def opengraph_write_cache(url, og_data, cache, cache_options, key_prefix)
-      if cache == :rails && defined?(Rails) && Rails.respond_to?(:cache)
-        cache_key = key_prefix ? "opengraph:#{key_prefix}:#{url}" : url
-        Rails.cache.write(cache_key, og_data, **cache_options.except(:key_prefix))
-      elsif cache && cache != :rails
-        cache[url] = og_data
-      end
-    end
-
+    # Fetches OpenGraph data from a URL using HTTParty.
+    # @param url [String]
+    # @return [Hash] OpenGraph metadata
     def fetch_opengraph_data(url)
-      response = HTTParty.get(url)
-      return {} unless response.success?
+      response = HTTParty.get(url, timeout: RichTextExtraction.configuration.opengraph_timeout)
+      return { error: 'HTTP request failed' } unless response.success?
 
       doc = Nokogiri::HTML(response.body)
-      og_data = {}
-      doc.css('meta[property^="og:"]').each do |meta|
-        property = meta.attr('property')
-        content = meta.attr('content')
-        og_data[property.sub('og:', '')] = content if property && content
-      end
-      og_data
+      build_opengraph_data(doc, url)
+    end
+
+    # Builds OpenGraph data hash from parsed HTML document.
+    # @param doc [Nokogiri::HTML::Document]
+    # @param url [String]
+    # @return [Hash] OpenGraph metadata
+    def build_opengraph_data(doc, url)
+      {
+        'title' => extract_og_title(doc),
+        'description' => extract_og_description(doc),
+        'image' => extract_og_image(doc),
+        'url' => extract_og_url(doc, url),
+        'site_name' => extract_og_site_name(doc),
+        'type' => extract_og_type(doc)
+      }
+    end
+
+    # Extracts OpenGraph title from HTML document.
+    # @param doc [Nokogiri::HTML::Document]
+    # @return [String, nil]
+    def extract_og_title(doc)
+      doc.at_css('meta[property="og:title"]')&.[]('content') ||
+        doc.at_css('title')&.text
+    end
+
+    # Extracts OpenGraph description from HTML document.
+    # @param doc [Nokogiri::HTML::Document]
+    # @return [String, nil]
+    def extract_og_description(doc)
+      doc.at_css('meta[property="og:description"]')&.[]('content') ||
+        doc.at_css('meta[name="description"]')&.[]('content')
+    end
+
+    # Extracts OpenGraph image from HTML document.
+    # @param doc [Nokogiri::HTML::Document]
+    # @return [String, nil]
+    def extract_og_image(doc)
+      doc.at_css('meta[property="og:image"]')&.[]('content')
+    end
+
+    # Extracts OpenGraph URL from HTML document.
+    # @param doc [Nokogiri::HTML::Document]
+    # @param fallback_url [String]
+    # @return [String]
+    def extract_og_url(doc, fallback_url)
+      doc.at_css('meta[property="og:url"]')&.[]('content') || fallback_url
+    end
+
+    # Extracts OpenGraph site name from HTML document.
+    # @param doc [Nokogiri::HTML::Document]
+    # @return [String, nil]
+    def extract_og_site_name(doc)
+      doc.at_css('meta[property="og:site_name"]')&.[]('content')
+    end
+
+    # Extracts OpenGraph type from HTML document.
+    # @param doc [Nokogiri::HTML::Document]
+    # @return [String, nil]
+    def extract_og_type(doc)
+      doc.at_css('meta[property="og:type"]')&.[]('content')
     end
   end
 end
