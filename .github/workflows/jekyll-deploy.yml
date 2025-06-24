@@ -20,21 +20,35 @@ jobs:
         with:
           ruby-version: '3.1'
           bundler-cache: true
+          working-directory: ./docs
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
 
+      - name: Debug directory structure
+        run: |
+          pwd
+          ls -la
+          echo "Docs directory:"
+          ls -la docs/
+
       - name: Install dependencies
         run: |
           cd docs
           bundle install
+          bundle exec jekyll doctor
 
       - name: Build Jekyll site
         run: |
           cd docs
-          bundle exec jekyll build --baseurl "${{ github.repository_name }}"
+          bundle exec jekyll build --baseurl "/rich_text_extraction" --verbose
+
+      - name: Debug build output
+        run: |
+          echo "Build output:"
+          ls -la docs/_site/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
