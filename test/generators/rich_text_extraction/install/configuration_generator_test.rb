@@ -23,4 +23,4 @@ class ConfigurationGeneratorTest < Rails::Generators::TestCase
     assert_file 'config/rich_text_extraction.rb', /valid_link\?/
     assert_file 'config/rich_text_extraction.rb', /generate_excerpt/
   end
-end 
+end

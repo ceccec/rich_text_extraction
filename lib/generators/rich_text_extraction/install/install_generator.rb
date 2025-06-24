@@ -3,7 +3,7 @@
 begin
   require 'rails/generators'
 rescue LoadError
-  puts "Rails is required for the RichTextExtraction install generator"
+  puts 'Rails is required for the RichTextExtraction install generator'
   puts "Please add 'rails' to your Gemfile and run 'bundle install'"
   exit 1
 end
@@ -41,7 +41,7 @@ module RichTextExtraction
       end
 
       def add_routes
-        route "resources :example_posts, only: [:show]"
+        route 'resources :example_posts, only: [:show]'
       end
 
       def show_readme
@@ -52,15 +52,15 @@ module RichTextExtraction
 
       def app_name
         Rails.application.class.module_parent_name
-      rescue
+      rescue StandardError
         'YourApp'
       end
 
       def rails_version
         Rails.version
-      rescue
+      rescue StandardError
         '6.0'
       end
     end
   end
-end 
+end

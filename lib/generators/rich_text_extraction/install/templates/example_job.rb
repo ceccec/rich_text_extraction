@@ -26,7 +26,7 @@ class ProcessLinksJob < ApplicationJob
     store_processed_data(post, links)
 
     Rails.logger.info "Finished processing links for post #{post.id}"
-  rescue => e
+  rescue StandardError => e
     Rails.logger.error "Error processing links for post #{post.id}: #{e.message}"
     raise e
   end
@@ -59,7 +59,7 @@ class ProcessLinksJob < ApplicationJob
     extractor = RichTextExtraction::Extractor.new(url)
     data = extractor.opengraph_data_for_links.first
     data ? data[:opengraph] : {}
-  rescue => e
+  rescue StandardError => e
     Rails.logger.warn "Failed to extract OpenGraph for #{url}: #{e.message}"
     { error: e.message, url: url }
   end
@@ -89,23 +89,23 @@ class ProcessLinksJob < ApplicationJob
     Rails.cache.write("post_#{post.id}_links_summary", summary, expires_in: 1.hour)
   end
 
-  def process_twitter_link(url, opengraph_data)
+  def process_twitter_link(url, _opengraph_data)
     Rails.logger.info "Processing Twitter link: #{url}"
     # Add Twitter-specific processing logic
   end
 
-  def process_youtube_link(url, opengraph_data)
+  def process_youtube_link(url, _opengraph_data)
     Rails.logger.info "Processing YouTube link: #{url}"
     # Add YouTube-specific processing logic
   end
 
-  def process_github_link(url, opengraph_data)
+  def process_github_link(url, _opengraph_data)
     Rails.logger.info "Processing GitHub link: #{url}"
     # Add GitHub-specific processing logic
   end
 
-  def process_generic_link(url, opengraph_data)
+  def process_generic_link(url, _opengraph_data)
     Rails.logger.info "Processing generic link: #{url}"
     # Add generic link processing logic
   end
-end 
+end

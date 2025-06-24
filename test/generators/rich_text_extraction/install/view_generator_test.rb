@@ -25,4 +25,4 @@ class ViewGeneratorTest < Rails::Generators::TestCase
       assert_file 'app/views/example_posts/show.html.erb', /#{section}/
     end
   end
-end 
+end

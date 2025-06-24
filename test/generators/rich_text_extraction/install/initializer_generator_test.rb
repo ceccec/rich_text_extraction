@@ -52,4 +52,4 @@ class InitializerGeneratorTest < Rails::Generators::TestCase
     run_generator
     assert_equal 'original content', File.read(initializer_path)
   end
-end 
+end

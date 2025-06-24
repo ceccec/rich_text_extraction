@@ -20,8 +20,9 @@ class JobGeneratorTest < Rails::Generators::TestCase
     assert_file 'app/jobs/process_links_job.rb', /class ProcessLinksJob/
     assert_file 'app/jobs/process_links_job.rb', /queue_as :default/
     assert_file 'app/jobs/process_links_job.rb', /def perform/
-    %w[process_link extract_opengraph_data store_link_data store_processed_data process_twitter_link process_youtube_link process_github_link process_generic_link].each do |method|
+    %w[process_link extract_opengraph_data store_link_data store_processed_data process_twitter_link
+       process_youtube_link process_github_link process_generic_link].each do |method|
       assert_file 'app/jobs/process_links_job.rb', /def #{method}/
     end
   end
-end 
+end

@@ -26,4 +26,4 @@ class ControllerGeneratorTest < Rails::Generators::TestCase
       assert_file 'app/controllers/example_posts_controller.rb', /#{key}:/
     end
   end
-end 
+end

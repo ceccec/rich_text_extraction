@@ -172,6 +172,25 @@ module RichTextExtraction
         end
         result
       end
+
+      # Register identifier extractors (modular, DRY)
+      identifier_extractors = {
+        ean13:        ->(text) { RichTextExtraction::IdentifierExtractor.extract_ean13(text) },
+        upca:         ->(text) { RichTextExtraction::IdentifierExtractor.extract_upca(text) },
+        isbn:         ->(text) { RichTextExtraction::IdentifierExtractor.extract_isbn(text) },
+        uuid:         ->(text) { RichTextExtraction::IdentifierExtractor.extract_uuids(text) },
+        credit_cards: ->(text) { RichTextExtraction::IdentifierExtractor.extract_credit_cards(text) },
+        hex_colors:   ->(text) { RichTextExtraction::IdentifierExtractor.extract_hex_colors(text) },
+        ips:          ->(text) { RichTextExtraction::IdentifierExtractor.extract_ips(text) },
+        vin:          ->(text) { RichTextExtraction::IdentifierExtractor.extract_vins(text) },
+        imei:         ->(text) { RichTextExtraction::IdentifierExtractor.extract_imeis(text) },
+        issn:         ->(text) { RichTextExtraction::IdentifierExtractor.extract_issns(text) },
+        mac:          ->(text) { RichTextExtraction::IdentifierExtractor.extract_mac_addresses(text) },
+        iban:         ->(text) { RichTextExtraction::IdentifierExtractor.extract_ibans(text) }
+      }
+      identifier_extractors.each do |key, extractor|
+        register_extractor(key, &extractor)
+      end
     end
   end
 

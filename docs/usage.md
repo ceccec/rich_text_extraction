@@ -17,6 +17,7 @@ This guide covers how to install, configure, and use the RichTextExtraction gem 
 - [Configuration](#configuration)
 - [Examples](#examples)
 - [Troubleshooting](#troubleshooting)
+- [Using Validators in Rails Models](#using-validators-in-rails-models)
 
 ## Installation
 
@@ -370,4 +371,73 @@ For detailed API documentation, see the [API Reference]({{ site.baseurl }}/api-r
 > - `lib/rich_text_extraction/extraction_patterns.rb`
 > - `lib/rich_text_extraction/cache_operations.rb`
 >
-> For advanced usage or extension, contribute to these files. 
+> For advanced usage or extension, contribute to these files.
+
+## Using Validators in Rails Models
+
+You can use all extractors as ActiveModel/ActiveRecord validators:
+
+| Validator         | Usage Example           |
+|-------------------|------------------------|
+| ISBN              | validates :isbn, isbn: true |
+| VIN               | validates :vin, vin: true |
+| ISSN              | validates :issn, issn: true |
+| IBAN              | validates :iban, iban: true |
+| Credit Card/Luhn  | validates :credit_card, luhn: true |
+| EAN-13            | validates :ean, ean13: true |
+| UPC-A             | validates :upc, upca: true |
+| UUID              | validates :uuid, uuid: true |
+| IMEI              | validates :imei, luhn: true |
+| MAC Address       | validates :mac, mac_address: true |
+| Hex Color         | validates :color, hex_color: true |
+| IP Address        | validates :ip, ip: true |
+| Hashtag           | validates :hashtag, hashtag: true |
+| Mention           | validates :mention, mention: true |
+| Twitter Handle    | validates :twitter, twitter_handle: true |
+| Instagram Handle  | validates :instagram, instagram_handle: true |
+| URL               | validates :website, url: true |
+
+**Example:**
+```ruby
+class Book < ApplicationRecord
+  validates :isbn, isbn: true
+  validates :vin, vin: true
+  validates :website, url: true
+end
+```
+
+See the integration spec (`spec/integration/rails_model_validators_spec.rb`) for a working example.
+
+### Advanced Validator Usage
+
+- **Custom error message:**
+  ```ruby
+  validates :isbn, isbn: { message: 'must be a valid ISBN-10 or ISBN-13' }
+  ```
+- **Conditional validation:**
+  ```ruby
+  validates :vin, vin: true, if: -> { vin.present? }
+  ```
+- **Multiple fields:**
+  ```ruby
+  validates :primary_email, :secondary_email, email: true, allow_blank: true
+  ```
+- **Custom validator with validates_with:**
+  ```ruby
+  class CustomValidator < ActiveModel::Validator
+    def validate(record)
+      record.errors.add(:base, 'Custom error') unless record.isbn.present? || record.vin.present?
+    end
+  end
+  validates_with CustomValidator
+  ```
+
+## Generator Support
+
+You can generate an example model with all validator usages:
+
+```sh
+bin/rails generate rich_text_extraction:install
+```
+
+See `lib/generators/rich_text_extraction/install/templates/example_model.rb` for a full example. 

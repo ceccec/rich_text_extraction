@@ -19,4 +19,4 @@ class RoutesGeneratorTest < Rails::Generators::TestCase
     run_generator
     assert_file 'config/routes.rb', /resources :example_posts, only: \[:show\]/
   end
-end 
+end

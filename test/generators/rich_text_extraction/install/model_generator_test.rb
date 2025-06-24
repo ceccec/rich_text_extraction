@@ -22,9 +22,10 @@ class ModelGeneratorTest < Rails::Generators::TestCase
     assert_file 'app/models/example_post.rb', /has_rich_text :content/
     assert_file 'app/models/example_post.rb', /validates :title/
     assert_file 'app/models/example_post.rb', /validates :content/
-    %w[extract_links extract_opengraph_data extract_social_content excerpt has_links\? link_count process_links_async].each do |method|
+    %w[extract_links extract_opengraph_data extract_social_content excerpt has_links\? link_count
+       process_links_async].each do |method|
       assert_file 'app/models/example_post.rb', /def #{method}/
     end
     assert_file 'app/models/example_post.rb', /def clear_content_cache/
   end
-end 
+end

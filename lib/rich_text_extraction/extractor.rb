@@ -55,5 +55,51 @@ module RichTextExtraction
     def opengraph_data_for_links
       links.map { |url| { url: url, opengraph: extract_opengraph(url) } }
     end
+
+    def extract_links(text = nil)
+      RichTextExtraction.extract(text || to_s, :links)
+    end
+
+    def extract_tags(text = nil)
+      RichTextExtraction.extract(text || to_s, :hashtags)
+    end
+
+    def extract_mentions(text = nil)
+      RichTextExtraction.extract(text || to_s, :mentions)
+    end
+
+    def extract_emails(text = nil)
+      RichTextExtraction.extract(text || to_s, :emails)
+    end
+
+    def extract_phones(text = nil)
+      RichTextExtraction.extract(text || to_s, :phones)
+    end
+
+    def extract_dates(text = nil)
+      RichTextExtraction.extract(text || to_s, :dates)
+    end
+
+    def extract_images(text = nil)
+      RichTextExtraction.extract(text || to_s, :images)
+    end
+
+    def extract_markdown_tables(text = nil)
+      RichTextExtraction.extract(text || to_s, :markdown_tables)
+    end
+
+    def extract_markdown_code(text = nil)
+      RichTextExtraction.extract(text || to_s, :markdown_code)
+    end
+
+    def extract_opengraph(url, cache: nil, cache_options: {})
+      RichTextExtraction.extract_opengraph(url, cache: cache, cache_options: cache_options)
+    end
+
+    # Returns all emails in the text.
+    # @return [Array<String>]
+    def emails
+      extract_emails(text)
+    end
   end
 end

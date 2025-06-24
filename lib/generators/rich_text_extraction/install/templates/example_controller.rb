@@ -32,11 +32,11 @@ class ExamplePostsController < ApplicationController
 
   def index
     @example_posts = ExamplePost.all
-    
+
     # Extract links from all posts
     @all_links = @example_posts.flat_map(&:extract_links).uniq
     @link_count = @all_links.count
-    
+
     # Get OpenGraph data for all unique links
     @opengraph_data = @all_links.map do |url|
       { url: url, opengraph: extract_opengraph_for_url(url) }
@@ -53,8 +53,8 @@ class ExamplePostsController < ApplicationController
     # Use the extractor directly for single URLs
     extractor = RichTextExtraction::Extractor.new(url)
     extractor.opengraph_data_for_links.first&.dig(:opengraph) || {}
-  rescue => e
+  rescue StandardError => e
     Rails.logger.error "Failed to extract OpenGraph for #{url}: #{e.message}"
     { error: e.message }
   end
-end 
+end

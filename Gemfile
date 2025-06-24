@@ -19,12 +19,19 @@ gem 'jekyll', '>= 4.0', '< 5.0', group: :docs
 gem 'erb', '~> 4.0'
 
 group :development, :test do
+  gem 'appraisal', require: false
+  gem 'minitest'
+  gem 'rails', '>= 6.0', '< 8.0'
   gem 'rubocop', require: false
   gem 'rubocop-rspec', require: false
   gem 'yard', require: false
-  gem 'rails', '>= 6.0', '< 8.0'
-  gem 'appraisal', require: false
-  gem 'minitest'
+  gem 'docx'
+  gem 'pdf-reader'
+  gem 'nokogiri'
+  gem 'csv'
+  gem 'json'
+  gem 'rtf'
+  gem 'roo'
 end
 
 ruby '>= 3.1.0', '< 4.0'

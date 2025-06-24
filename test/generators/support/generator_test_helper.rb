@@ -6,4 +6,4 @@ module GeneratorTestHelper
     base.destination File.expand_path('../../../tmp', __dir__)
     base.setup :prepare_destination
   end
-end 
+end

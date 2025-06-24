@@ -43,4 +43,33 @@ end
 # Rails.application.config.rich_text_extraction.cache_options = {
 #   expires_in: 1.hour,
 #   key_prefix: 'rte'
-# } 
+# }
+
+# === Internationalization (I18n) Support for Validators ===
+#
+# To customize validator error messages, add a file like config/locales/rich_text_extraction.en.yml:
+#
+#   en:
+#     errors:
+#       messages:
+#         isbn: "is not a valid ISBN"
+#         vin: "is not a valid VIN"
+#         issn: "is not a valid ISSN"
+#         iban: "is not a valid IBAN"
+#         luhn: "is not a valid number (Luhn check failed)"
+#         ean13: "is not a valid EAN-13 barcode"
+#         upca: "is not a valid UPC-A barcode"
+#         uuid: "is not a valid UUID"
+#         hex_color: "is not a valid hex color"
+#         ip: "is not a valid IPv4 address"
+#         mac_address: "is not a valid MAC address"
+#         hashtag: "is not a valid hashtag"
+#         mention: "is not a valid mention"
+#         twitter_handle: "is not a valid Twitter handle"
+#         instagram_handle: "is not a valid Instagram handle"
+#         url: "is not a valid URL"
+#
+# Rails will use these messages automatically if present.
+#
+# To load custom locales, add to your config/application.rb:
+#   config.i18n.load_path += Dir[Rails.root.join('config/locales/**/*.yml')]

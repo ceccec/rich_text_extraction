@@ -8,8 +8,8 @@ class DummyApp < Rails::Application; end
 
 class RailtieTest < Minitest::Test
   def test_railtie_loads
-    assert DummyApp.initializers.any? { |i| i.name == 'rich_text_extraction.configure' }
-    assert DummyApp.initializers.any? { |i| i.name == 'rich_text_extraction.test_hook' }
+    assert(DummyApp.initializers.any? { |i| i.name == 'rich_text_extraction.configure' })
+    assert(DummyApp.initializers.any? { |i| i.name == 'rich_text_extraction.test_hook' })
   end
 
   def test_custom_cache_options
@@ -20,4 +20,4 @@ class RailtieTest < Minitest::Test
     initializer.run(DummyApp)
     assert_equal({ expires_in: 123 }, RichTextExtraction.default_cache_options)
   end
-end 
+end

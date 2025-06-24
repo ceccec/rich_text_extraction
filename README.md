@@ -399,3 +399,303 @@ If you want to use advanced caching, pass any object that responds to `[]` and `
 ---
 
 **RichTextExtraction** – Professional rich text extraction for Ruby and Rails applications. 🚀
+
+## Standards-Based Document Extraction (DRY Approach)
+
+`rich_text_extraction` can extract links, tags, mentions, and more from a variety of document standards, using a unified API.
+
+### Supported Formats
+
+| Format         | Standard         | Ruby Gem Needed      | Example Extraction Approach         |
+|----------------|------------------|----------------------|-------------------------------------|
+| Plain Text     | -                | None                 | Use directly                        |
+| HTML           | W3C HTML5        | Nokogiri             | Extract text, then use extractor    |
+| Markdown       | CommonMark       | None                 | Use directly                        |
+| DOCX           | ISO/IEC 29500    | `docx`               | Extract text, then use extractor    |
+| ODT            | ISO/IEC 26300    | `odf-report`/`odf`   | Extract text, then use extractor    |
+| PDF            | ISO 32000        | `pdf-reader`         | Extract text, then use extractor    |
+
+### DRY Example
+
+```ruby
+require 'rich_text_extraction'
+
+def extract_from_text(text)
+  extractor = RichTextExtraction::Extractor.new(text)
+  {
+    links: extractor.links,
+    tags: extractor.tags,
+    mentions: extractor.mentions
+  }
+end
+
+# DOCX
+require 'docx'
+doc = Docx::Document.open('example.docx')
+text = doc.paragraphs.map(&:text).join("\n")
+puts extract_from_text(text)
+
+# PDF
+require 'pdf-reader'
+reader = PDF::Reader.new('example.pdf')
+text = reader.pages.map(&:text).join("\n")
+puts extract_from_text(text)
+
+# HTML
+require 'nokogiri'
+html = File.read('example.html')
+text = Nokogiri::HTML(html).text
+puts extract_from_text(text)
+
+# ODT (if using odf-report or odf gem)
+# ...similar approach...
+```
+
+---
+
+## Unified DRY Extraction API
+
+You can extract links, tags, mentions, and more from any supported file format with a single method:
+
+```ruby
+result = RichTextExtraction.extract_from_file('path/to/file')
+puts result[:links]
+puts result[:tags]
+puts result[:mentions]
+```
+
+### Supported Formats
+
+| Format     | Extension(s)      | Ruby Gem Needed      |
+|------------|-------------------|----------------------|
+| Plain Text | .txt, (none)      | None                 |
+| Markdown   | .md               | None                 |
+| HTML       | .html, .htm       | nokogiri             |
+| DOCX       | .docx             | docx                 |
+| PDF        | .pdf              | pdf-reader           |
+| CSV/TSV    | .csv, .tsv        | csv                  |
+| JSON       | .json             | json                 |
+| ODT        | .odt              | odf-report           |
+| EPUB       | .epub             | epub-parser          |
+| RTF        | .rtf              | rtf                  |
+| XLSX       | .xlsx             | roo                  |
+| PPTX       | .pptx             | roo                  |
+| XML        | .xml              | nokogiri             |
+| YAML       | .yml, .yaml       | yaml                 |
+| LaTeX      | .tex              | None                 |
+
+More formats can be added easily by extending the `extract_from_file` method.
+
+---
+
+## Identifier and Code Extraction
+
+You can extract barcodes, UUIDs, credit cards, hex colors, IPs, and more:
+
+```ruby
+extractor = RichTextExtraction::Extractor.new("EAN: 9781234567897, UUID: 123e4567-e89b-12d3-a456-426614174000, Card: 4111 1111 1111 1111, Color: #fff, IP: 192.168.1.1")
+puts extractor.extract(:ean13)        # => ["9781234567897"]
+puts extractor.extract(:uuid)         # => ["123e4567-e89b-12d3-a456-426614174000"]
+puts extractor.extract(:credit_cards) # => ["4111 1111 1111 1111"]
+puts extractor.extract(:hex_colors)   # => ["#fff"]
+puts extractor.extract(:ips)          # => ["192.168.1.1"]
+```
+
+### Supported Identifiers
+
+- EAN-13 barcodes (`:ean13`)
+- UPC-A barcodes (`:upca`)
+- ISBN-10/13 (`:isbn`)
+- UUID/GUID (`:uuid`)
+- Credit card numbers (`:credit_cards`)
+- Hex colors (`:hex_colors`)
+- IP addresses (`:ips`)
+
+Add your own by registering a custom extractor!
+
+### More Supported Identifiers
+
+- VIN (`:vin`, with check digit validation)
+- IMEI (`:imei`, with Luhn validation)
+- ISSN (`:issn`, with checksum validation)
+- MAC address (`:mac`)
+- IBAN (`:iban`)
+
+Validation is improved for credit cards, ISBN, IMEI, VIN, ISSN, and IBAN (official mod-97 check).
+
+#### Example: IBAN Validation
+
+```ruby
+extractor = RichTextExtraction::Extractor.new("Valid: GB82WEST12345698765432 Invalid: GB82WEST12345698765431")
+puts extractor.extract(:iban) # => ["GB82WEST12345698765432"]
+```
+
+### Validation Details
+
+| Identifier   | Validation Type         | Notes/Standard                |
+|--------------|------------------------|-------------------------------|
+| EAN-13       | Pattern only            | No checksum                   |
+| UPC-A        | Pattern only            | No checksum                   |
+| ISBN         | Checksum (10/13)        | ISO 2108                      |
+| UUID         | Pattern only            | RFC 4122                      |
+| Credit Card  | Luhn algorithm          | ISO/IEC 7812                  |
+| Hex Color    | Pattern only            | CSS spec                      |
+| IP Address   | Pattern only            | IPv4 only                     |
+| VIN          | Check digit (ISO 3779)  | 9th char, mod-11              |
+| IMEI         | Luhn algorithm          | 3GPP TS 23.003                |
+| ISSN         | Checksum (mod-11)       | ISO 3297                      |
+| MAC Address  | Pattern only            | Colon or dash separated       |
+| IBAN         | Mod-97 (official)       | ISO 13616                     |
+
+- **Pattern only**: Only the format is checked (length, allowed chars).
+- **Checksum/Luhn/Mod-97**: The code is mathematically validated.
+- **Standard**: The relevant international standard.
+
+#### Example: Credit Card Validation
+
+```ruby
+extractor = RichTextExtraction::Extractor.new("Valid: 4111 1111 1111 1111 Invalid: 4111 1111 1111 1112")
+puts extractor.extract(:credit_cards) # => ["4111 1111 1111 1111"]
+```
+
+#### Example: ISBN Validation
+
+```ruby
+extractor = RichTextExtraction::Extractor.new("Valid: 978-3-16-148410-0 Invalid: 978-3-16-148410-1")
+puts extractor.extract(:isbn) # => ["978-3-16-148410-0"]
+```
+
+#### Example: VIN Validation
+
+```ruby
+extractor = RichTextExtraction::Extractor.new("Valid: 1HGCM82633A004352 Invalid: 1HGCM82633A004353")
+puts extractor.extract(:vin) # => ["1HGCM82633A004352"]
+```
+
+---
+
+## Rails Model Integration
+
+All extractors are available as ActiveModel/ActiveRecord validators. Just add them to your model:
+
+```ruby
+class Book < ApplicationRecord
+  validates :isbn, isbn: true
+  validates :vin, vin: true
+  validates :issn, issn: true
+  validates :iban, iban: true
+  validates :credit_card, luhn: true
+  validates :ean, ean13: true
+  validates :upc, upca: true
+  validates :uuid, uuid: true
+  validates :imei, luhn: true
+  validates :mac, mac_address: true
+  validates :color, hex_color: true
+  validates :ip, ip: true
+  validates :hashtag, hashtag: true
+  validates :mention, mention: true
+  validates :twitter, twitter_handle: true
+  validates :instagram, instagram_handle: true
+  validates :website, url: true
+end
+```
+
+- No extra setup is needed—just require the gem in your Rails app.
+- All validators are available automatically.
+- See `spec/integration/rails_model_validators_spec.rb` for a working integration test.
+
+### Advanced Validator Usage
+
+- **Custom error message:**
+  ```ruby
+  validates :isbn, isbn: { message: 'must be a valid ISBN-10 or ISBN-13' }
+  ```
+- **Conditional validation:**
+  ```ruby
+  validates :vin, vin: true, if: -> { vin.present? }
+  ```
+- **Multiple fields:**
+  ```ruby
+  validates :primary_email, :secondary_email, email: true, allow_blank: true
+  ```
+- **Custom validator with validates_with:**
+  ```ruby
+  class CustomValidator < ActiveModel::Validator
+    def validate(record)
+      record.errors.add(:base, 'Custom error') unless record.isbn.present? || record.vin.present?
+    end
+  end
+  validates_with CustomValidator
+  ```
+
+## Generator Support
+
+You can generate an example model with all validator usages:
+
+```sh
+bin/rails generate rich_text_extraction:install
+```
+
+See `lib/generators/rich_text_extraction/install/templates/example_model.rb` for a full example.
+
+## Internationalization (I18n) for Validator Error Messages
+
+You can override all validator error messages using Rails I18n. Add a file like `config/locales/rich_text_extraction.en.yml`:
+
+```yaml
+en:
+  errors:
+    messages:
+      isbn: "is not a valid ISBN"
+      vin: "is not a valid VIN"
+      issn: "is not a valid ISSN"
+      iban: "is not a valid IBAN"
+      luhn: "is not a valid number (Luhn check failed)"
+      ean13: "is not a valid EAN-13 barcode"
+      upca: "is not a valid UPC-A barcode"
+      uuid: "is not a valid UUID"
+      hex_color: "is not a valid hex color"
+      ip: "is not a valid IPv4 address"
+      mac_address: "is not a valid MAC address"
+      hashtag: "is not a valid hashtag"
+      mention: "is not a valid mention"
+      twitter_handle: "is not a valid Twitter handle"
+      instagram_handle: "is not a valid Instagram handle"
+      url: "is not a valid URL"
+```
+
+Rails will use these messages automatically if present.
+
+---
+
+## Custom Validator Classes
+
+You can create your own custom validators using the gem's logic:
+
+```ruby
+class MyCustomValidator < ActiveModel::EachValidator
+  def validate_each(record, attribute, value)
+    unless RichTextExtraction::Extractors::Validators.valid_isbn?(value) || RichTextExtraction::Extractors::Validators.valid_vin?(value)
+      record.errors.add(attribute, options[:message] || 'must be a valid ISBN or VIN')
+    end
+  end
+end
+
+class Book < ApplicationRecord
+  validates :code, my_custom: true
+end
+```
+
+---
+
+## Generator Options
+
+You can extend the generator to create custom model or validator templates. For example, you can add your own templates to `lib/generators/rich_text_extraction/install/templates/` and modify the generator to use them.
+
+To generate the example model with all validator usages:
+
+```sh
+bin/rails generate rich_text_extraction:install
+```
+
+See the example model template for advanced usage and customization.

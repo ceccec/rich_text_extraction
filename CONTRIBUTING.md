@@ -344,6 +344,11 @@ By contributing to RichTextExtraction, you agree that your contributions will be
   bundle exec rake test
   ```
 
+### Static Analysis Exclusions
+
+- Generator templates (`lib/generators/rich_text_extraction/install/templates/`) are excluded from RuboCop and YARD checks because they are ERB templates, not valid Ruby until rendered.
+- See `.rubocop.yml` and `.yardopts` for exclusion rules.
+
 ---
 
 Thank you for contributing to RichTextExtraction! 🚀 

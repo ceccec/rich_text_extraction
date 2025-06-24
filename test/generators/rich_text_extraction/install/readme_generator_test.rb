@@ -17,13 +17,13 @@ class ReadmeGeneratorTest < Rails::Generators::TestCase
 
   def test_readme_shown
     output = run_generator
-    assert_match /RichTextExtraction Installation Complete/, output
-    assert_match /Generated Files/, output
-    assert_match /Next Steps/, output
-    assert_match /Key Features Demonstrated/, output
-    assert_match /Configuration Options/, output
-    assert_match /Testing/, output
-    assert_match /Documentation/, output
-    assert_match /Cleanup/, output
+    assert_match(/RichTextExtraction Installation Complete/, output)
+    assert_match(/Generated Files/, output)
+    assert_match(/Next Steps/, output)
+    assert_match(/Key Features Demonstrated/, output)
+    assert_match(/Configuration Options/, output)
+    assert_match(/Testing/, output)
+    assert_match(/Documentation/, output)
+    assert_match(/Cleanup/, output)
   end
-end 
+end
