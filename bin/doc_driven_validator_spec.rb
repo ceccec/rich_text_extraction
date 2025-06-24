@@ -70,8 +70,14 @@ end
 # Run the suite
 exit_code = RSpec::Core::Runner.run([])
 
-puts "\n--- Doc-driven Validator Test Summary ---"
-puts "Stub validators auto-generated for: #{stubs_created.map(&:to_s).join(', ')}" if stubs_created.any?
-puts "Missing/uncovered validators: #{missing_untestable.map(&:to_s).join(', ')}" if missing_untestable.any?
-puts 'All test execution was strictly limited to validator logic.'
+Rails.logger.debug "\n--- Doc-driven Validator Test Summary ---"
+if stubs_created.any?
+  Rails.logger.debug do
+    "Stub validators auto-generated for: #{stubs_created.map(&:to_s).join(', ')}"
+  end
+end
+if missing_untestable.any?
+  Rails.logger.debug { "Missing/uncovered validators: #{missing_untestable.map(&:to_s).join(', ')}" }
+end
+Rails.logger.debug 'All test execution was strictly limited to validator logic.'
 exit exit_code

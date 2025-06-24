@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
+
 require 'yaml'
 
 BANNER = <<~BANNER
@@ -18,14 +20,14 @@ File.open('spec/generated_scenarios_spec.rb', 'w') do |f|
     Array(cases['valid']).each do |example|
       f.puts "  it '#{validator} accepts valid example: #{example.inspect}' do"
       f.puts "    expect(RichTextExtraction::ValidatorAPI.validate(:#{validator}, #{example.inspect})[:valid]).to be true"
-      f.puts "  end"
+      f.puts '  end'
     end
     Array(cases['invalid']).each do |example|
       f.puts "  it '#{validator} rejects invalid example: #{example.inspect}' do"
       f.puts "    expect(RichTextExtraction::ValidatorAPI.validate(:#{validator}, #{example.inspect})[:valid]).to be false"
-      f.puts "  end"
+      f.puts '  end'
     end
   end
-  f.puts "end"
+  f.puts 'end'
 end
-puts "Generated spec/generated_scenarios_spec.rb from docs/_data/test_scenarios.yml." 
+Rails.logger.debug 'Generated spec/generated_scenarios_spec.rb from docs/_data/test_scenarios.yml.'
