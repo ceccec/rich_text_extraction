@@ -21,20 +21,24 @@ jobs:
           ruby-version: '3.1'
           bundler-cache: true
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
 
-      - name: Build with Jekyll
+      - name: Install dependencies
         run: |
           cd docs
           bundle install
-          bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: docs/_site
+      - name: Build Jekyll site
+        run: |
+          cd docs
+          bundle exec jekyll build --baseurl "${{ github.repository_name }}"
 
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4 
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/_site
+          destination_dir: . 
