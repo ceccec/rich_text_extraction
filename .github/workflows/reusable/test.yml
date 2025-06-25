@@ -1,0 +1,60 @@
+name: Run Tests
+
+on:
+  workflow_call:
+    inputs:
+      ruby-version:
+        description: 'Ruby version to use'
+        required: false
+        default: '3.2.3'
+        type: string
+      test-command:
+        description: 'Test command to run'
+        required: false
+        default: 'bundle exec rspec'
+        type: string
+      coverage:
+        description: 'Whether to run with coverage'
+        required: false
+        default: false
+        type: boolean
+      upload-coverage:
+        description: 'Whether to upload coverage to Codecov'
+        required: false
+        default: false
+        type: boolean
+    secrets:
+      CODECOV_TOKEN:
+        required: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ inputs.ruby-version }}
+          bundler-cache: true
+          
+      - name: Install dependencies
+        run: bundle install
+        
+      - name: Run tests
+        run: ${{ inputs.test-command }}
+        env:
+          COVERAGE: ${{ inputs.coverage }}
+          
+      - name: Upload coverage to Codecov
+        if: ${{ inputs.upload-coverage }}
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./coverage/.resultset.json
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }} 

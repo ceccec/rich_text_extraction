@@ -1,0 +1,43 @@
+name: Setup Ruby Environment
+
+on:
+  workflow_call:
+    inputs:
+      ruby-version:
+        description: 'Ruby version to use'
+        required: false
+        default: '3.2.3'
+        type: string
+      bundler-cache:
+        description: 'Whether to cache bundler'
+        required: false
+        default: true
+        type: boolean
+      cache-version:
+        description: 'Cache version for bundler'
+        required: false
+        default: 0
+        type: number
+    outputs:
+      ruby-version:
+        description: 'The Ruby version that was set up'
+        value: ${{ jobs.setup.outputs.ruby-version }}
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      ruby-version: ${{ inputs.ruby-version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ inputs.ruby-version }}
+          bundler-cache: ${{ inputs.bundler-cache }}
+          cache-version: ${{ inputs.cache-version }}
+          
+      - name: Install dependencies
+        run: bundle install 

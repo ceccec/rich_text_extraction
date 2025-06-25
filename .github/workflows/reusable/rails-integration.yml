@@ -1,0 +1,47 @@
+name: Rails Integration Test
+
+on:
+  workflow_call:
+    inputs:
+      ruby-version:
+        description: 'Ruby version to use'
+        required: false
+        default: '3.2.3'
+        type: string
+      rails-version:
+        description: 'Rails version to test'
+        required: true
+        type: string
+      test-command:
+        description: 'Test command to run'
+        required: false
+        default: 'bundle exec rails runner "puts \"Rails integration test passed\""'
+        type: string
+
+jobs:
+  rails-integration:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ inputs.ruby-version }}
+          bundler-cache: true
+          
+      - name: Install dependencies
+        run: bundle install
+        
+      - name: Create test Rails app
+        run: |
+          rails new test_app --skip-git --skip-bundle --skip-test --skip-system-test --skip-webpack-install
+          cd test_app
+          echo "gem 'rich_text_extraction', path: '../'" >> Gemfile
+          bundle install
+          
+      - name: Test Rails integration
+        run: |
+          cd test_app
+          ${{ inputs.test-command }} 

@@ -29,6 +29,8 @@ jobs:
           npm install
       - name: Generate validator docs
         run: bin/generate_validator_docs.rb
+      - name: Generate OpenAPI spec
+        run: bin/generate_openapi_spec.rb
       - name: Generate scenario tests
         run: bin/generate_scenario_tests.rb
       - name: Check for drift

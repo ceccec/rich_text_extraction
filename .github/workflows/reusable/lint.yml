@@ -1,0 +1,62 @@
+name: Run Linting
+
+on:
+  workflow_call:
+    inputs:
+      ruby-version:
+        description: 'Ruby version to use'
+        required: false
+        default: '3.2.3'
+        type: string
+      rubocop:
+        description: 'Whether to run RuboCop'
+        required: false
+        default: true
+        type: boolean
+      standardrb:
+        description: 'Whether to run StandardRB'
+        required: false
+        default: false
+        type: boolean
+      debride:
+        description: 'Whether to run Debride for unused code'
+        required: false
+        default: false
+        type: boolean
+      bundle-audit:
+        description: 'Whether to run bundle audit'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ inputs.ruby-version }}
+          bundler-cache: true
+          
+      - name: Install dependencies
+        run: bundle install
+        
+      - name: Run RuboCop
+        if: ${{ inputs.rubocop }}
+        run: bundle exec rubocop
+        
+      - name: Run StandardRB
+        if: ${{ inputs.standardrb }}
+        run: bundle exec standardrb --format=quiet
+        
+      - name: Check for unused dependencies
+        if: ${{ inputs.debride }}
+        run: bundle exec debride lib/
+        
+      - name: Check for security vulnerabilities
+        if: ${{ inputs.bundle-audit }}
+        run: bundle exec bundle audit check --update 
