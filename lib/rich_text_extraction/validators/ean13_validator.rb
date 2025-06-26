@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
-require_relative '../extraction_patterns'
+require_relative 'base_validator'
+require_relative '../extractors/extraction_patterns'
 
-class Ean13Validator < ActiveModel::EachValidator
-  def validate_each(record, attribute, value)
-    result = value.to_s.match?(RichTextExtraction::ExtractionPatterns::EAN13_REGEX)
-    Rails.logger.debug { "[DEBUG] Ean13Validator: value=#{value.inspect}, result=#{result}" }
-    return if result
-
-    record.errors.add(attribute, options[:message] || 'is not a valid EAN-13 barcode')
+module RichTextExtraction
+  module Validators
+    # Validator for EAN-13 barcode format
+    # Validates 13-digit European Article Number barcodes
+    class Ean13Validator < BaseValidator
+      def validate_each(record, attribute, value)
+        validate_with_method(record, attribute, value, :valid_ean13?, 'is not a valid EAN-13')
+      end
+    end
   end
 end

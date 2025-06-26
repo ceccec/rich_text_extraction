@@ -29,7 +29,7 @@ lib/rich_text_extraction/
 │   └── social_extractor.rb     # Social content
 ├── configuration.rb            # Configuration system
 ├── error.rb                    # Error handling
-├── extractor.rb                # Main Extractor class
+├── extractors.rb                # Main Extractor class
 ├── extracts_rich_text.rb       # Rails concern
 ├── helpers.rb                  # View helpers
 ├── instance_helpers.rb         # Instance helpers

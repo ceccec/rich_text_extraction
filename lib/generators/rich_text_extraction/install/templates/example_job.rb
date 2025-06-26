@@ -56,12 +56,9 @@ class ProcessLinksJob < ApplicationJob
   end
 
   def extract_opengraph_data(url)
-    extractor = RichTextExtraction::Extractor.new(url)
-    data = extractor.opengraph_data_for_links.first
-    data ? data[:opengraph] : {}
-  rescue StandardError => e
-    Rails.logger.warn "Failed to extract OpenGraph for #{url}: #{e.message}"
-    { error: e.message, url: url }
+    # Use the shared helper method from RichTextExtraction::Helpers
+    include RichTextExtraction::Helpers
+    extract_opengraph_data_from_url(url)
   end
 
   def store_link_data(post, url, opengraph_data)

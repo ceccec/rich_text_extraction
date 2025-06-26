@@ -3,7 +3,7 @@
 
 require 'rspec'
 require 'active_model'
-require_relative '../lib/rich_text_extraction/constants'
+require_relative '../lib/rich_text_extraction/core/constants'
 require_relative '../lib/rich_text_extraction/validator_api'
 
 # Map validator symbol to class name

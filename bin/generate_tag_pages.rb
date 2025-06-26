@@ -36,9 +36,7 @@ end
 
 # Generate navigation for all tags
 all_tags = tags_map.keys.sort
-nav_html = '<nav><strong>Tags:</strong> ' + all_tags.map { |t|
-  "<a href='#{t.downcase.gsub(/[^a-z0-9]+/, '-')}.html'>#{t}</a>"
-}.join(' | ') + '</nav>'
+nav_html = "<nav><strong>Tags:</strong> #{all_tags.map { |t| "<a href='#{t}.html'>#{t}</a>" }.join(', ')}</nav>"
 
 # Generate a tag page for each tag
 TAGS_DIR_REL = 'tag'

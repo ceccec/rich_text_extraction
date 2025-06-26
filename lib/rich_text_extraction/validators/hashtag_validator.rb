@@ -1,15 +1,16 @@
 # frozen_string_literal: true
 
-require_relative '../extraction_patterns'
+require_relative 'base_validator'
+require_relative '../extractors/extraction_patterns'
 
-class HashtagValidator < ActiveModel::EachValidator
-  def validate_each(record, attribute, value)
-    regex = RichTextExtraction::ExtractionPatterns.const_get(:HASHTAG_PATTERN)
-    val = value.to_s.strip
-    Rails.logger.debug { "[DEBUG] HashtagValidator: value='#{val}', regex=#{regex.inspect}" }
-    result = val.match?(regex)
-    return if result
-
-    record.errors.add(attribute, options[:message] || 'is not a valid hashtag')
+# Validator for hashtag format
+# Validates social media hashtags (e.g., #ruby, #rails)
+module RichTextExtraction
+  module Validators
+    class HashtagValidator < BaseValidator
+      def validate_each(record, attribute, value)
+        validate_with_method(record, attribute, value, :valid_hashtag?, 'is not a valid hashtag')
+      end
+    end
   end
 end

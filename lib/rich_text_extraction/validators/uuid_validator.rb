@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
-require_relative '../extraction_patterns'
+require_relative 'base_validator'
+require_relative '../extractors/extraction_patterns'
 
-class UuidValidator < ActiveModel::EachValidator
-  def validate_each(record, attribute, value)
-    result = value.to_s.match?(RichTextExtraction::ExtractionPatterns::UUID_REGEX)
-    Rails.logger.debug { "[DEBUG] UuidValidator: value=#{value.inspect}, result=#{result}" }
-    return if result
-
-    record.errors.add(attribute, options[:message] || 'is not a valid UUID')
+# Validator for UUID (Universally Unique Identifier) format
+# Validates UUID v4 format strings
+module RichTextExtraction
+  module Validators
+    class UuidValidator < BaseValidator
+      def validate_each(record, attribute, value)
+        validate_with_method(record, attribute, value, :valid_uuid?, 'is not a valid UUID')
+      end
+    end
   end
 end

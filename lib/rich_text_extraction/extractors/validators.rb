@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # RichTextExtraction::Extractors::Validators provides validation logic and ActiveModel validators for all supported identifiers and patterns.
+# This module contains the core validation methods used by the validator classes.
 module RichTextExtraction
   module Extractors
     module Validators
@@ -10,6 +11,7 @@ module RichTextExtraction
       def self.valid_isbn?(isbn)
         digits = extract_digits(isbn, /[^0-9Xx]/)
         return false unless [10, 13].include?(digits.length)
+
         result = digits.length == 10 ? valid_isbn10?(digits) : valid_isbn13?(digits)
         log_result('valid_isbn?', isbn, result)
         result
@@ -21,6 +23,7 @@ module RichTextExtraction
       def self.valid_vin?(vin)
         vin = vin.upcase
         return false unless vin.length == 17
+
         result = valid_vin_core?(vin)
         log_result('valid_vin?', vin, result)
         result
@@ -32,6 +35,7 @@ module RichTextExtraction
       def self.valid_issn?(issn)
         digits = issn.delete('-').upcase.chars
         return false unless digits.length == 8
+
         result = valid_issn_core?(digits)
         log_result('valid_issn?', issn, result)
         result
@@ -57,7 +61,22 @@ module RichTextExtraction
         result
       end
 
-      private
+      # URL validation using URI module
+      # @param url [String]
+      # @return [Boolean]
+      def self.valid_url?(url)
+        return false if url.nil? || url.strip.empty?
+
+        begin
+          uri = URI.parse(url)
+          result = uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
+          log_result('valid_url?', url, result)
+          result
+        rescue URI::InvalidURIError
+          log_result('valid_url?', url, false)
+          false
+        end
+      end
 
       def self.extract_digits(str, regex)
         str.gsub(regex, '').upcase
@@ -102,13 +121,21 @@ module RichTextExtraction
 
       def self.luhn_valid_core?(digits)
         sum = digits.reverse.each_slice(2).sum do |odd, even|
-          [odd, (even ? (even * 2 > 9 ? even * 2 - 9 : even * 2) : 0)].sum
+          [odd, (if even
+                   even * 2 > 9 ? even * 2 - 9 : even * 2
+                 else
+                   0
+                 end)].sum
         end
         (sum % 10).zero?
       end
 
       def self.log_result(method, value, result)
-        Rails.logger.debug { "[DEBUG] #{method}(#{value.inspect}) => #{result}" } if defined?(Rails)
+        return unless defined?(::Rails) && ::Rails.logger
+
+        ::Rails.logger.debug do
+          "[DEBUG] #{method}(#{value.inspect}) => #{result}"
+        end
       end
     end
   end

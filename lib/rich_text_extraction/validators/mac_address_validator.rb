@@ -1,15 +1,16 @@
 # frozen_string_literal: true
 
-require_relative '../extraction_patterns'
+require_relative 'base_validator'
+require_relative '../extractors/extraction_patterns'
 
-class MacAddressValidator < ActiveModel::EachValidator
-  def validate_each(record, attribute, value)
-    regex = RichTextExtraction::ExtractionPatterns.const_get(:MAC_ADDRESS_REGEX)
-    val = value.to_s.strip
-    Rails.logger.debug { "[DEBUG] MacAddressValidator: value='#{val}', regex=#{regex.inspect}" }
-    result = val.match?(regex)
-    return if result
-
-    record.errors.add(attribute, options[:message] || 'is not a valid MAC address')
+# Validator for MAC address format
+# Validates Media Access Control addresses
+module RichTextExtraction
+  module Validators
+    class MacAddressValidator < BaseValidator
+      def validate_each(record, attribute, value)
+        validate_with_method(record, attribute, value, :valid_mac_address?, 'is not a valid MAC address')
+      end
+    end
   end
 end

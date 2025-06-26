@@ -1,158 +1,94 @@
 # frozen_string_literal: true
 
-# See spec/extractors/social_extractor_spec.rb for tests of this module
+# See spec/extractors/social_extractor_spec.rb for tests of this class
 
 module RichTextExtraction
-  ##
-  # SocialExtractor provides methods for extracting social media content from text.
-  # This module focuses on tags, mentions, and social media handles.
-  #
-  # @example
-  #   include SocialExtractor
-  #   tags = extract_tags("Hello #welcome #ruby")
-  #   mentions = extract_mentions("Hello @alice @bob")
-  #
-  module SocialExtractor
-    include Constants
-
-    ##
-    # Extracts #tags from text.
+  module Extractors
+    # SocialExtractor provides methods for extracting social media content from text.
+    # This class focuses on tags, mentions, and social media handles.
     #
-    # @param text [String] The text to extract tags from
-    # @return [Array<String>] Array of tags (without #)
+    # @example
+    #   extractor = SocialExtractor.new
+    #   tags = extractor.extract_tags("Hello #welcome #ruby")
+    #   mentions = extractor.extract_mentions("Hello @alice @bob")
     #
-    def extract_tags(text)
-      return [] unless text.is_a?(String)
+    class SocialExtractor
+      include RichTextExtraction::Core::Constants
+      include RichTextExtraction::Extractors::ExtractionPatterns
 
-      text.scan(HASHTAG_REGEX).flatten.uniq
-    end
-
-    ##
-    # Extracts @mentions from text.
-    #
-    # @param text [String] The text to extract mentions from
-    # @return [Array<String>] Array of mentions (without @)
-    #
-    def extract_mentions(text)
-      return [] unless text.is_a?(String)
-
-      text.scan(MENTION_REGEX).flatten.uniq
-    end
-
-    ##
-    # Extracts Twitter handles from text.
-    #
-    # @param text [String] The text to extract Twitter handles from
-    # @return [Array<String>] Array of Twitter handles (without @)
-    #
-    def extract_twitter_handles(text)
-      return [] unless text.is_a?(String)
-
-      text.scan(TWITTER_REGEX).flatten.uniq
-    end
-
-    ##
-    # Extracts Instagram handles from text.
-    #
-    # @param text [String] The text to extract Instagram handles from
-    # @return [Array<String>] Array of Instagram handles (without @)
-    #
-    def extract_instagram_handles(text)
-      return [] unless text.is_a?(String)
-
-      text.scan(TWITTER_REGEX).flatten.uniq
-    end
-
-    ##
-    # Extracts hashtags with their context (surrounding text).
-    #
-    # @param text [String] The text to extract hashtags with context from
-    # @param context_length [Integer] Number of characters around the hashtag
-    # @return [Array<Hash>] Array of hashes with :tag and :context keys
-    #
-    def extract_tags_with_context(text, context_length = 50)
-      return [] unless text.is_a?(String)
-
-      text.scan(HASHTAG_REGEX).flatten.uniq.map do |tag|
+      def extract(text, options = {})
         {
-          tag: tag,
-          context: extract_context_for_tag(text, tag, context_length)
+          mentions: extract_mentions(text),
+          hashtags: extract_tags(text)
         }
       end
-    end
 
-    ##
-    # Extracts mentions with their context (surrounding text).
-    #
-    # @param text [String] The text to extract mentions with context from
-    # @param context_length [Integer] Number of characters around the mention
-    # @return [Array<Hash>] Array of hashes with :mention and :context keys
-    #
-    def extract_mentions_with_context(text, context_length = 50)
-      return [] unless text.is_a?(String)
-
-      text.scan(MENTION_REGEX).flatten.uniq.map do |mention|
-        {
-          mention: mention,
-          context: extract_context_for_mention(text, mention, context_length)
-        }
+      # Class method for consistent API
+      def self.extract(text, options = {})
+        new.extract(text, options)
       end
-    end
 
-    ##
-    # Validates if a string is a valid hashtag.
-    #
-    # @param tag [String] The hashtag to validate (with or without #)
-    # @return [Boolean] True if valid hashtag, false otherwise
-    #
-    def valid_hashtag?(tag)
-      return false unless tag.is_a?(String)
+      def extract_tags(text)
+        extract_social_items(text, HASHTAG_REGEX)
+      end
 
-      !tag.empty? && tag.match?(/^\w+$/)
-    end
+      def extract_mentions(text)
+        extract_social_items(text, MENTION_REGEX)
+      end
 
-    ##
-    # Validates if a string is a valid mention.
-    #
-    # @param mention [String] The mention to validate (with or without @)
-    # @return [Boolean] True if valid mention, false otherwise
-    #
-    def valid_mention?(mention)
-      return false unless mention.is_a?(String)
+      def extract_twitter_handles(text)
+        extract_social_items(text, TWITTER_REGEX)
+      end
 
-      !mention.empty? && mention.match?(/^\w+$/)
-    end
+      def extract_instagram_handles(text)
+        extract_social_items(text, TWITTER_REGEX)
+      end
 
-    private
+      def extract_tags_with_context(text, context_length = 50)
+        extract_social_items_with_context(text, HASHTAG_REGEX, context_length, :tag)
+      end
 
-    # Extract context around a hashtag
-    #
-    # @param text [String] The full text
-    # @param tag [String] The hashtag to find context for
-    # @param context_length [Integer] Number of characters around the tag
-    # @return [String] The context string
-    def extract_context_for_tag(text, tag, context_length)
-      match = text.match(/#{tag}/)
-      return text unless match
+      def extract_mentions_with_context(text, context_length = 50)
+        extract_social_items_with_context(text, MENTION_REGEX, context_length, :mention)
+      end
 
-      start_pos = [match.begin(0) - context_length / 2, 0].max
-      end_pos = [match.end(0) + context_length / 2, text.length].min
-      text[start_pos...end_pos].strip
-    end
+      def valid_hashtag?(tag)
+        valid_social_item?(tag)
+      end
 
-    # Extract context around a mention
-    #
-    # @param text [String] The full text
-    # @param mention [String] The mention to find context for
-    # @param context_length [Integer] Number of characters around the mention
-    # @return [String] The context string
-    def extract_context_for_mention(text, mention, context_length)
-      match = text.match(/@#{mention}/)
-      return text unless match
+      def valid_mention?(mention)
+        valid_social_item?(mention)
+      end
 
-      start_pos = [match.begin(0) - context_length / 2, 0].max
-      end_pos = [match.end(0) + context_length / 2, text.length].min
-      text[start_pos...end_pos].strip
+      private
+
+      def extract_social_items(text, regex)
+        return [] unless text.is_a?(String)
+        text.scan(regex).flatten.uniq
+      end
+
+      def extract_social_items_with_context(text, regex, context_length, key_name)
+        return [] unless text.is_a?(String)
+        text.scan(regex).flatten.uniq.map do |item|
+          {
+            key_name => item,
+            context: extract_context_for_item(text, item, context_length, regex)
+          }
+        end
+      end
+
+      def valid_social_item?(item)
+        return false unless item.is_a?(String)
+        !item.empty? && item.match?(/^[\w]+$/)
+      end
+
+      def extract_context_for_item(text, _item, context_length, regex)
+        match = text.match(regex)
+        return text unless match
+        start_pos = [match.begin(0) - context_length / 2, 0].max
+        end_pos = [match.end(0) + context_length / 2, text.length].min
+        text[start_pos...end_pos].strip
+      end
     end
   end
 end

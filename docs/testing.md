@@ -429,6 +429,7 @@ For every main implementation file in `lib/rich_text_extraction/`, there is a co
 - `railtie.rb` ↔ `railtie_spec.rb`
 - `error.rb` ↔ `error_spec.rb`
 - `version.rb` ↔ `version_spec.rb`
+- `extractors.rb` ↔ `extractors_spec.rb`
 
 For submodules:
 - `extractors/link_extractor.rb` ↔ `extractors/link_extractor_spec.rb`

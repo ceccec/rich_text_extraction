@@ -1,14 +1,16 @@
 # frozen_string_literal: true
 
+require_relative 'base_validator'
 require_relative '../extractors/validators'
-require_relative '../extraction_patterns'
 
-class IssnValidator < ActiveModel::EachValidator
-  def validate_each(record, attribute, value)
-    result = RichTextExtraction::Extractors::Validators.valid_issn?(value)
-    Rails.logger.debug { "[DEBUG] IssnValidator: value=#{value.inspect}, result=#{result}" }
-    return if result
-
-    record.errors.add(attribute, options[:message] || 'is not a valid ISSN')
+module RichTextExtraction
+  module Validators
+    # Validator for ISSN (International Standard Serial Number) format
+    # Validates 8 digit ISSN codes for serial publications
+    class IssnValidator < BaseValidator
+      def validate_each(record, attribute, value)
+        validate_with_method(record, attribute, value, :valid_issn?, 'is not a valid ISSN')
+      end
+    end
   end
 end

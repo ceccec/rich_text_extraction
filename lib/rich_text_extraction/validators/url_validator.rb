@@ -1,15 +1,26 @@
 # frozen_string_literal: true
 
-require_relative '../extraction_patterns'
+require_relative 'base_validator'
+require_relative '../extractors/extraction_patterns'
 
-class UrlValidator < ActiveModel::EachValidator
-  def validate_each(record, attribute, value)
-    regex = RichTextExtraction::ExtractionPatterns.const_get(:URL_PATTERN)
-    val = value.to_s.strip
-    Rails.logger.debug { "[DEBUG] UrlValidator: value='#{val}', regex=#{regex.inspect}" }
-    result = val.match?(regex)
-    return if result
+module RichTextExtraction
+  module Validators
+    # Validator for URL format
+    # Validates web URLs and links
+    class UrlValidator < BaseValidator
+      def validate_each(record, attribute, value)
+        validate_with_method(record, attribute, value, :valid_url?, 'is not a valid URL')
+      end
 
-    record.errors.add(attribute, options[:message] || 'is not a valid URL')
+      # Temporarily commented out to avoid registration issues
+      # if defined?(RichTextExtraction::Registry)
+      #   RichTextExtraction::Registry.register_validator(
+      #     :url,
+      #     klass: self,
+      #     sample_valid: 'https://example.com',
+      #     sample_invalid: 'not-a-url'
+      #   )
+      # end
+    end
   end
 end

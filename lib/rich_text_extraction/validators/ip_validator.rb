@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
-require_relative '../extraction_patterns'
+require_relative 'base_validator'
+require_relative '../extractors/extraction_patterns'
 
-class IpValidator < ActiveModel::EachValidator
-  def validate_each(record, attribute, value)
-    result = value.to_s.match?(RichTextExtraction::ExtractionPatterns::IP_REGEX)
-    Rails.logger.debug { "[DEBUG] IpValidator: value=#{value.inspect}, result=#{result}" }
-    return if result
-
-    record.errors.add(attribute, options[:message] || 'is not a valid IPv4 address')
+# Validator for IP address format
+# Validates IPv4 and IPv6 addresses
+module RichTextExtraction
+  module Validators
+    class IpValidator < BaseValidator
+      def validate_each(record, attribute, value)
+        validate_with_method(record, attribute, value, :valid_ip?, 'is not a valid IP address')
+      end
+    end
   end
 end

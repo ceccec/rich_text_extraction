@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
-require 'rich_text_extraction'
+require 'bundler/setup'
+require 'rspec'
 
-# Load support files
-Dir[File.join(__dir__, 'support', '**', '*.rb')].sort.each { |f| require f }
+# Automatically require all support files (shared contexts, examples, etc.)
+Dir[File.expand_path('support/**/*.rb', __dir__)].each { |f| require f }
 
+# Configure RSpec
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = '.rspec_status'
@@ -15,4 +17,7 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+
+  # Include shared contexts and examples in all specs
+  config.include_context 'with common test data'
 end

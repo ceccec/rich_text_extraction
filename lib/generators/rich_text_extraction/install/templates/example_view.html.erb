@@ -1,6 +1,19 @@
 <!-- Example view demonstrating RichTextExtraction usage -->
 <!-- This is a sample view - you can delete it or use it as a reference -->
 
+<%# Helper method to render content sections %>
+<% def render_content_section(title, items, item_class = nil, prefix = nil, suffix = nil)
+     return unless items.any?
+     content_tag :div, class: item_class do
+       content_tag(:h4, title) +
+       items.map do |item|
+         display_item = prefix ? "#{prefix}#{item}" : item
+         display_item = suffix ? "#{display_item}#{suffix}" : display_item
+         content_tag(:span, display_item, class: item_class&.singularize)
+       end.join.html_safe
+     end
+   end %>
+
 <div class="example-post">
   <h1><%= @example_post.title %></h1>
   
@@ -45,43 +58,12 @@
   <% end %>
 
   <!-- Display social content -->
-  <% if @social_content[:tags].any? || @social_content[:mentions].any? %>
+  <% if @social_content[:tags].any? || @social_content[:mentions].any? || @social_content[:emails].any? || @social_content[:phone_numbers].any? %>
     <div class="social-section">
-      <% if @social_content[:tags].any? %>
-        <div class="tags">
-          <h4>Tags</h4>
-          <% @social_content[:tags].each do |tag| %>
-            <span class="tag">#<%= tag %></span>
-          <% end %>
-        </div>
-      <% end %>
-
-      <% if @social_content[:mentions].any? %>
-        <div class="mentions">
-          <h4>Mentions</h4>
-          <% @social_content[:mentions].each do |mention| %>
-            <span class="mention">@<%= mention %></span>
-          <% end %>
-        </div>
-      <% end %>
-
-      <% if @social_content[:emails].any? %>
-        <div class="emails">
-          <h4>Email Addresses</h4>
-          <% @social_content[:emails].each do |email| %>
-            <span class="email"><%= mail_to email %></span>
-          <% end %>
-        </div>
-      <% end %>
-
-      <% if @social_content[:phone_numbers].any? %>
-        <div class="phones">
-          <h4>Phone Numbers</h4>
-          <% @social_content[:phone_numbers].each do |phone| %>
-            <span class="phone"><%= phone %></span>
-          <% end %>
-        </div>
-      <% end %>
+      <%= render_content_section('Tags', @social_content[:tags], 'tags', '#') %>
+      <%= render_content_section('Mentions', @social_content[:mentions], 'mentions', '@') %>
+      <%= render_content_section('Email Addresses', @social_content[:emails], 'emails') %>
+      <%= render_content_section('Phone Numbers', @social_content[:phone_numbers], 'phones') %>
     </div>
   <% end %>
 

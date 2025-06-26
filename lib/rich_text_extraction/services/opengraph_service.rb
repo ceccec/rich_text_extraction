@@ -14,6 +14,8 @@ module RichTextExtraction
   #
   # See spec/services/opengraph_service_spec.rb for tests of this class
   class OpenGraphService
+    include RichTextExtraction::Cache::CacheOperations
+
     ##
     # Fetches and parses OpenGraph metadata from a URL, with optional caching.
     #
@@ -24,11 +26,12 @@ module RichTextExtraction
     #
     def extract(url, cache: nil, cache_options: {})
       key_prefix = resolve_key_prefix(cache_options)
-      cached = read_cache(url, cache, cache_options, key_prefix)
+      cache_key = build_cache_key(url, key_prefix)
+      cached = read_cache(cache_key, cache, cache_options)
       return cached if cached
 
       og_data = fetch_data(url)
-      write_cache(url, og_data, cache, cache_options, key_prefix)
+      write_cache(cache_key, og_data, cache, cache_options)
       og_data
     rescue StandardError => e
       { error: e.message }
@@ -43,59 +46,11 @@ module RichTextExtraction
     #
     def clear_cache(url, cache: nil, cache_options: {})
       key_prefix = resolve_key_prefix(cache_options)
-      delete_cache_entry(url, cache, cache_options, key_prefix)
+      cache_key = build_cache_key(url, key_prefix)
+      delete_cache(cache_key, cache, cache_options)
     end
 
     private
-
-    def resolve_key_prefix(cache_options)
-      key_prefix = cache_options[:key_prefix]
-      if key_prefix.nil? && defined?(Rails) && Rails.respond_to?(:application)
-        key_prefix = begin
-          Rails.application.class.module_parent_name
-        rescue StandardError
-          nil
-        end
-      end
-      key_prefix
-    end
-
-    def read_cache(url, cache, cache_options, key_prefix)
-      return rails_cache_read(url, cache_options, key_prefix) if use_rails_cache?(cache)
-
-      cache[url] if cache && cache != :rails && cache[url]
-    end
-
-    def use_rails_cache?(cache)
-      cache == :rails && defined?(Rails) && Rails.respond_to?(:cache)
-    end
-
-    def rails_cache_read(url, cache_options, key_prefix)
-      cache_key = build_cache_key(url, key_prefix)
-      Rails.cache.read(cache_key, **cache_options.except(:key_prefix))
-    end
-
-    def write_cache(url, og_data, cache, cache_options, key_prefix)
-      if use_rails_cache?(cache)
-        cache_key = build_cache_key(url, key_prefix)
-        Rails.cache.write(cache_key, og_data, **cache_options.except(:key_prefix))
-      elsif cache && cache != :rails
-        cache[url] = og_data
-      end
-    end
-
-    def delete_cache_entry(url, cache, cache_options, key_prefix)
-      if use_rails_cache?(cache)
-        cache_key = build_cache_key(url, key_prefix)
-        Rails.cache.delete(cache_key, **cache_options.except(:key_prefix))
-      elsif cache && cache != :rails
-        cache.delete(url)
-      end
-    end
-
-    def build_cache_key(url, key_prefix)
-      key_prefix ? "opengraph:#{key_prefix}:#{url}" : url
-    end
 
     def fetch_data(url)
       response = HTTParty.get(url)

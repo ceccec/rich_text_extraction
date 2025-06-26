@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
-require_relative '../extraction_patterns'
+require_relative 'base_validator'
+require_relative '../extractors/extraction_patterns'
 
-class UpcaValidator < ActiveModel::EachValidator
-  def validate_each(record, attribute, value)
-    result = value.to_s.match?(RichTextExtraction::ExtractionPatterns::UPCA_REGEX)
-    Rails.logger.debug { "[DEBUG] UpcaValidator: value=#{value.inspect}, result=#{result}" }
-    return if result
-
-    record.errors.add(attribute, options[:message] || 'is not a valid UPC-A barcode')
+module RichTextExtraction
+  module Validators
+    # Validator for UPC-A barcode format
+    # Validates 12-digit Universal Product Code barcodes
+    class UpcaValidator < BaseValidator
+      def validate_each(record, attribute, value)
+        validate_with_method(record, attribute, value, :valid_upca?, 'is not a valid UPC-A')
+      end
+    end
   end
 end
