@@ -1,6 +1,6 @@
 ---
 layout: default
-title: {{ site.data.translations[page.lang].home_title }}
+title: Inicio
 description: Plataforma universal, DRY, impulsada por documentación y optimizada para caché.
 lang: es
 ---

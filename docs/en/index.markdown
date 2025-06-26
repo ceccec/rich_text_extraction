@@ -1,6 +1,6 @@
 ---
 layout: default
-title: {{ site.data.translations[page.lang].home_title }}
+title: Home
 description: Universal, DRY, doc-driven, cache-optimized validation platform.
 lang: en
 ---
